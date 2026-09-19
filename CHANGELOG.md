@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.1
+
+- Changed the Governor UI from an active-character roster to an office-slot roster keyed by Governor's Residence location.
+- Every owned Governor's Residence now appears in the Governors outliner, even when no Governor is appointed.
+- Vacant offices render as an empty Cabinet-style slot with the Residence location and a clear `Vacant` state.
+- Occupied offices render with a compact Governor portrait, character name, location, Governor role and Entrenchment.
+- The header now displays serving Governors / total Governor's Residences.
+- Building completion immediately registers a new vacant office; demolition removes the office and vacates a serving Governor.
+- The yearly integrity pass rebuilds the complete office map, providing save migration and recovery after ownership/state changes.
+- Left-clicking a row opens the Governor's Residence; double-clicking pans to it. The character portrait keeps standard character behavior.
+- Right-clicking an occupied row continues to change role or dismiss the Governor.
+
 ## 0.2.0
 
 - Added three Governor roles: Normal Governor, Integration Governor and Colonial Governor.
