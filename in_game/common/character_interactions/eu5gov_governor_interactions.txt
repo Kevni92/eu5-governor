@@ -91,6 +91,15 @@
 					key = scope:recipient
 					value = scope:target
 				}
+				remove_from_variable_map = {
+					name = eu5gov_governor_offices
+					key = scope:target
+				}
+				add_to_variable_map = {
+					name = eu5gov_governor_offices
+					key = scope:target
+					value = 1
+				}
 			}
 
 			scope:target = {
