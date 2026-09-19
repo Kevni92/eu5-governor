@@ -1,0 +1,187 @@
+﻿widget = {
+	name = "eu5gov_governor_outliner"
+	parentanchor = topright
+	position = { -12 185 }
+	visible_at_creation = yes
+	visible = "[And(Not(IsLobbyOpen), GetPlayer.IsValid)]"
+
+	vbox = {
+		set_parent_size_to_minimum = yes
+		spacing = 2
+
+		widget = {
+			size = { 410 34 }
+			background = {
+				texture = "gfx/interface/buttons/outliner/outliner_category_button.dds"
+				texture_density = 2
+				spriteType = corneredstretched
+				spriteborder = { 50 0 }
+				frame = 1
+			}
+
+			hbox = {
+				margin = { 12 4 }
+				spacing = 8
+
+				icon = {
+					size = { 22 22 }
+					texture = "gfx/interface/icons/flat_icons/government.dds"
+				}
+
+				text_single = {
+					layoutpolicy_horizontal = expanding
+					align = nobaseline
+					using = Font_Type_Headers
+					text = "EU5GOV_OUTLINER_CATEGORY"
+				}
+
+				text_single = {
+					align = right
+					raw_text = "[GetPlayer.MakeScope.GetMapKeys('eu5gov_governor_roster').GetSize]"
+					tooltip = "EU5GOV_OUTLINER_COUNT_TT"
+				}
+			}
+		}
+
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			spacing = 1
+			datamodel = "[GetPlayer.MakeScope.GetMapKeys('eu5gov_governor_roster')]"
+
+			item = {
+				button = {
+					size = { 410 42 }
+					datacontext = "[Scope.GetCharacter]"
+					using = button_common_template
+					background = {
+						texture = "gfx/interface/buttons/paper_outliner_button.dds"
+						texture_density = 2
+						spriteType = corneredstretched
+						spriteborder = { 30 0 }
+						frame = 1
+						alpha = 0.92
+					}
+
+					hbox = {
+						margin = { 8 3 }
+						spacing = 8
+
+						country_character = {
+							size = { 34 34 }
+							datacontext = "[Character.Self]"
+						}
+
+						vbox = {
+							layoutpolicy_horizontal = expanding
+							spacing = 0
+
+							text_single = {
+								layoutpolicy_horizontal = expanding
+								maximumsize = { 190 18 }
+								autoresize = yes
+								text = "[Character.GetName]"
+							}
+
+							text_single = {
+								layoutpolicy_horizontal = expanding
+								fontsize = 12
+								text = "[GetPlayer.MakeScope.GetVariableFromVariableMap('eu5gov_governor_roster', Character.MakeScope).GetLocation.GetName]"
+							}
+						}
+
+						vbox = {
+							min_width = 116
+							align = right
+
+							text_single = {
+								align = right
+								text = "[SelectLocalization(EqualTo_CFixedPoint(Character.MakeScope.GetVariable('eu5gov_governor_role').GetValue, '(CFixedPoint)2'), 'EU5GOV_ROLE_INTEGRATION', SelectLocalization(EqualTo_CFixedPoint(Character.MakeScope.GetVariable('eu5gov_governor_role').GetValue, '(CFixedPoint)3'), 'EU5GOV_ROLE_COLONIAL', 'EU5GOV_ROLE_NORMAL'))]"
+							}
+
+							text_single = {
+								align = right
+								fontsize = 12
+								raw_text = "Entrenchment: [Character.MakeScope.GetVariable('eu5gov_entrenchment').GetValue|0]/100"
+								tooltip = "EU5GOV_ENTRENCHMENT_TT"
+							}
+						}
+					}
+
+					action_tooltip = {
+						click_type = right
+						click_mode = single
+						title = "EU5GOV_OUTLINER_RIGHT_CLICK"
+						on_action = "[PdxGuiWidget.ToggleContextMenu]"
+					}
+
+					contextmenu_enabled = "[Character.IsValid]"
+					contextmenu_widget = {
+						ContextMenuBase = {
+							blockoverride "contextmenu_content" {
+								ContextMenuTitle = {
+									blockoverride "title_text" { text = "EU5GOV_CONTEXT_TITLE" }
+								}
+
+								ContextMenuEntry = {
+									blockoverride "entry_button" {
+										button = {
+											using = contextmenu_entry_button_template
+											blockoverride "entry_icon" {}
+											blockoverride "entry_text" { text = "EU5GOV_ROLE_NORMAL" }
+											blockoverride "click_action" {
+												title = "EU5GOV_ROLE_NORMAL_TT"
+												on_action = "[GetScriptedGui('eu5gov_set_role_normal').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
+											}
+										}
+									}
+								}
+
+								ContextMenuEntry = {
+									blockoverride "entry_button" {
+										button = {
+											using = contextmenu_entry_button_template
+											blockoverride "entry_icon" {}
+											blockoverride "entry_text" { text = "EU5GOV_ROLE_INTEGRATION" }
+											blockoverride "click_action" {
+												title = "EU5GOV_ROLE_INTEGRATION_TT"
+												on_action = "[GetScriptedGui('eu5gov_set_role_integration').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
+											}
+										}
+									}
+								}
+
+								ContextMenuEntry = {
+									blockoverride "entry_button" {
+										button = {
+											using = contextmenu_entry_button_template
+											blockoverride "entry_icon" {}
+											blockoverride "entry_text" { text = "EU5GOV_ROLE_COLONIAL" }
+											blockoverride "click_action" {
+												title = "EU5GOV_ROLE_COLONIAL_TT"
+												on_action = "[GetScriptedGui('eu5gov_set_role_colonial').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
+											}
+										}
+									}
+								}
+
+								ContextMenuEntry = {
+									blockoverride "entry_button" {
+										button = {
+											using = contextmenu_entry_button_template
+											blockoverride "entry_icon" {}
+											blockoverride "entry_text" { text = "EU5GOV_DISMISS" }
+											blockoverride "click_action" {
+												title = "EU5GOV_DISMISS_TT"
+												on_action = "[GetScriptedGui('eu5gov_dismiss_governor_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
