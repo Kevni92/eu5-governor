@@ -19,19 +19,15 @@ eu5gov_governor_death = {
 	effect = {
 		scope:target = {
 			var:eu5gov_governorship ?= {
-				if = {
-					limit = { has_location_modifier = eu5gov_governor_administration }
-					remove_location_modifier = eu5gov_governor_administration
-				}
-				remove_variable = eu5gov_governor
-				remove_variable = eu5gov_governor_country
+				eu5gov_clear_governor_location_effect = yes
 			}
-			remove_variable = eu5gov_governorship
 		}
 	}
 }
 
-# Rebuild bonuses from live abilities and clean stale assignments after ownership/building changes.
+# Rebuild bonuses from live abilities, advance Entrenchment and clean stale assignments.
+# Existing 0.1 saves are migrated lazily: missing role/Entrenchment variables become Normal/0,
+# and the country-side Governor roster is rebuilt from the authoritative location assignment.
 eu5gov_governor_yearly_refresh = {
 	effect = {
 		save_scope_as = eu5gov_refresh_country
@@ -43,7 +39,22 @@ eu5gov_governor_yearly_refresh = {
 					var:eu5gov_governor ?= { is_alive = yes }
 					var:eu5gov_governor_country ?= { this = scope:eu5gov_refresh_country }
 				}
+
+				var:eu5gov_governor ?= {
+					if = {
+						limit = { NOT = { has_variable = eu5gov_governor_role } }
+						set_variable = { name = eu5gov_governor_role value = 1 }
+					}
+					if = {
+						limit = { NOT = { has_variable = eu5gov_entrenchment } }
+						set_variable = { name = eu5gov_entrenchment value = 0 }
+					}
+					eu5gov_tick_governor_entrenchment_effect = yes
+				}
+
+				eu5gov_register_governor_in_roster_effect = yes
 				eu5gov_apply_governor_bonus_effect = yes
+				eu5gov_apply_governor_role_effect = yes
 			}
 			else = {
 				eu5gov_clear_governor_location_effect = yes
