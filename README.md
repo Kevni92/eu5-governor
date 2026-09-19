@@ -14,12 +14,16 @@ Character Governors replaces the split between **Local Governor** and **Naval Go
 - New appointments begin as a **Normal Governor** with 0 Entrenchment.
 - Occupied outliner rows show the Governor portrait, character name, governed location, current role and Entrenchment.
 - **Left-click** elsewhere on an office row to open its location, **double-click** to pan to it, and **right-click** an occupied row to switch role or dismiss the Governor.
+- The currently active Governor role is disabled in the role menu; it cannot be selected again.
+- The dismissal entry uses the vanilla red/destructive button style.
 - The appointed character is marked busy, so the same person cannot simultaneously take the usual cabinet/military/other busy roles.
 - The character view displays an appointed office holder as **Governor** instead of **Courtier**.
 - Character contribution to Proximity Source is `ADM × 0.25 + DIP × 0.05 + MIL × 0.05`.
 - A 50/50/50 character contributes +17.5; a 100/100/100 character contributes +35.
-- Governors can be dismissed. Death automatically vacates the residence, but the vacant office remains visible in the outliner.
-- A yearly integrity pass refreshes bonuses, rebuilds the complete Governor-office roster and cleans assignments after ownership or building changes.
+- A serving Governor increases the power of their Estate by **half their Entrenchment/Machtbasis**. At 100 Machtbasis that is **+50% Estate power**.
+- Voluntarily dismissing or replacing a non-Crown Governor has political costs that scale with Machtbasis. At 100: **-25 percentage points Estate Satisfaction** and **-10 Legitimacy**. Crown Governors are free to dismiss or replace.
+- Governors can be dismissed. Death automatically vacates the residence without a dismissal penalty, but the vacant office remains visible in the outliner.
+- A yearly integrity pass refreshes bonuses, Machtbasis, Estate-power contributions, the complete Governor-office roster and stale assignments.
 - English and German localization are included.
 
 ## How to use it
@@ -28,8 +32,8 @@ Character Governors replaces the split between **Local Governor** and **Naval Go
 2. The Residence appears under **Governors** in the normal right-side outliner as an **Empty Governor Slot** / **Unbesetzter Gouverneursposten**.
 3. Click the **empty portrait** in that row. EU5 opens the native character chooser already bound to that Governor's Residence.
 4. Select an eligible character. The empty slot becomes an occupied office and displays the Governor's portrait and data.
-5. Click an **occupied portrait** to replace that Governor with another eligible character.
-6. Right-click the occupied office to change between **Normal Governor**, **Integration Governor** and **Colonial Governor**, or to dismiss the Governor.
+5. Click an **occupied portrait** to replace that Governor with another eligible character. Replacing an established non-Crown Governor pays the same political cost as dismissal.
+6. Right-click the occupied office to change between **Normal Governor**, **Integration Governor** and **Colonial Governor**, or to dismiss the Governor. The current role is disabled.
 7. Dismissing or losing the Governor returns the office to the visible vacant-slot state rather than removing the row.
 
 The original **Appoint Governor** character interaction remains available as an alternate path and uses the same eligibility filter.
@@ -44,7 +48,7 @@ Governorship is intentionally more exclusive than Cabinet eligibility: the candi
 
 ## Governor roles
 
-Changing a role does not reset Entrenchment.
+Changing a role does not reset Entrenchment. The role already held by the Governor is disabled in the right-click menu.
 
 ### Normal Governor
 
@@ -80,11 +84,36 @@ Examples:
 - 50/50/50 Governor: +3.5 per year.
 - 100/100/100 Governor: +5.0 per year.
 
-Entrenchment is capped at 100. In version 0.2.x it is **informational only**: there are deliberately no dismissal penalties, rebellion effects, Estate effects or ability penalties yet. Those consequences are reserved for a later balance step.
+Entrenchment is capped at 100 and now has two direct political consequences.
+
+### Estate power
+
+Every serving Governor increases the power of their own Estate by half their Machtbasis:
+
+`Estate power bonus = Machtbasis / 2 %`
+
+Examples:
+
+- 20 Machtbasis -> +10% Estate power.
+- 50 Machtbasis -> +25% Estate power.
+- 100 Machtbasis -> +50% Estate power.
+
+Governors belonging to the same Estate stack additively. Their contributions are aggregated into one country modifier per Estate. The implementation covers Crown, Nobility, Clergy, Burghers, Peasants, Tribes, Cossacks and Dhimmi.
+
+### Voluntary dismissal / replacement
+
+For a non-Crown Governor, dismissal costs scale linearly with Machtbasis:
+
+- Estate Satisfaction: `Machtbasis × -0.0025` -> at 100, **-25 percentage points**.
+- Legitimacy: `Machtbasis × -0.10` -> at 100, **-10 Legitimacy**.
+
+Replacing an existing Governor counts as voluntarily dismissing the outgoing office holder and pays the same cost. This prevents replacement from bypassing the mechanic. A Governor belonging to the **Crown Estate** can be dismissed or replaced without either penalty.
+
+Death, demolition and integrity cleanup are not voluntary dismissals and therefore do not charge these political costs; their Estate-power contribution is simply removed.
 
 ## Governor management UI
 
-Version 0.2.3 integrates the **Governors** section directly into the vanilla outliner's own scroll content. The old free-standing scripted widget was removed, so the Governor block no longer floats independently on the map. It now follows the right-side outliner's position, width and scrolling behavior and uses the same outliner button/text primitives as vanilla entries.
+Version 0.2.3 integrated the **Governors** section directly into the vanilla outliner's own scroll content. Version 0.2.4 fixes the role context menu so each entry uses the actual clickable inner `ContextMenuEntry` button. The old free-standing scripted widget remains removed, so the Governor block follows the right-side outliner's position, width and scrolling behavior.
 
 The UI is driven by two country variable maps:
 
@@ -93,7 +122,7 @@ The UI is driven by two country variable maps:
 
 The header displays **serving Governors / total Governor's Residences**. The all-office map is updated immediately when a Residence is built or destroyed and rebuilt by the yearly integrity pass for save migration and repair.
 
-Vacant rows show **Empty Governor Slot**, the Residence location and **Vacant**. Occupied rows show the portrait, Governor name, Residence location, role and Entrenchment. The portrait controls use dedicated `owncountry` generic actions with the clicked Residence pre-bound as `scope:target_1`; the action then opens EU5's native character selector. Right-clicking an occupied row opens direct actions for **Normal Governor**, **Integration Governor**, **Colonial Governor** and **Dismiss Governor**. Specialist roles are disabled when their territorial requirement is not met.
+Vacant rows show **Empty Governor Slot**, the Residence location and **Vacant**. Occupied rows show the portrait, Governor name, Residence location, role and Entrenchment. The portrait controls use dedicated `owncountry` generic actions with the clicked Residence pre-bound as `scope:target_1`; the action then opens EU5's native character selector. Right-clicking an occupied row opens direct actions for **Normal Governor**, **Integration Governor**, **Colonial Governor** and **Dismiss Governor**. Specialist roles are disabled when their territorial requirement is not met; the active role is also disabled. The dismissal entry uses the vanilla red button texture.
 
 ### Character role display
 
@@ -107,9 +136,9 @@ The unified residence deliberately keeps the internal ID `local_governor`. This 
 
 This mod replaces the database objects `local_governor` and `naval_governor`. Mods that also replace either building require a compatibility patch.
 
-For seamless UI integration, version 0.2.3 also supplies same-version overrides of:
+For seamless UI integration, the mod also supplies same-version overrides of:
 
-- `in_game/gui/outliner.gui` — inserts the Governor section into the native outliner scroll container.
+- `in_game/gui/outliner.gui` — inserts the Governor section into the native outliner scroll container and its context menu.
 - `in_game/gui/character_lateralview.gui` — displays Governor/Gouverneur as the current role while the character holds a governorship.
 
 UI mods that replace either of those files require a compatibility patch. These overrides are based on the EU5 1.3.x vanilla reference used by the mod and should be re-audited after game patches that change those GUI files.
@@ -124,6 +153,6 @@ Target metadata: **EU5 1.3.x**.
 
 ## Verification status
 
-The implementation is grounded in EU5 1.3 vanilla/community-tested patterns for building replacement, building `on_built`/`on_destroyed` hooks, character interactions, generic actions with character selectors, script-visible Cabinet restrictions, scope variables, variable maps exposed to GUI datamodels, vanilla outliner structures, native GUI `action_button` invocation, scripted GUI execution with saved scopes, permanent location modifiers, scaled modifier `size`, `busy_modifier`, character-death on-actions, yearly country pulses, context menus, `dominant_culture` checks and `is_overseas_for_owner`.
+The implementation is grounded in EU5 1.3 vanilla/community-tested patterns for building replacement, building `on_built`/`on_destroyed` hooks, character interactions, generic actions with character selectors, dynamic Estate Satisfaction types, script-value Legitimacy effects, Estate-power modifier identifiers, scaled country/location modifier `size`, scope variables, variable maps exposed to GUI datamodels, vanilla outliner structures, native GUI `action_button` invocation, scripted GUI execution with saved scopes, `busy_modifier`, character-death on-actions, yearly country pulses, context menus, `dominant_culture` checks and `is_overseas_for_owner`.
 
-The two GUI overrides were generated from the same-version vanilla `outliner.gui` and `character_lateralview.gui`, with only the Governor integration/role-display additions applied. Because Paradox scripting and GUI are patch-sensitive, the release should still be smoke-tested against the exact installed patch with `script_docs`, `dump_data_types`, `error.log` and an in-game behavior test before publishing a Workshop update. In particular, verify the portrait-bound generic-action `target_1` path, native outliner layout at different UI scales, and German localization in the installed game.
+Because Paradox scripting and GUI are patch-sensitive, the release should still be smoke-tested against the exact installed patch with `script_docs`, `dump_data_types`, `error.log` and an in-game behavior test before publishing a Workshop update. For 0.2.4 specifically verify: role buttons execute, the current role is disabled, dismissal is red, Crown dismissal is free, non-Crown dismissal applies the scaled penalties, and Estate power changes by exactly half Machtbasis.
