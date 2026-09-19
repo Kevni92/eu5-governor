@@ -22,6 +22,16 @@ jobs:
           python - <<'PY'
           import tools.generate_eu5gov_gui_overrides as generator
 
+          original_patch_outliner = generator.patch_outliner
+
+          def patch_outliner(source: str) -> str:
+              source = original_patch_outliner(source)
+              bad = '\t' * 11 + 'eu5gov_governor_outliner_section = {}\n' + '\t' * 10 + '}\n'
+              good = '\t' * 10 + '}\n\n' + '\t' * 10 + 'eu5gov_governor_outliner_section = {}\n'
+              if source.count(bad) != 1:
+                  raise RuntimeError("Could not relocate Governor section outside native entries hbox")
+              return source.replace(bad, good, 1)
+
           def patch_character_lateralview(source: str) -> str:
               role_line = '\t' * 9 + 'text = "[CharacterRoleMask.GetRolesName]"'
               if source.count(role_line) != 1:
@@ -66,6 +76,7 @@ jobs:
               )
               return source[:block_start] + vanilla_block + governor_block + source[block_end:]
 
+          generator.patch_outliner = patch_outliner
           generator.patch_character_lateralview = patch_character_lateralview
           generator.main()
           PY
