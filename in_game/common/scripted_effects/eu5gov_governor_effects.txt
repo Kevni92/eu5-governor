@@ -116,7 +116,26 @@ eu5gov_tick_governor_entrenchment_effect = {
 	}
 }
 
-# Current scope: governor location. Keeps the country-side roster used by the UI in sync.
+# Current scope: country. The office map is authoritative for the UI and contains
+# every owned Governor's Residence, including residences without an appointed character.
+eu5gov_rebuild_governor_office_roster_effect = {
+	clear_variable_map = eu5gov_governor_offices
+	save_scope_as = eu5gov_office_country
+	every_owned_location = {
+		limit = { has_building = building_type:local_governor }
+		save_scope_as = eu5gov_office_location
+		scope:eu5gov_office_country = {
+			add_to_variable_map = {
+				name = eu5gov_governor_offices
+				key = scope:eu5gov_office_location
+				value = 1
+			}
+		}
+	}
+}
+
+# Current scope: governor location. Keeps the country-side active-Governor roster
+# and the all-office roster used by the UI in sync.
 eu5gov_register_governor_in_roster_effect = {
 	if = {
 		limit = {
@@ -134,6 +153,15 @@ eu5gov_register_governor_in_roster_effect = {
 				name = eu5gov_governor_roster
 				key = scope:eu5gov_roster_character
 				value = scope:eu5gov_roster_location
+			}
+			remove_from_variable_map = {
+				name = eu5gov_governor_offices
+				key = scope:eu5gov_roster_location
+			}
+			add_to_variable_map = {
+				name = eu5gov_governor_offices
+				key = scope:eu5gov_roster_location
+				value = 1
 			}
 		}
 	}
