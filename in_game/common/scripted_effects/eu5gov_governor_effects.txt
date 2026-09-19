@@ -69,7 +69,8 @@ eu5gov_apply_governor_role_effect = {
 }
 
 # Current scope: serving governor character. Time alone entrenches an office holder;
-# high total ADM+DIP+MIL accelerates the yearly gain.
+# high total ADM+DIP+MIL accelerates the yearly gain. The same value is mirrored
+# onto the governed location so the office and character both carry the tenure state.
 eu5gov_tick_governor_entrenchment_effect = {
 	if = {
 		limit = { NOT = { has_variable = eu5gov_entrenchment } }
@@ -99,6 +100,18 @@ eu5gov_tick_governor_entrenchment_effect = {
 		}
 	}
 	clamp_variable = { name = eu5gov_entrenchment min = 0 max = 100 }
+
+	save_scope_as = eu5gov_entrenchment_governor
+	var:eu5gov_governorship ?= {
+		set_variable = {
+			name = eu5gov_entrenchment
+			value = scope:eu5gov_entrenchment_governor.var:eu5gov_entrenchment
+		}
+		set_variable = {
+			name = eu5gov_governor_role
+			value = scope:eu5gov_entrenchment_governor.var:eu5gov_governor_role
+		}
+	}
 }
 
 # Current scope: governor location. Keeps the country-side roster used by the UI in sync.
@@ -162,4 +175,6 @@ eu5gov_clear_governor_location_effect = {
 
 	remove_variable = eu5gov_governor
 	remove_variable = eu5gov_governor_country
+	remove_variable = eu5gov_governor_role
+	remove_variable = eu5gov_entrenchment
 }
