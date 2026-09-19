@@ -29,12 +29,121 @@ eu5gov_apply_governor_bonus_effect = {
 	}
 }
 
+# Current scope: governor location. Role 1 = Normal, 2 = Integration, 3 = Colonial.
+eu5gov_apply_governor_role_effect = {
+	if = {
+		limit = { has_location_modifier = eu5gov_integration_governor }
+		remove_location_modifier = eu5gov_integration_governor
+	}
+	if = {
+		limit = { has_location_modifier = eu5gov_colonial_governor }
+		remove_location_modifier = eu5gov_colonial_governor
+	}
+
+	if = {
+		limit = {
+			has_variable = eu5gov_governor
+			var:eu5gov_governor ?= {
+				is_alive = yes
+				var:eu5gov_governor_role = 2
+			}
+		}
+		add_location_modifier = {
+			modifier = eu5gov_integration_governor
+			mode = add_and_extend
+		}
+	}
+	else_if = {
+		limit = {
+			has_variable = eu5gov_governor
+			var:eu5gov_governor ?= {
+				is_alive = yes
+				var:eu5gov_governor_role = 3
+			}
+		}
+		add_location_modifier = {
+			modifier = eu5gov_colonial_governor
+			mode = add_and_extend
+		}
+	}
+}
+
+# Current scope: serving governor character. Time alone entrenches an office holder;
+# high total ADM+DIP+MIL accelerates the yearly gain.
+eu5gov_tick_governor_entrenchment_effect = {
+	if = {
+		limit = { NOT = { has_variable = eu5gov_entrenchment } }
+		set_variable = { name = eu5gov_entrenchment value = 0 }
+	}
+
+	change_variable = { name = eu5gov_entrenchment add = 2 }
+	change_variable = {
+		name = eu5gov_entrenchment
+		add = {
+			value = adm
+			divide = 100
+		}
+	}
+	change_variable = {
+		name = eu5gov_entrenchment
+		add = {
+			value = dip
+			divide = 100
+		}
+	}
+	change_variable = {
+		name = eu5gov_entrenchment
+		add = {
+			value = mil
+			divide = 100
+		}
+	}
+	clamp_variable = { name = eu5gov_entrenchment min = 0 max = 100 }
+}
+
+# Current scope: governor location. Keeps the country-side roster used by the UI in sync.
+eu5gov_register_governor_in_roster_effect = {
+	if = {
+		limit = {
+			has_variable = eu5gov_governor
+			has_variable = eu5gov_governor_country
+		}
+		save_scope_as = eu5gov_roster_location
+		var:eu5gov_governor ?= { save_scope_as = eu5gov_roster_character }
+		var:eu5gov_governor_country ?= {
+			remove_from_variable_map = {
+				name = eu5gov_governor_roster
+				key = scope:eu5gov_roster_character
+			}
+			add_to_variable_map = {
+				name = eu5gov_governor_roster
+				key = scope:eu5gov_roster_character
+				value = scope:eu5gov_roster_location
+			}
+		}
+	}
+}
+
 eu5gov_clear_governor_location_effect = {
 	if = {
 		limit = { has_variable = eu5gov_governor }
-		var:eu5gov_governor ?= {
+		var:eu5gov_governor ?= { save_scope_as = eu5gov_clear_governor_character }
+
+		if = {
+			limit = { has_variable = eu5gov_governor_country }
+			var:eu5gov_governor_country ?= {
+				remove_from_variable_map = {
+					name = eu5gov_governor_roster
+					key = scope:eu5gov_clear_governor_character
+				}
+			}
+		}
+
+		scope:eu5gov_clear_governor_character = {
 			remove_character_modifier = busy_modifier
 			remove_variable = eu5gov_governorship
+			remove_variable = eu5gov_governor_role
+			remove_variable = eu5gov_entrenchment
 		}
 	}
 
@@ -42,6 +151,15 @@ eu5gov_clear_governor_location_effect = {
 		limit = { has_location_modifier = eu5gov_governor_administration }
 		remove_location_modifier = eu5gov_governor_administration
 	}
+	if = {
+		limit = { has_location_modifier = eu5gov_integration_governor }
+		remove_location_modifier = eu5gov_integration_governor
+	}
+	if = {
+		limit = { has_location_modifier = eu5gov_colonial_governor }
+		remove_location_modifier = eu5gov_colonial_governor
+	}
+
 	remove_variable = eu5gov_governor
 	remove_variable = eu5gov_governor_country
 }
