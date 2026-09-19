@@ -1,0 +1,1 @@
+﻿gui/eu5gov_governor_outliner.gui = eu5gov_governor_outliner
