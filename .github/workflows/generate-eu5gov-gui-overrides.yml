@@ -18,7 +18,57 @@ jobs:
           fetch-depth: 0
 
       - name: Generate patched vanilla GUI files
-        run: python tools/generate_eu5gov_gui_overrides.py
+        run: |
+          python - <<'PY'
+          import tools.generate_eu5gov_gui_overrides as generator
+
+          def patch_character_lateralview(source: str) -> str:
+              role_line = '\t' * 9 + 'text = "[CharacterRoleMask.GetRolesName]"'
+              if source.count(role_line) != 1:
+                  raise RuntimeError("Could not uniquely locate active CharacterRoleMask role text")
+
+              role_pos = source.index(role_line)
+              widget_marker = '\t' * 8 + 'text_single = {'
+              block_start = source.rfind(widget_marker, 0, role_pos)
+              if block_start < 0:
+                  raise RuntimeError("Could not locate active role text widget start")
+
+              open_brace = source.index('{', block_start)
+              depth = 0
+              block_end = None
+              for idx in range(open_brace, len(source)):
+                  char = source[idx]
+                  if char == '{':
+                      depth += 1
+                  elif char == '}':
+                      depth -= 1
+                      if depth == 0:
+                          block_end = idx + 1
+                          break
+              if block_end is None:
+                  raise RuntimeError("Could not locate active role text widget end")
+
+              vanilla_block = source[block_start:block_end]
+              vanilla_block = vanilla_block.replace(
+                  role_line,
+                  '\t' * 9 + 'visible = "[Not(CharacterLateralview.GetCharacter.MakeScope.GetVariable(\'eu5gov_governorship\').IsSet)]"\n' + role_line,
+                  1,
+              )
+
+              governor_block = (
+                  '\n' + '\t' * 8 + 'text_single = {\n'
+                  + '\t' * 9 + 'minimumsize = { -1 20 }\n'
+                  + '\t' * 9 + 'autoresize = yes\n'
+                  + '\t' * 9 + 'visible = "[CharacterLateralview.GetCharacter.MakeScope.GetVariable(\'eu5gov_governorship\').IsSet]"\n'
+                  + '\t' * 9 + 'text = "EU5GOV_CHARACTER_ROLE_GOVERNOR"\n'
+                  + '\t' * 9 + 'tooltip = "EU5GOV_CHARACTER_ROLE_GOVERNOR_TT"\n'
+                  + '\t' * 8 + '}'
+              )
+              return source[:block_start] + vanilla_block + governor_block + source[block_end:]
+
+          generator.patch_character_lateralview = patch_character_lateralview
+          generator.main()
+          PY
 
       - name: Commit generated GUI overrides
         run: |
