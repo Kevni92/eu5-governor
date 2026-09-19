@@ -21,12 +21,6 @@
 
 			hbox = {
 				margin = { 12 4 }
-				spacing = 8
-
-				icon = {
-					size = { 22 22 }
-					texture = "gfx/interface/icons/flat_icons/government.dds"
-				}
 
 				text_single = {
 					layoutpolicy_horizontal = expanding
@@ -37,8 +31,8 @@
 
 				text_single = {
 					align = right
-					raw_text = "[GetPlayer.MakeScope.GetMapKeys('eu5gov_governor_roster').GetSize]"
-					tooltip = "EU5GOV_OUTLINER_COUNT_TT"
+					fontsize = 12
+					text = "EU5GOV_OUTLINER_HINT"
 				}
 			}
 		}
@@ -90,7 +84,7 @@
 						}
 
 						vbox = {
-							min_width = 116
+							min_width = 126
 							align = right
 
 							text_single = {
