@@ -36,7 +36,9 @@ eu5gov_set_role_integration = {
 	is_valid = {
 		scope:governor ?= {
 			is_alive = yes
-			has_variable = eu5gov_governorship
+			var:eu5gov_governorship ?= {
+				NOT = { dominant_culture = owner.culture }
+			}
 		}
 	}
 	effect = {
@@ -62,7 +64,9 @@ eu5gov_set_role_colonial = {
 	is_valid = {
 		scope:governor ?= {
 			is_alive = yes
-			has_variable = eu5gov_governorship
+			var:eu5gov_governorship ?= {
+				is_overseas_for_owner = yes
+			}
 		}
 	}
 	effect = {
