@@ -24,9 +24,7 @@
 		name = "eu5gov_select_governor_character"
 		none_available_msg_key = "eu5gov_no_governor_character_available"
 		column = { data = character_info }
-		visible = {
-			eu5gov_can_serve_as_governor = yes
-		}
+		visible = { eu5gov_can_serve_as_governor = yes }
 	}
 
 	select_trigger = {
@@ -45,11 +43,7 @@
 
 	effect = {
 		if = {
-			limit = {
-				exists = scope:recipient
-				exists = scope:target
-			}
-
+			limit = { exists = scope:recipient exists = scope:target }
 			scope:target = {
 				set_variable = { name = eu5gov_governor value = scope:recipient }
 				set_variable = { name = eu5gov_governor_country value = scope:actor }
@@ -57,65 +51,35 @@
 				set_variable = { name = eu5gov_entrenchment value = 0 }
 				eu5gov_apply_governor_bonus_effect = yes
 			}
-
 			scope:recipient = {
 				set_variable = { name = eu5gov_governorship value = scope:target }
 				set_variable = { name = eu5gov_governor_role value = 1 }
 				set_variable = { name = eu5gov_entrenchment value = 0 }
-				add_character_modifier = {
-					modifier = busy_modifier
-					years = -1
-					mode = add_and_extend
-				}
+				add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
 			}
-
 			scope:actor = {
-				remove_from_variable_map = {
-					name = eu5gov_governor_roster
-					key = scope:recipient
-				}
-				add_to_variable_map = {
-					name = eu5gov_governor_roster
-					key = scope:recipient
-					value = scope:target
-				}
-				remove_from_variable_map = {
-					name = eu5gov_governor_offices
-					key = scope:target
-				}
-				add_to_variable_map = {
-					name = eu5gov_governor_offices
-					key = scope:target
-					value = 1
-				}
+				remove_from_variable_map = { name = eu5gov_governor_roster key = scope:recipient }
+				add_to_variable_map = { name = eu5gov_governor_roster key = scope:recipient value = scope:target }
+				remove_from_variable_map = { name = eu5gov_governor_offices key = scope:target }
+				add_to_variable_map = { name = eu5gov_governor_offices key = scope:target value = 1 }
 			}
-
-			scope:target = {
-				eu5gov_apply_governor_role_effect = yes
-			}
+			scope:target = { eu5gov_apply_governor_role_effect = yes }
 		}
 	}
 
 	ai_will_do = {
 		add = scope:recipient.adm
-		add = {
-			value = scope:recipient.dip
-			divide = 5
-		}
-		add = {
-			value = scope:recipient.mil
-			divide = 5
-		}
+		add = { value = scope:recipient.dip divide = 5 }
+		add = { value = scope:recipient.mil divide = 5 }
 	}
 }
 
-# UI-only appointment path. The Governor outliner pre-binds the clicked Residence as
-# scope:target_1, so the player only has to choose a character.
+# UI-only appointment path. The outliner pre-binds the clicked Residence as target_1,
+# so the player only chooses a character.
 eu5gov_appoint_governor_at_residence = {
 	sound = UI_action_religion_generic
 	message = yes
 	on_own_nation = yes
-
 	ai_tick = never
 	ai_tick_frequency = 99999
 
@@ -127,7 +91,6 @@ eu5gov_appoint_governor_at_residence = {
 			NOT = { has_variable = eu5gov_governor }
 		}
 	}
-
 	allow = {
 		scope:target_1 = {
 			owner ?= scope:actor
@@ -135,7 +98,6 @@ eu5gov_appoint_governor_at_residence = {
 			NOT = { has_variable = eu5gov_governor }
 		}
 	}
-
 	select_trigger = {
 		looking_for_a = character
 		source = actor
@@ -143,18 +105,11 @@ eu5gov_appoint_governor_at_residence = {
 		name = "eu5gov_select_governor_character"
 		none_available_msg_key = "eu5gov_no_governor_character_available"
 		column = { data = character_info }
-		visible = {
-			eu5gov_can_serve_as_governor = yes
-		}
+		visible = { eu5gov_can_serve_as_governor = yes }
 	}
-
 	effect = {
 		if = {
-			limit = {
-				exists = scope:recipient
-				exists = scope:target_1
-			}
-
+			limit = { exists = scope:recipient exists = scope:target_1 }
 			scope:target_1 = {
 				set_variable = { name = eu5gov_governor value = scope:recipient }
 				set_variable = { name = eu5gov_governor_country value = scope:actor }
@@ -162,45 +117,82 @@ eu5gov_appoint_governor_at_residence = {
 				set_variable = { name = eu5gov_entrenchment value = 0 }
 				eu5gov_apply_governor_bonus_effect = yes
 			}
-
 			scope:recipient = {
 				set_variable = { name = eu5gov_governorship value = scope:target_1 }
 				set_variable = { name = eu5gov_governor_role value = 1 }
 				set_variable = { name = eu5gov_entrenchment value = 0 }
-				add_character_modifier = {
-					modifier = busy_modifier
-					years = -1
-					mode = add_and_extend
-				}
+				add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
 			}
-
 			scope:actor = {
-				remove_from_variable_map = {
-					name = eu5gov_governor_roster
-					key = scope:recipient
-				}
-				add_to_variable_map = {
-					name = eu5gov_governor_roster
-					key = scope:recipient
-					value = scope:target_1
-				}
-				remove_from_variable_map = {
-					name = eu5gov_governor_offices
-					key = scope:target_1
-				}
-				add_to_variable_map = {
-					name = eu5gov_governor_offices
-					key = scope:target_1
-					value = 1
-				}
+				remove_from_variable_map = { name = eu5gov_governor_roster key = scope:recipient }
+				add_to_variable_map = { name = eu5gov_governor_roster key = scope:recipient value = scope:target_1 }
+				remove_from_variable_map = { name = eu5gov_governor_offices key = scope:target_1 }
+				add_to_variable_map = { name = eu5gov_governor_offices key = scope:target_1 value = 1 }
 			}
-
-			scope:target_1 = {
-				eu5gov_apply_governor_role_effect = yes
-			}
+			scope:target_1 = { eu5gov_apply_governor_role_effect = yes }
 		}
 	}
+	ai_will_do = { add = -100 }
+}
 
+# Cabinet-style replacement path for clicking an occupied portrait.
+eu5gov_change_governor_at_residence = {
+	sound = UI_action_religion_generic
+	message = yes
+	on_own_nation = yes
+	ai_tick = never
+	ai_tick_frequency = 99999
+
+	potential = {
+		exists = scope:target_1
+		scope:target_1 = {
+			owner ?= scope:actor
+			has_building = building_type:local_governor
+			has_variable = eu5gov_governor
+		}
+	}
+	allow = {
+		scope:target_1 = {
+			owner ?= scope:actor
+			has_building = building_type:local_governor
+			has_variable = eu5gov_governor
+		}
+	}
+	select_trigger = {
+		looking_for_a = character
+		source = actor
+		target_flag = recipient
+		name = "eu5gov_select_replacement_governor"
+		none_available_msg_key = "eu5gov_no_governor_character_available"
+		column = { data = character_info }
+		visible = { eu5gov_can_serve_as_governor = yes }
+	}
+	effect = {
+		if = {
+			limit = { exists = scope:recipient exists = scope:target_1 }
+			scope:target_1 = { eu5gov_clear_governor_location_effect = yes }
+			scope:target_1 = {
+				set_variable = { name = eu5gov_governor value = scope:recipient }
+				set_variable = { name = eu5gov_governor_country value = scope:actor }
+				set_variable = { name = eu5gov_governor_role value = 1 }
+				set_variable = { name = eu5gov_entrenchment value = 0 }
+				eu5gov_apply_governor_bonus_effect = yes
+			}
+			scope:recipient = {
+				set_variable = { name = eu5gov_governorship value = scope:target_1 }
+				set_variable = { name = eu5gov_governor_role value = 1 }
+				set_variable = { name = eu5gov_entrenchment value = 0 }
+				add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
+			}
+			scope:actor = {
+				remove_from_variable_map = { name = eu5gov_governor_roster key = scope:recipient }
+				add_to_variable_map = { name = eu5gov_governor_roster key = scope:recipient value = scope:target_1 }
+				remove_from_variable_map = { name = eu5gov_governor_offices key = scope:target_1 }
+				add_to_variable_map = { name = eu5gov_governor_offices key = scope:target_1 value = 1 }
+			}
+			scope:target_1 = { eu5gov_apply_governor_role_effect = yes }
+		}
+	}
 	ai_will_do = { add = -100 }
 }
 
@@ -219,9 +211,7 @@ eu5gov_dismiss_governor = {
 			}
 		}
 	}
-
 	allow = { scope:actor = { always = yes } }
-
 	select_trigger = {
 		looking_for_a = character
 		source = actor
@@ -229,22 +219,15 @@ eu5gov_dismiss_governor = {
 		name = "eu5gov_select_governor_to_dismiss"
 		none_available_msg_key = "eu5gov_no_governor_to_dismiss"
 		column = { data = character_info }
-		visible = {
-			is_alive = yes
-			has_variable = eu5gov_governorship
-		}
+		visible = { is_alive = yes has_variable = eu5gov_governorship }
 	}
-
 	effect = {
 		if = {
 			limit = { exists = scope:recipient }
 			scope:recipient = {
-				var:eu5gov_governorship ?= {
-					eu5gov_clear_governor_location_effect = yes
-				}
+				var:eu5gov_governorship ?= { eu5gov_clear_governor_location_effect = yes }
 			}
 		}
 	}
-
 	ai_will_do = { add = -100 }
 }
