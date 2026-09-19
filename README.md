@@ -8,15 +8,25 @@ Character Governors replaces the split between **Local Governor** and **Naval Go
 - It can be built in towns, cities and megalopolises without a road-to-capital or maritime/land-connectivity requirement.
 - Local and Naval Governor capacity are pooled into one shared limit; Lieutenancies still consume that administrative capacity.
 - A residence provides **50 Proximity Source** on its own instead of vanilla's 80.
+- Every owned Governor's Residence appears as an office slot in the dedicated **Governors** outliner, including vacant offices.
 - Use **Appoint Governor** to assign an eligible character to a vacant residence.
 - New appointments begin as a **Normal Governor**.
-- Every serving Governor appears in the dedicated **Governors** outliner-style panel with character, governed location, role and Entrenchment.
-- **Left-click** a Governor entry to open the character; **right-click** to switch role or dismiss the Governor.
+- Occupied outliner rows show the Governor portrait, character name, governed location, current role and Entrenchment.
+- **Left-click** an office row to open its location, **double-click** to pan to it, use the portrait for the character, and **right-click** an occupied row to switch role or dismiss the Governor.
 - The appointed character is marked busy, so the same person cannot simultaneously take the usual cabinet/military/other busy roles.
 - Character contribution to Proximity Source is `ADM × 0.25 + DIP × 0.05 + MIL × 0.05`.
 - A 50/50/50 character contributes +17.5; a 100/100/100 character contributes +35.
-- Governors can be dismissed. Death automatically vacates the residence.
-- A yearly integrity pass refreshes bonuses when abilities change and cleans assignments after ownership or building changes.
+- Governors can be dismissed. Death automatically vacates the residence, but the vacant office remains visible in the outliner.
+- A yearly integrity pass refreshes bonuses, rebuilds the complete Governor-office roster and cleans assignments after ownership or building changes.
+
+## How to use it
+
+1. Build a **Governor's Residence** in an eligible owned location.
+2. The Residence immediately appears under **Governors** as an **Empty Governor Slot**, similar to an inactive Cabinet entry.
+3. Use the **Appoint Governor** character interaction and choose an eligible character plus one vacant Governor's Residence.
+4. The empty slot becomes an occupied office and displays the Governor's portrait and data.
+5. Right-click the occupied office in the Governors outliner to change between **Normal Governor**, **Integration Governor** and **Colonial Governor**, or to dismiss the Governor.
+6. Dismissing or losing the Governor returns the office to the visible vacant-slot state rather than removing the row.
 
 ## Governor roles
 
@@ -56,15 +66,20 @@ Examples:
 - 50/50/50 Governor: +3.5 per year.
 - 100/100/100 Governor: +5.0 per year.
 
-Entrenchment is capped at 100. In version 0.2.0 it is **informational only**: there are deliberately no dismissal penalties, rebellion effects, Estate effects or ability penalties yet. Those consequences are reserved for the next balance step.
+Entrenchment is capped at 100. In version 0.2.x it is **informational only**: there are deliberately no dismissal penalties, rebellion effects, Estate effects or ability penalties yet. Those consequences are reserved for the next balance step.
 
 ## Governor management UI
 
-The mod adds a dedicated **Governors** outliner-style block through EU5's scripted-widget system. The header is collapsible and displays the number of serving Governors.
+The mod adds a dedicated **Governors** outliner-style block through EU5's scripted-widget system. It deliberately follows the visual language of the vanilla Cabinet outliner: compact paper rows, a small portrait slot and a persistent empty-office state.
 
-Each row shows the character, governed location, current role and Entrenchment. Right-clicking opens direct actions for **Normal Governor**, **Integration Governor**, **Colonial Governor** and **Dismiss Governor**. Specialist roles are disabled when their territorial requirement is not met.
+The UI is driven by two country variable maps:
 
-The roster is backed by the country variable map `eu5gov_governor_roster` and is rebuilt/healed by the yearly integrity pass. Existing 0.1 assignments are migrated lazily: missing role and Entrenchment state becomes Normal Governor / 0 on the next yearly pass.
+- `eu5gov_governor_offices`: all Governor's Residence locations, whether occupied or vacant.
+- `eu5gov_governor_roster`: serving Governor characters and their locations.
+
+The header displays **serving Governors / total Governor's Residences**. The all-office map is updated immediately when a Residence is built or destroyed and rebuilt by the yearly integrity pass for save migration and repair.
+
+Vacant rows show **Empty Governor Slot**, the Residence location and **Vacant**. Occupied rows show the portrait, Governor name, Residence location, role and Entrenchment. Right-clicking an occupied row opens direct actions for **Normal Governor**, **Integration Governor**, **Colonial Governor** and **Dismiss Governor**. Specialist roles are disabled when their territorial requirement is not met.
 
 ## Why the vanilla building ID is retained
 
@@ -86,6 +101,6 @@ Target metadata: **EU5 1.3.x**.
 
 ## Verification status
 
-The implementation is grounded in EU5 1.3 vanilla/community-tested patterns for building replacement, character interactions, character/location selection, scope variables, variable maps exposed to GUI datamodels, scripted GUI execution with saved scopes, permanent location modifiers, scaled modifier `size`, `busy_modifier`, character-death on-actions, yearly country pulses, scripted-widget registration, context menus, `dominant_culture` checks and `is_overseas_for_owner`.
+The implementation is grounded in EU5 1.3 vanilla/community-tested patterns for building replacement, building `on_built`/`on_destroyed` hooks, character interactions, character/location selection, scope variables, variable maps exposed to GUI datamodels, Cabinet-style outliner widgets, scripted GUI execution with saved scopes, permanent location modifiers, scaled modifier `size`, `busy_modifier`, character-death on-actions, yearly country pulses, scripted-widget registration, context menus, `dominant_culture` checks and `is_overseas_for_owner`.
 
 Because Paradox scripting and GUI are patch-sensitive, a release should still be smoke-tested against the exact installed patch with `script_docs`, `dump_data_types`, `error.log` and an in-game behavior test before publishing a Workshop update.
