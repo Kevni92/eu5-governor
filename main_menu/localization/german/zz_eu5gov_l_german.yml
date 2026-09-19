@@ -45,7 +45,7 @@
  eu5gov_dismiss_governor_concept: "Gouverneur"
  eu5gov_dismiss_governor_act: "$eu5gov_dismiss_governor$"
  eu5gov_dismiss_governor_desc_specific: "Entlasst einen ernannten Gouverneur und lasst die Residenz unbesetzt."
- eu5gov_dismiss_governor_desc: "Entfernt einen Gouverneur aus seinem Amt. Der Charakter steht anschließend wieder für andere Aufgaben zur Verfügung und der Ort verliert den charakterabhängigen Nähebons. Die Gouverneursresidenz bleibt als unbesetzter Posten im Outliner sichtbar."
+ eu5gov_dismiss_governor_desc: "Entfernt einen Gouverneur aus seinem Amt. Der Charakter steht anschließend wieder für andere Aufgaben zur Verfügung und der Ort verliert den charakterabhängigen Nähebonus. Die Gouverneursresidenz bleibt als unbesetzter Posten im Outliner sichtbar."
  eu5gov_dismiss_governor_past: "Ein Gouverneur wurde entlassen"
  eu5gov_dismiss_governor_act_past: "[SCOPE.sCharacter('recipient').GetName] wurde aus dem Gouverneursamt entlassen."
 
