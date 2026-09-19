@@ -148,6 +148,7 @@
 									}
 									blockoverride "contextmenu_entries" {
 										ContextMenuEntry = {
+											enabled = "[GetScriptedGui('eu5gov_set_role_normal').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
 											blockoverride "click_action" {
 												title = "EU5GOV_ROLE_NORMAL_TT"
 												on_action = "[GetScriptedGui('eu5gov_set_role_normal').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
@@ -156,6 +157,7 @@
 										}
 
 										ContextMenuEntry = {
+											enabled = "[GetScriptedGui('eu5gov_set_role_integration').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
 											blockoverride "click_action" {
 												title = "EU5GOV_ROLE_INTEGRATION_TT"
 												on_action = "[GetScriptedGui('eu5gov_set_role_integration').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
@@ -164,6 +166,7 @@
 										}
 
 										ContextMenuEntry = {
+											enabled = "[GetScriptedGui('eu5gov_set_role_colonial').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
 											blockoverride "click_action" {
 												title = "EU5GOV_ROLE_COLONIAL_TT"
 												on_action = "[GetScriptedGui('eu5gov_set_role_colonial').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
@@ -172,6 +175,7 @@
 										}
 
 										ContextMenuEntry = {
+											enabled = "[GetScriptedGui('eu5gov_dismiss_governor_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
 											blockoverride "click_action" {
 												title = "EU5GOV_DISMISS_TT"
 												on_action = "[GetScriptedGui('eu5gov_dismiss_governor_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Character.MakeScope).End)]"
