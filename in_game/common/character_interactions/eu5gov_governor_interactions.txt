@@ -70,11 +70,29 @@
 
 			scope:recipient = {
 				set_variable = { name = eu5gov_governorship value = scope:target }
+				set_variable = { name = eu5gov_governor_role value = 1 }
+				set_variable = { name = eu5gov_entrenchment value = 0 }
 				add_character_modifier = {
 					modifier = busy_modifier
 					years = -1
 					mode = add_and_extend
 				}
+			}
+
+			scope:actor = {
+				remove_from_variable_map = {
+					name = eu5gov_governor_roster
+					key = scope:recipient
+				}
+				add_to_variable_map = {
+					name = eu5gov_governor_roster
+					key = scope:recipient
+					value = scope:target
+				}
+			}
+
+			scope:target = {
+				eu5gov_apply_governor_role_effect = yes
 			}
 		}
 	}
@@ -91,7 +109,6 @@
 		}
 	}
 }
-
 
 eu5gov_dismiss_governor = {
 	sound = UI_action_religion_generic
@@ -131,8 +148,6 @@ eu5gov_dismiss_governor = {
 				var:eu5gov_governorship ?= {
 					eu5gov_clear_governor_location_effect = yes
 				}
-				remove_variable = eu5gov_governorship
-				remove_character_modifier = busy_modifier
 			}
 		}
 	}
