@@ -84,6 +84,7 @@ REPLACE:local_governor = {
 	}
 
 	# Demolishing the residence removes the slot and vacates any serving Governor.
+	# This is not a voluntary dismissal, so no political dismissal cost is charged.
 	on_destroyed = {
 		location = {
 			save_scope_as = eu5gov_destroyed_office_location
@@ -97,6 +98,7 @@ REPLACE:local_governor = {
 				name = eu5gov_governor_offices
 				key = scope:eu5gov_destroyed_office_location
 			}
+			eu5gov_refresh_governor_estate_power_effect = yes
 		}
 	}
 }

@@ -18,3 +18,45 @@ eu5gov_colonial_governor = {
 	}
 	local_migration_attraction = 0.25
 }
+
+# Aggregated per-Estate Governor power modifiers. The scripted effect applies
+# size = combined Governor Machtbasis / 200, so 100 Machtbasis yields +50% power.
+eu5gov_governor_crown_estate_power = {
+	game_data = { category = country }
+	global_crown_estate_power = 1
+}
+
+eu5gov_governor_nobles_estate_power = {
+	game_data = { category = country }
+	global_nobles_estate_power = 1
+}
+
+eu5gov_governor_clergy_estate_power = {
+	game_data = { category = country }
+	global_clergy_estate_power = 1
+}
+
+eu5gov_governor_burghers_estate_power = {
+	game_data = { category = country }
+	global_burghers_estate_power = 1
+}
+
+eu5gov_governor_peasants_estate_power = {
+	game_data = { category = country }
+	global_peasants_estate_power = 1
+}
+
+eu5gov_governor_tribes_estate_power = {
+	game_data = { category = country }
+	global_tribes_estate_power = 1
+}
+
+eu5gov_governor_cossacks_estate_power = {
+	game_data = { category = country }
+	global_cossacks_estate_power = 1
+}
+
+eu5gov_governor_dhimmi_estate_power = {
+	game_data = { category = country }
+	global_dhimmi_estate_power = 1
+}

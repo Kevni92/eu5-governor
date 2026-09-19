@@ -134,7 +134,12 @@ eu5gov_change_governor_from_outliner = {
 				exists = scope:target_1
 			}
 
+			# Replacing an office holder is a voluntary dismissal of the outgoing
+			# Governor and therefore pays the same Machtbasis-scaled political cost.
 			scope:target_1 = {
+				var:eu5gov_governor ?= {
+					eu5gov_apply_governor_dismissal_cost_effect = yes
+				}
 				eu5gov_clear_governor_location_effect = yes
 			}
 
@@ -180,6 +185,9 @@ eu5gov_change_governor_from_outliner = {
 
 			scope:target_1 = {
 				eu5gov_apply_governor_role_effect = yes
+			}
+			scope:actor = {
+				eu5gov_refresh_governor_estate_power_effect = yes
 			}
 		}
 	}

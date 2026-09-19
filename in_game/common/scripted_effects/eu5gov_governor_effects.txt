@@ -116,6 +116,149 @@ eu5gov_tick_governor_entrenchment_effect = {
 	}
 }
 
+# Current scope: serving governor character.
+# Voluntary dismissal/replacement is free for Crown characters. Otherwise the
+# Governor's Estate loses up to 25 percentage points of satisfaction and the
+# country loses up to 10 Legitimacy, linearly scaled by Entrenchment/Machtbasis.
+eu5gov_apply_governor_dismissal_cost_effect = {
+	if = {
+		limit = {
+			has_variable = eu5gov_governorship
+			has_variable = eu5gov_entrenchment
+			NOT = { has_estate = estate_type:crown_estate }
+		}
+		save_scope_as = eu5gov_dismissed_governor
+		var:eu5gov_governorship ?= {
+			owner ?= {
+				add_estate_satisfaction = {
+					type = scope:eu5gov_dismissed_governor.estate_type
+					value = {
+						value = scope:eu5gov_dismissed_governor.var:eu5gov_entrenchment
+						multiply = -0.0025
+					}
+				}
+				add_legitimacy = {
+					value = scope:eu5gov_dismissed_governor.var:eu5gov_entrenchment
+					multiply = -0.10
+				}
+			}
+		}
+	}
+}
+
+# Current scope: country.
+# Each serving Governor increases the power of their Estate by half their
+# Entrenchment percentage. Example: 100 Entrenchment => +50% Estate power.
+# Governors of the same Estate stack additively into one deterministic modifier.
+eu5gov_refresh_governor_estate_power_effect = {
+	if = { limit = { has_country_modifier = eu5gov_governor_crown_estate_power } remove_country_modifier = eu5gov_governor_crown_estate_power }
+	if = { limit = { has_country_modifier = eu5gov_governor_nobles_estate_power } remove_country_modifier = eu5gov_governor_nobles_estate_power }
+	if = { limit = { has_country_modifier = eu5gov_governor_clergy_estate_power } remove_country_modifier = eu5gov_governor_clergy_estate_power }
+	if = { limit = { has_country_modifier = eu5gov_governor_burghers_estate_power } remove_country_modifier = eu5gov_governor_burghers_estate_power }
+	if = { limit = { has_country_modifier = eu5gov_governor_peasants_estate_power } remove_country_modifier = eu5gov_governor_peasants_estate_power }
+	if = { limit = { has_country_modifier = eu5gov_governor_tribes_estate_power } remove_country_modifier = eu5gov_governor_tribes_estate_power }
+	if = { limit = { has_country_modifier = eu5gov_governor_cossacks_estate_power } remove_country_modifier = eu5gov_governor_cossacks_estate_power }
+	if = { limit = { has_country_modifier = eu5gov_governor_dhimmi_estate_power } remove_country_modifier = eu5gov_governor_dhimmi_estate_power }
+
+	set_variable = { name = eu5gov_power_crown value = 0 }
+	set_variable = { name = eu5gov_power_nobles value = 0 }
+	set_variable = { name = eu5gov_power_clergy value = 0 }
+	set_variable = { name = eu5gov_power_burghers value = 0 }
+	set_variable = { name = eu5gov_power_peasants value = 0 }
+	set_variable = { name = eu5gov_power_tribes value = 0 }
+	set_variable = { name = eu5gov_power_cossacks value = 0 }
+	set_variable = { name = eu5gov_power_dhimmi value = 0 }
+
+	save_scope_as = eu5gov_estate_power_country
+	every_owned_location = {
+		limit = {
+			has_building = building_type:local_governor
+			has_variable = eu5gov_governor
+			var:eu5gov_governor ?= {
+				is_alive = yes
+				has_variable = eu5gov_entrenchment
+			}
+		}
+		var:eu5gov_governor ?= { save_scope_as = eu5gov_estate_power_governor }
+		scope:eu5gov_estate_power_country = {
+			if = {
+				limit = { scope:eu5gov_estate_power_governor = { has_estate = estate_type:crown_estate } }
+				change_variable = { name = eu5gov_power_crown add = { value = scope:eu5gov_estate_power_governor.var:eu5gov_entrenchment divide = 200 } }
+			}
+			else_if = {
+				limit = { scope:eu5gov_estate_power_governor = { has_estate = estate_type:nobles_estate } }
+				change_variable = { name = eu5gov_power_nobles add = { value = scope:eu5gov_estate_power_governor.var:eu5gov_entrenchment divide = 200 } }
+			}
+			else_if = {
+				limit = { scope:eu5gov_estate_power_governor = { has_estate = estate_type:clergy_estate } }
+				change_variable = { name = eu5gov_power_clergy add = { value = scope:eu5gov_estate_power_governor.var:eu5gov_entrenchment divide = 200 } }
+			}
+			else_if = {
+				limit = { scope:eu5gov_estate_power_governor = { has_estate = estate_type:burghers_estate } }
+				change_variable = { name = eu5gov_power_burghers add = { value = scope:eu5gov_estate_power_governor.var:eu5gov_entrenchment divide = 200 } }
+			}
+			else_if = {
+				limit = { scope:eu5gov_estate_power_governor = { has_estate = estate_type:peasants_estate } }
+				change_variable = { name = eu5gov_power_peasants add = { value = scope:eu5gov_estate_power_governor.var:eu5gov_entrenchment divide = 200 } }
+			}
+			else_if = {
+				limit = { scope:eu5gov_estate_power_governor = { has_estate = estate_type:tribes_estate } }
+				change_variable = { name = eu5gov_power_tribes add = { value = scope:eu5gov_estate_power_governor.var:eu5gov_entrenchment divide = 200 } }
+			}
+			else_if = {
+				limit = { scope:eu5gov_estate_power_governor = { has_estate = estate_type:cossacks_estate } }
+				change_variable = { name = eu5gov_power_cossacks add = { value = scope:eu5gov_estate_power_governor.var:eu5gov_entrenchment divide = 200 } }
+			}
+			else_if = {
+				limit = { scope:eu5gov_estate_power_governor = { has_estate = estate_type:dhimmi_estate } }
+				change_variable = { name = eu5gov_power_dhimmi add = { value = scope:eu5gov_estate_power_governor.var:eu5gov_entrenchment divide = 200 } }
+			}
+		}
+	}
+
+	if = {
+		limit = { var:eu5gov_power_crown > 0 }
+		add_country_modifier = { modifier = eu5gov_governor_crown_estate_power years = -1 mode = add_and_extend size = { value = var:eu5gov_power_crown } }
+	}
+	if = {
+		limit = { var:eu5gov_power_nobles > 0 }
+		add_country_modifier = { modifier = eu5gov_governor_nobles_estate_power years = -1 mode = add_and_extend size = { value = var:eu5gov_power_nobles } }
+	}
+	if = {
+		limit = { var:eu5gov_power_clergy > 0 }
+		add_country_modifier = { modifier = eu5gov_governor_clergy_estate_power years = -1 mode = add_and_extend size = { value = var:eu5gov_power_clergy } }
+	}
+	if = {
+		limit = { var:eu5gov_power_burghers > 0 }
+		add_country_modifier = { modifier = eu5gov_governor_burghers_estate_power years = -1 mode = add_and_extend size = { value = var:eu5gov_power_burghers } }
+	}
+	if = {
+		limit = { var:eu5gov_power_peasants > 0 }
+		add_country_modifier = { modifier = eu5gov_governor_peasants_estate_power years = -1 mode = add_and_extend size = { value = var:eu5gov_power_peasants } }
+	}
+	if = {
+		limit = { var:eu5gov_power_tribes > 0 }
+		add_country_modifier = { modifier = eu5gov_governor_tribes_estate_power years = -1 mode = add_and_extend size = { value = var:eu5gov_power_tribes } }
+	}
+	if = {
+		limit = { var:eu5gov_power_cossacks > 0 }
+		add_country_modifier = { modifier = eu5gov_governor_cossacks_estate_power years = -1 mode = add_and_extend size = { value = var:eu5gov_power_cossacks } }
+	}
+	if = {
+		limit = { var:eu5gov_power_dhimmi > 0 }
+		add_country_modifier = { modifier = eu5gov_governor_dhimmi_estate_power years = -1 mode = add_and_extend size = { value = var:eu5gov_power_dhimmi } }
+	}
+
+	remove_variable = eu5gov_power_crown
+	remove_variable = eu5gov_power_nobles
+	remove_variable = eu5gov_power_clergy
+	remove_variable = eu5gov_power_burghers
+	remove_variable = eu5gov_power_peasants
+	remove_variable = eu5gov_power_tribes
+	remove_variable = eu5gov_power_cossacks
+	remove_variable = eu5gov_power_dhimmi
+}
+
 # Current scope: country. The office map is authoritative for the UI and contains
 # every owned Governor's Residence, including residences without an appointed character.
 eu5gov_rebuild_governor_office_roster_effect = {

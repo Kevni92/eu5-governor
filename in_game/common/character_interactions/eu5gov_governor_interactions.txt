@@ -170,7 +170,13 @@ eu5gov_change_governor_at_residence = {
 	effect = {
 		if = {
 			limit = { exists = scope:recipient exists = scope:target_1 }
-			scope:target_1 = { eu5gov_clear_governor_location_effect = yes }
+			# Replacing a Governor is politically equivalent to dismissing the old one.
+			scope:target_1 = {
+				var:eu5gov_governor ?= {
+					eu5gov_apply_governor_dismissal_cost_effect = yes
+				}
+				eu5gov_clear_governor_location_effect = yes
+			}
 			scope:target_1 = {
 				set_variable = { name = eu5gov_governor value = scope:recipient }
 				set_variable = { name = eu5gov_governor_country value = scope:actor }
@@ -191,6 +197,7 @@ eu5gov_change_governor_at_residence = {
 				add_to_variable_map = { name = eu5gov_governor_offices key = scope:target_1 value = 1 }
 			}
 			scope:target_1 = { eu5gov_apply_governor_role_effect = yes }
+			scope:actor = { eu5gov_refresh_governor_estate_power_effect = yes }
 		}
 	}
 	ai_will_do = { add = -100 }
@@ -225,8 +232,10 @@ eu5gov_dismiss_governor = {
 		if = {
 			limit = { exists = scope:recipient }
 			scope:recipient = {
+				eu5gov_apply_governor_dismissal_cost_effect = yes
 				var:eu5gov_governorship ?= { eu5gov_clear_governor_location_effect = yes }
 			}
+			scope:actor = { eu5gov_refresh_governor_estate_power_effect = yes }
 		}
 	}
 	ai_will_do = { add = -100 }

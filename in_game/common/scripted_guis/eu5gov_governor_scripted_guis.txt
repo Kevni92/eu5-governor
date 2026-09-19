@@ -11,6 +11,7 @@
 		scope:governor ?= {
 			is_alive = yes
 			has_variable = eu5gov_governorship
+			NOT = { var:eu5gov_governor_role = 1 }
 		}
 	}
 	effect = {
@@ -36,6 +37,8 @@ eu5gov_set_role_integration = {
 	is_valid = {
 		scope:governor ?= {
 			is_alive = yes
+			has_variable = eu5gov_governorship
+			NOT = { var:eu5gov_governor_role = 2 }
 			var:eu5gov_governorship ?= {
 				NOT = { dominant_culture = owner.culture }
 			}
@@ -64,6 +67,8 @@ eu5gov_set_role_colonial = {
 	is_valid = {
 		scope:governor ?= {
 			is_alive = yes
+			has_variable = eu5gov_governorship
+			NOT = { var:eu5gov_governor_role = 3 }
 			var:eu5gov_governorship ?= {
 				is_overseas_for_owner = yes
 			}
@@ -97,9 +102,11 @@ eu5gov_dismiss_governor_sgui = {
 	}
 	effect = {
 		scope:governor = {
+			eu5gov_apply_governor_dismissal_cost_effect = yes
 			var:eu5gov_governorship ?= {
 				eu5gov_clear_governor_location_effect = yes
 			}
 		}
+		eu5gov_refresh_governor_estate_power_effect = yes
 	}
 }
