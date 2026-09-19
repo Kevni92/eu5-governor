@@ -1,0 +1,124 @@
+name: Patch Governor Context Menu
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-governor-context-menu.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Patch native governor context menu
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('in_game/gui/outliner.gui')
+          text = path.read_text(encoding='utf-8-sig')
+
+          anchor = 'raw_text = "[Location.MakeScope.GetVariable(\'eu5gov_governor\').GetCharacter.GetName]"'
+          anchor_pos = text.find(anchor)
+          if anchor_pos < 0:
+              raise RuntimeError('Governor context-menu title anchor not found')
+
+          marker = 'blockoverride "contextmenu_entries" {'
+          start = text.find(marker, anchor_pos)
+          if start < 0:
+              raise RuntimeError('Governor context-menu entries block not found')
+
+          open_brace = text.find('{', start)
+          depth = 0
+          end = None
+          for i in range(open_brace, len(text)):
+              if text[i] == '{':
+                  depth += 1
+              elif text[i] == '}':
+                  depth -= 1
+                  if depth == 0:
+                      end = i + 1
+                      break
+          if end is None:
+              raise RuntimeError('Governor context-menu entries block is unbalanced')
+
+          scope_expr = "GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End"
+
+          replacement = f'''blockoverride "contextmenu_entries" {{
+                                            ContextMenuEntry = {{
+                                                blockoverride "entry_button" {{
+                                                    button = {{
+                                                        using = contextmenu_entry_button_template
+                                                        enabled = "[GetScriptedGui('eu5gov_set_role_normal').IsValid({scope_expr})]"
+                                                        blockoverride "click_action" {{
+                                                            title = "EU5GOV_ROLE_NORMAL_TT"
+                                                            on_action = "[GetScriptedGui('eu5gov_set_role_normal').Execute({scope_expr})]"
+                                                        }}
+                                                        blockoverride "entry_text" {{ text = "EU5GOV_ROLE_NORMAL" }}
+                                                    }}
+                                                }}
+                                            }}
+                                            ContextMenuEntry = {{
+                                                blockoverride "entry_button" {{
+                                                    button = {{
+                                                        using = contextmenu_entry_button_template
+                                                        enabled = "[GetScriptedGui('eu5gov_set_role_integration').IsValid({scope_expr})]"
+                                                        blockoverride "click_action" {{
+                                                            title = "EU5GOV_ROLE_INTEGRATION_TT"
+                                                            on_action = "[GetScriptedGui('eu5gov_set_role_integration').Execute({scope_expr})]"
+                                                        }}
+                                                        blockoverride "entry_text" {{ text = "EU5GOV_ROLE_INTEGRATION" }}
+                                                    }}
+                                                }}
+                                            }}
+                                            ContextMenuEntry = {{
+                                                blockoverride "entry_button" {{
+                                                    button = {{
+                                                        using = contextmenu_entry_button_template
+                                                        enabled = "[GetScriptedGui('eu5gov_set_role_colonial').IsValid({scope_expr})]"
+                                                        blockoverride "click_action" {{
+                                                            title = "EU5GOV_ROLE_COLONIAL_TT"
+                                                            on_action = "[GetScriptedGui('eu5gov_set_role_colonial').Execute({scope_expr})]"
+                                                        }}
+                                                        blockoverride "entry_text" {{ text = "EU5GOV_ROLE_COLONIAL" }}
+                                                    }}
+                                                }}
+                                            }}
+                                            ContextMenuEntry = {{
+                                                blockoverride "entry_button" {{
+                                                    button = {{
+                                                        using = contextmenu_entry_button_template
+                                                        enabled = "[GetScriptedGui('eu5gov_dismiss_governor_sgui').IsValid({scope_expr})]"
+                                                        blockoverride "button_texture" {{ using = button_regular_red_texture }}
+                                                        blockoverride "click_action" {{
+                                                            title = "EU5GOV_DISMISS_TT"
+                                                            on_action = "[GetScriptedGui('eu5gov_dismiss_governor_sgui').Execute({scope_expr})]"
+                                                        }}
+                                                        blockoverride "entry_text" {{ text = "EU5GOV_DISMISS" }}
+                                                    }}
+                                                }}
+                                            }}
+                                        }}'''
+
+          text = text[:start] + replacement + text[end:]
+          path.write_text(text, encoding='utf-8-sig')
+          PY
+
+      - name: Commit patched outliner
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add in_game/gui/outliner.gui
+          if git diff --cached --quiet; then
+            echo "Outliner context menu is already patched."
+            exit 0
+          fi
+          git commit -m "Fix governor context menu actions"
+          git push
