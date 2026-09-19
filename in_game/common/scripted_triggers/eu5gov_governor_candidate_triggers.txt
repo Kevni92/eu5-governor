@@ -1,0 +1,73 @@
+﻿eu5gov_can_serve_as_governor = {
+	# Keep Governor eligibility aligned with the script-visible vanilla Cabinet rules,
+	# then add Governor-specific exclusivity so one character cannot hold two major jobs.
+	is_alive = yes
+	is_adult = yes
+	is_loyal = yes
+	modifier:blocked_from_cabinet = no
+
+	is_ruler = no
+	is_consort = no
+	is_regent = no
+	is_religious_figure = no
+	is_artist = no
+	NOT = { exists = rebel }
+
+	# Governors are exclusive offices even where Cabinet law would otherwise permit the character.
+	in_cabinet = no
+	has_unit = no
+	has_exploration = no
+	has_exploration_construction = no
+	is_general = no
+	is_admiral = no
+	is_explorer = no
+	NOT = { has_character_modifier = busy_modifier }
+	NOT = { has_variable = eu5gov_governorship }
+
+	# Mirror Cabinet gender law. A specifically granted Cabinet Right sets
+	# ignore_gender_block_cabinet and therefore also makes the character eligible here.
+	OR = {
+		modifier:ignore_gender_block_cabinet = yes
+		scope:actor.modifier:gender_equality = yes
+		AND = {
+			is_female = no
+			scope:actor.modifier:allow_male_cabinet = yes
+			scope:actor.modifier:block_male_cabinet = no
+		}
+		AND = {
+			is_female = yes
+			scope:actor.modifier:allow_female_cabinet = yes
+			scope:actor.modifier:block_female_cabinet = no
+		}
+	}
+
+	# Mirror estate access to Cabinet where the character belongs to a non-Crown estate.
+	trigger_if = {
+		limit = { has_estate = estate_type:nobles_estate }
+		scope:actor = { estate_type_allowed_in_cabinet = { estate_type = estate_type:nobles_estate } }
+	}
+	trigger_if = {
+		limit = { has_estate = estate_type:clergy_estate }
+		scope:actor = { estate_type_allowed_in_cabinet = { estate_type = estate_type:clergy_estate } }
+	}
+	trigger_if = {
+		limit = { has_estate = estate_type:burghers_estate }
+		scope:actor = { estate_type_allowed_in_cabinet = { estate_type = estate_type:burghers_estate } }
+	}
+	trigger_if = {
+		limit = { has_estate = estate_type:peasants_estate }
+		scope:actor = { estate_type_allowed_in_cabinet = { estate_type = estate_type:peasants_estate } }
+	}
+	trigger_if = {
+		limit = { has_estate = estate_type:dhimmi_estate }
+		scope:actor = { estate_type_allowed_in_cabinet = { estate_type = estate_type:dhimmi_estate } }
+	}
+	trigger_if = {
+		limit = { has_estate = estate_type:tribes_estate }
+		scope:actor = { estate_type_allowed_in_cabinet = { estate_type = estate_type:tribes_estate } }
+	}
+	trigger_if = {
+		limit = { has_estate = estate_type:cossacks_estate }
+		scope:actor = { estate_type_allowed_in_cabinet = { estate_type = estate_type:cossacks_estate } }
+	}
+}
