@@ -12,7 +12,6 @@ eu5gov_apply_governor_bonus_effect = {
 		}
 		add_location_modifier = {
 			modifier = eu5gov_governor_administration
-			months = -1
 			mode = add_and_extend
 			size = {
 				value = var:eu5gov_governor.adm
