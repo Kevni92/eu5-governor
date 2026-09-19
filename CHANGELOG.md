@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.4
+
+- Fixed the Governor role context menu so its entries use the actual clickable inner `ContextMenuEntry` button instead of placing enabled state on the non-interactive wrapper widget.
+- The currently active Governor role is now disabled and cannot be selected again.
+- `Dismiss Governor` now uses the vanilla red/destructive button texture.
+- A serving Governor now increases the power of their Estate by half their Machtbasis/Entrenchment: 100 Machtbasis grants +50% Estate power.
+- Governor Estate-power contributions stack additively per Estate and are aggregated into one country modifier for Crown, Nobility, Clergy, Burghers, Peasants, Tribes, Cossacks and Dhimmi.
+- Estate-power modifiers are recalculated after the yearly Machtbasis tick and removed immediately when a Governor dies, is dismissed, is replaced or loses their Residence through demolition.
+- Voluntarily dismissing a non-Crown Governor now reduces their Estate Satisfaction and the country's Legitimacy in proportion to Machtbasis. At 100 Machtbasis the cost is -25 percentage points Estate Satisfaction and -10 Legitimacy; at 50 it is half that, and at 0 it is free.
+- Crown-Estate Governors can be dismissed without Satisfaction or Legitimacy cost.
+- Replacing a Governor counts as dismissing the outgoing office holder and pays the same political cost, preventing replacement from bypassing the dismissal mechanic.
+- Updated English and German tooltips for Machtbasis, replacement, dismissal and Governor Estate influence.
+
 ## 0.2.3
 
 - Added complete German localization for Governor buildings, interactions, selectors, outliner entries, role menu, tooltips and character-role display.
