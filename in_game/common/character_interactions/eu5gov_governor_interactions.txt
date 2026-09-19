@@ -1,0 +1,141 @@
+﻿eu5gov_appoint_governor = {
+	sound = UI_action_religion_generic
+	message = yes
+	on_own_nation = yes
+
+	ai_tick = daily
+	ai_tick_frequency = 360
+
+	potential = {
+		scope:actor = {
+			any_owned_location = {
+				has_building = building_type:local_governor
+				NOT = { has_variable = eu5gov_governor }
+			}
+		}
+	}
+
+	allow = { scope:actor = { always = yes } }
+
+	select_trigger = {
+		looking_for_a = character
+		source = actor
+		target_flag = recipient
+		name = "eu5gov_select_governor_character"
+		none_available_msg_key = "eu5gov_no_governor_character_available"
+		column = { data = character_info }
+		visible = {
+			is_alive = yes
+			is_adult = yes
+			is_artist = no
+			is_ruler = no
+			is_heir = no
+			is_consort = no
+			in_cabinet = no
+			is_general = no
+			is_admiral = no
+			is_explorer = no
+			is_loyal = yes
+			NOT = { has_character_modifier = busy_modifier }
+			NOT = { has_variable = eu5gov_governorship }
+		}
+	}
+
+	select_trigger = {
+		looking_for_a = location
+		source = actor
+		target_flag = target
+		name = "eu5gov_select_governor_residence"
+		none_available_msg_key = "eu5gov_no_governor_residence_available"
+		column = { data = name }
+		visible = {
+			owner ?= scope:actor
+			has_building = building_type:local_governor
+			NOT = { has_variable = eu5gov_governor }
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				exists = scope:recipient
+				exists = scope:target
+			}
+
+			scope:target = {
+				set_variable = { name = eu5gov_governor value = scope:recipient }
+				set_variable = { name = eu5gov_governor_country value = scope:actor }
+				eu5gov_apply_governor_bonus_effect = yes
+			}
+
+			scope:recipient = {
+				set_variable = { name = eu5gov_governorship value = scope:target }
+				add_character_modifier = {
+					modifier = busy_modifier
+					years = -1
+					mode = add_and_extend
+				}
+			}
+		}
+	}
+
+	ai_will_do = {
+		add = scope:recipient.adm
+		add = {
+			value = scope:recipient.dip
+			divide = 5
+		}
+		add = {
+			value = scope:recipient.mil
+			divide = 5
+		}
+	}
+}
+
+
+eu5gov_dismiss_governor = {
+	sound = UI_action_religion_generic
+	message = yes
+	on_own_nation = yes
+	ai_tick = never
+	ai_tick_frequency = 99999
+
+	potential = {
+		scope:actor = {
+			any_character = {
+				is_alive = yes
+				has_variable = eu5gov_governorship
+			}
+		}
+	}
+
+	allow = { scope:actor = { always = yes } }
+
+	select_trigger = {
+		looking_for_a = character
+		source = actor
+		target_flag = recipient
+		name = "eu5gov_select_governor_to_dismiss"
+		none_available_msg_key = "eu5gov_no_governor_to_dismiss"
+		column = { data = character_info }
+		visible = {
+			is_alive = yes
+			has_variable = eu5gov_governorship
+		}
+	}
+
+	effect = {
+		if = {
+			limit = { exists = scope:recipient }
+			scope:recipient = {
+				var:eu5gov_governorship ?= {
+					eu5gov_clear_governor_location_effect = yes
+				}
+				remove_variable = eu5gov_governorship
+				remove_character_modifier = busy_modifier
+			}
+		}
+	}
+
+	ai_will_do = { add = -100 }
+}

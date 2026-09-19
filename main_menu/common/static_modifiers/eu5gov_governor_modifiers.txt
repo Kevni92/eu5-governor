@@ -1,0 +1,6 @@
+﻿eu5gov_governor_administration = {
+	game_data = {
+		category = location
+	}
+	local_proximity_source = 1
+}

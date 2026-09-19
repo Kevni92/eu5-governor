@@ -1,0 +1,48 @@
+﻿# Current scope: location with var:eu5gov_governor pointing to the appointed character.
+eu5gov_apply_governor_bonus_effect = {
+	if = {
+		limit = { has_location_modifier = eu5gov_governor_administration }
+		remove_location_modifier = eu5gov_governor_administration
+	}
+
+	if = {
+		limit = {
+			has_variable = eu5gov_governor
+			var:eu5gov_governor ?= { is_alive = yes }
+		}
+		add_location_modifier = {
+			modifier = eu5gov_governor_administration
+			months = -1
+			mode = add_and_extend
+			size = {
+				value = var:eu5gov_governor.adm
+				multiply = 0.25
+				add = {
+					value = var:eu5gov_governor.dip
+					multiply = 0.05
+				}
+				add = {
+					value = var:eu5gov_governor.mil
+					multiply = 0.05
+				}
+			}
+		}
+	}
+}
+
+eu5gov_clear_governor_location_effect = {
+	if = {
+		limit = { has_variable = eu5gov_governor }
+		var:eu5gov_governor ?= {
+			remove_character_modifier = busy_modifier
+			remove_variable = eu5gov_governorship
+		}
+	}
+
+	if = {
+		limit = { has_location_modifier = eu5gov_governor_administration }
+		remove_location_modifier = eu5gov_governor_administration
+	}
+	remove_variable = eu5gov_governor
+	remove_variable = eu5gov_governor_country
+}

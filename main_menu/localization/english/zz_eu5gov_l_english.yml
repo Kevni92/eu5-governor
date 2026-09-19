@@ -1,0 +1,32 @@
+﻿l_english:
+ local_governor: "Governor's Residence"
+ local_governor_desc: "A permanent provincial administration that projects the authority of the central government. The residence provides a base Proximity Source of #G 50#!. Appointing a Governor adds a further bonus based primarily on the character's Administrative ability."
+ naval_governor: "Naval Governor (Legacy)"
+ naval_governor_desc: "Maritime and land governorships are unified by Character Governors. Existing Naval Governor capacity is used by Governor's Residences instead."
+
+ eu5gov_governor_capacity_tt: "The number of Governor's Residences must be lower than the combined #Y Local Governor#! and #Y Naval Governor#! capacity, after any Lieutenancies using that capacity."
+ eu5gov_governor_administration: "Governor's Administration"
+ eu5gov_governor_administration_desc: "The appointed Governor strengthens this location as a Proximity Source. Each point of @adm![adm|E] contributes #G +0.25#! Proximity Source; each point of @dip![dip|E] and @mil![mil|E] contributes #G +0.05#!."
+
+ eu5gov_appoint_governor: "Appoint Governor"
+ eu5gov_appoint_governor_concept: "Governor"
+ eu5gov_appoint_governor_act: "$eu5gov_appoint_governor$"
+ eu5gov_appoint_governor_desc_specific: "Appoint an eligible character to administer one vacant Governor's Residence."
+ eu5gov_appoint_governor_desc: "Choose an eligible character and a vacant Governor's Residence. The character becomes occupied with the governorship and improves the location's Proximity Source according to their abilities."
+ eu5gov_appoint_governor_past: "A Governor was appointed"
+ eu5gov_appoint_governor_act_past: "[SCOPE.sCharacter('recipient').GetName] was appointed Governor at [SCOPE.sLocation('target').GetName]."
+
+ eu5gov_dismiss_governor: "Dismiss Governor"
+ eu5gov_dismiss_governor_concept: "Governor"
+ eu5gov_dismiss_governor_act: "$eu5gov_dismiss_governor$"
+ eu5gov_dismiss_governor_desc_specific: "Dismiss an appointed Governor and leave the residence vacant."
+ eu5gov_dismiss_governor_desc: "Remove a Governor from office. The Governor becomes available for other duties and the location loses the character-derived Proximity bonus."
+ eu5gov_dismiss_governor_past: "A Governor was dismissed"
+ eu5gov_dismiss_governor_act_past: "[SCOPE.sCharacter('recipient').GetName] was dismissed from the governorship."
+
+ eu5gov_select_governor_character: "Select a Governor"
+ eu5gov_no_governor_character_available: "No eligible character is available. Governors must be adult, loyal and free from another major duty."
+ eu5gov_select_governor_residence: "Select a Governor's Residence"
+ eu5gov_no_governor_residence_available: "There is no vacant Governor's Residence."
+ eu5gov_select_governor_to_dismiss: "Select Governor to Dismiss"
+ eu5gov_no_governor_to_dismiss: "There is no serving Governor to dismiss."

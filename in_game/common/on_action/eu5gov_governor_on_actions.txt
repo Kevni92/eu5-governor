@@ -1,0 +1,53 @@
+﻿# Parent on-action bridges.
+on_character_death = {
+	on_actions = {
+		eu5gov_governor_death
+	}
+}
+
+yearly_country_pulse = {
+	on_actions = {
+		eu5gov_governor_yearly_refresh
+	}
+}
+
+# root = country, scope:target = character who died
+eu5gov_governor_death = {
+	trigger = {
+		scope:target = { has_variable = eu5gov_governorship }
+	}
+	effect = {
+		scope:target = {
+			var:eu5gov_governorship ?= {
+				if = {
+					limit = { has_location_modifier = eu5gov_governor_administration }
+					remove_location_modifier = eu5gov_governor_administration
+				}
+				remove_variable = eu5gov_governor
+				remove_variable = eu5gov_governor_country
+			}
+			remove_variable = eu5gov_governorship
+		}
+	}
+}
+
+# Rebuild bonuses from live abilities and clean stale assignments after ownership/building changes.
+eu5gov_governor_yearly_refresh = {
+	effect = {
+		save_scope_as = eu5gov_refresh_country
+		every_owned_location = {
+			limit = { has_variable = eu5gov_governor }
+			if = {
+				limit = {
+					has_building = building_type:local_governor
+					var:eu5gov_governor ?= { is_alive = yes }
+					var:eu5gov_governor_country ?= { this = scope:eu5gov_refresh_country }
+				}
+				eu5gov_apply_governor_bonus_effect = yes
+			}
+			else = {
+				eu5gov_clear_governor_location_effect = yes
+			}
+		}
+	}
+}
