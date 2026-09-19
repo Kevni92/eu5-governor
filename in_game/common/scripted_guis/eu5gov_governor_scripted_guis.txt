@@ -1,0 +1,98 @@
+﻿eu5gov_set_role_normal = {
+	scope = country
+	saved_scopes = { governor }
+	is_shown = {
+		scope:governor ?= {
+			is_alive = yes
+			has_variable = eu5gov_governorship
+		}
+	}
+	is_valid = {
+		scope:governor ?= {
+			is_alive = yes
+			has_variable = eu5gov_governorship
+		}
+	}
+	effect = {
+		scope:governor = {
+			set_variable = { name = eu5gov_governor_role value = 1 }
+			var:eu5gov_governorship ?= {
+				eu5gov_apply_governor_role_effect = yes
+			}
+		}
+	}
+}
+
+eu5gov_set_role_integration = {
+	scope = country
+	saved_scopes = { governor }
+	is_shown = {
+		scope:governor ?= {
+			is_alive = yes
+			has_variable = eu5gov_governorship
+		}
+	}
+	is_valid = {
+		scope:governor ?= {
+			is_alive = yes
+			has_variable = eu5gov_governorship
+		}
+	}
+	effect = {
+		scope:governor = {
+			set_variable = { name = eu5gov_governor_role value = 2 }
+			var:eu5gov_governorship ?= {
+				eu5gov_apply_governor_role_effect = yes
+			}
+		}
+	}
+}
+
+eu5gov_set_role_colonial = {
+	scope = country
+	saved_scopes = { governor }
+	is_shown = {
+		scope:governor ?= {
+			is_alive = yes
+			has_variable = eu5gov_governorship
+		}
+	}
+	is_valid = {
+		scope:governor ?= {
+			is_alive = yes
+			has_variable = eu5gov_governorship
+		}
+	}
+	effect = {
+		scope:governor = {
+			set_variable = { name = eu5gov_governor_role value = 3 }
+			var:eu5gov_governorship ?= {
+				eu5gov_apply_governor_role_effect = yes
+			}
+		}
+	}
+}
+
+eu5gov_dismiss_governor_sgui = {
+	scope = country
+	saved_scopes = { governor }
+	is_shown = {
+		scope:governor ?= {
+			is_alive = yes
+			has_variable = eu5gov_governorship
+		}
+	}
+	is_valid = {
+		scope:governor ?= {
+			is_alive = yes
+			has_variable = eu5gov_governorship
+		}
+	}
+	effect = {
+		scope:governor = {
+			var:eu5gov_governorship ?= {
+				eu5gov_clear_governor_location_effect = yes
+			}
+		}
+	}
+}
