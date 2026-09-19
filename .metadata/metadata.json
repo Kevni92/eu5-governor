@@ -1,7 +1,7 @@
 ﻿{
 	"name": "Character Governors",
 	"id": "eu5_governor",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"game_id": "eu5",
 	"supported_game_version": "1.3.*",
 	"short_description": "Character-driven provincial governorships with specialized roles, entrenchment and a cabinet-style office outliner.",
