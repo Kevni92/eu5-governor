@@ -10,7 +10,7 @@ Character Governors merges EU5's Local Governor and Naval Governor concepts into
 
 - One unified Governor system instead of separate land/naval buildings.
 - No road-to-capital or disconnected-island placement split.
-- Governor's Residence: 50 base Proximity Source.
+- Governor's Residence: 30 base Proximity Source.
 - Every Governor's Residence appears directly in the normal **right-side outliner**, including vacant offices.
 - Vacant Residences are shown as **Empty Governor Slot** entries inspired by vanilla Cabinet slots.
 - Click an empty portrait to choose a Governor directly for that Residence; click an occupied portrait to replace the office holder.
@@ -22,7 +22,7 @@ Character Governors merges EU5's Local Governor and Naval Governor concepts into
 - Three Governor roles:
   - **Normal Governor** for ordinary provincial administration.
   - **Integration Governor** for culturally distinct territory: +25% local pop assimilation speed.
-  - **Colonial Governor** for overseas possessions: +0.25 local migration attraction.
+  - **Colonial Governor** for overseas possessions: +0.25 local migration attraction and +0.001 local population growth.
 - Integration Governor is only available when the location's dominant culture differs from its owner.
 - Colonial Governor is only available in overseas territory.
 - The currently active Governor role is disabled in the role menu and cannot be selected again.

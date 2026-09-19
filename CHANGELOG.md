@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.5
+
+- Reduced Governor's Residence base Proximity Source from 50 to 30.
+- Governor Proximity contribution now scales only from ADM at `ADM × 0.50`; 100 ADM adds +50 for a maximum Residence total of 80.
+- Voluntary dismissal/replacement of a non-Crown Governor now scales up to -100 percentage points Estate Satisfaction and -50 Stability at 100 Entrenchment; 50 Entrenchment costs half.
+- Crown Governors remain free to dismiss or replace.
+- German `Machtbasis` terminology renamed to `Verankerung`; English remains `Entrenchment`.
+- Colonial Governors now also grant +0.001 local population growth in addition to migration attraction.
+
 ## 0.2.4
 
 - Fixed the Governor role context menu so its entries use the actual clickable inner `ContextMenuEntry` button instead of placing enabled state on the non-interactive wrapper widget.

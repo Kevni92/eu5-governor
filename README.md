@@ -7,7 +7,7 @@ Character Governors replaces the split between **Local Governor** and **Naval Go
 - The vanilla `local_governor` building becomes a **Governor's Residence**.
 - It can be built in towns, cities and megalopolises without a road-to-capital or maritime/land-connectivity requirement.
 - Local and Naval Governor capacity are pooled into one shared limit; Lieutenancies still consume that administrative capacity.
-- A residence provides **50 Proximity Source** on its own instead of vanilla's 80.
+- A residence provides **30 Proximity Source** on its own instead of vanilla's 80.
 - Every owned Governor's Residence appears as an office slot directly inside the normal EU5 outliner, including vacant offices.
 - Click the portrait of a vacant office to open the native Governor character chooser directly for that Residence.
 - Click the portrait of an occupied office to replace the Governor, matching the vanilla Cabinet slot workflow.
@@ -18,8 +18,8 @@ Character Governors replaces the split between **Local Governor** and **Naval Go
 - The dismissal entry uses the vanilla red/destructive button style.
 - The appointed character is marked busy, so the same person cannot simultaneously take the usual cabinet/military/other busy roles.
 - The character view displays an appointed office holder as **Governor** instead of **Courtier**.
-- Character contribution to Proximity Source is `ADM × 0.25 + DIP × 0.05 + MIL × 0.05`.
-- A 50/50/50 character contributes +17.5; a 100/100/100 character contributes +35.
+- Character contribution to Proximity Source is `ADM × 0.50`.
+- A Governor with 50 ADM contributes +25; 100 ADM contributes +50, producing 80 total Proximity Source with the Residence base.
 - A serving Governor increases the power of their Estate by **half their Entrenchment/Machtbasis**. At 100 Machtbasis that is **+50% Estate power**.
 - Voluntarily dismissing or replacing a non-Crown Governor has political costs that scale with Machtbasis. At 100: **-25 percentage points Estate Satisfaction** and **-10 Legitimacy**. Crown Governors are free to dismiss or replace.
 - Governors can be dismissed. Death automatically vacates the residence without a dismissal penalty, but the vacant office remains visible in the outliner.

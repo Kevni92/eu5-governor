@@ -64,7 +64,7 @@ REPLACE:local_governor = {
 	construction_demand = local_governor_construction
 
 	modifier = {
-		local_proximity_source = 50
+		local_proximity_source = 30
 	}
 
 	# Make a newly completed residence appear immediately as a vacant Governor slot.
@@ -147,5 +147,5 @@ REPLACE:naval_governor = {
 	}
 
 	construction_demand = local_governor_construction
-	modifier = { local_proximity_source = 50 }
+	modifier = { local_proximity_source = 30 }
 }

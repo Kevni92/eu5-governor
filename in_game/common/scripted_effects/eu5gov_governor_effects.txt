@@ -15,15 +15,7 @@ eu5gov_apply_governor_bonus_effect = {
 			mode = add_and_extend
 			size = {
 				value = var:eu5gov_governor.adm
-				multiply = 0.25
-				add = {
-					value = var:eu5gov_governor.dip
-					multiply = 0.05
-				}
-				add = {
-					value = var:eu5gov_governor.mil
-					multiply = 0.05
-				}
+				multiply = 0.50
 			}
 		}
 	}
@@ -118,8 +110,8 @@ eu5gov_tick_governor_entrenchment_effect = {
 
 # Current scope: serving governor character.
 # Voluntary dismissal/replacement is free for Crown characters. Otherwise the
-# Governor's Estate loses up to 25 percentage points of satisfaction and the
-# country loses up to 10 Legitimacy, linearly scaled by Entrenchment/Machtbasis.
+# Governor's Estate loses up to 100 percentage points of satisfaction and the
+# country loses up to 50 Stability, linearly scaled by Entrenchment.
 eu5gov_apply_governor_dismissal_cost_effect = {
 	if = {
 		limit = {
@@ -134,12 +126,12 @@ eu5gov_apply_governor_dismissal_cost_effect = {
 					type = scope:eu5gov_dismissed_governor.estate_type
 					value = {
 						value = scope:eu5gov_dismissed_governor.var:eu5gov_entrenchment
-						multiply = -0.0025
+						multiply = -0.01
 					}
 				}
-				add_legitimacy = {
+				add_stability = {
 					value = scope:eu5gov_dismissed_governor.var:eu5gov_entrenchment
-					multiply = -0.10
+					multiply = -0.50
 				}
 			}
 		}

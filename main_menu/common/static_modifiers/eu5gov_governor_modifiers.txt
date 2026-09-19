@@ -17,10 +17,11 @@ eu5gov_colonial_governor = {
 		category = location
 	}
 	local_migration_attraction = 0.25
+	local_population_growth = 0.001
 }
 
 # Aggregated per-Estate Governor power modifiers. The scripted effect applies
-# size = combined Governor Machtbasis / 200, so 100 Machtbasis yields +50% power.
+# size = combined Governor Entrenchment / 200, so 100 Entrenchment yields +50% power.
 eu5gov_governor_crown_estate_power = {
 	game_data = { category = country }
 	global_crown_estate_power = 1

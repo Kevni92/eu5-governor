@@ -1,16 +1,16 @@
 ﻿l_english:
  local_governor: "Governor's Residence"
- local_governor_desc: "A permanent provincial administration that projects the authority of the central government. The residence provides a base Proximity Source of #G 50#!. Appointing a Governor adds a further bonus based primarily on the character's Administrative ability."
+ local_governor_desc: "A permanent provincial administration that projects the authority of the central government. The residence provides a base Proximity Source of #G 30#!. Appointing a Governor adds a further bonus based primarily on the character's Administrative ability."
  naval_governor: "Naval Governor (Legacy)"
  naval_governor_desc: "Maritime and land governorships are unified by Character Governors. Existing Naval Governor capacity is used by Governor's Residences instead."
 
  eu5gov_governor_capacity_tt: "The number of Governor's Residences must be lower than the combined #Y Local Governor#! and #Y Naval Governor#! capacity, after any Lieutenancies using that capacity."
  eu5gov_governor_administration: "Governor's Administration"
- eu5gov_governor_administration_desc: "The appointed Governor strengthens this location as a Proximity Source. Each point of @adm![adm|E] contributes #G +0.25#! Proximity Source; each point of @dip![dip|E] and @mil![mil|E] contributes #G +0.05#!."
+ eu5gov_governor_administration_desc: "The appointed Governor strengthens this location as a Proximity Source. Each point of @adm![adm|E] contributes #G +0.50#! Proximity Source. A Governor with 100 ADM therefore adds #G +50#! to the Residence base of 30, for a total of #G 80#!."
  eu5gov_integration_governor: "Integration Governor"
  eu5gov_integration_governor_desc: "This Governor is tasked with binding a culturally distinct territory more closely to the state and grants #G +25%#! local assimilation speed."
  eu5gov_colonial_governor: "Colonial Governor"
- eu5gov_colonial_governor_desc: "This Governor is tasked with developing an overseas possession and grants #G +0.25#! local migration attraction."
+ eu5gov_colonial_governor_desc: "This Governor is tasked with developing an overseas possession and grants #G +0.25#! local migration attraction and #G +0.001#! local population growth."
 
  eu5gov_governor_crown_estate_power: "Governor Influence: Crown"
  eu5gov_governor_crown_estate_power_desc: "Serving Crown Governors increase Crown Estate power by half their combined Entrenchment."
@@ -57,7 +57,7 @@
  eu5gov_dismiss_governor_concept: "Governor"
  eu5gov_dismiss_governor_act: "$eu5gov_dismiss_governor$"
  eu5gov_dismiss_governor_desc_specific: "Dismiss an appointed Governor and leave the residence vacant."
- eu5gov_dismiss_governor_desc: "Remove a Governor from office. Non-Crown Governors cost Estate Satisfaction and Legitimacy in proportion to Entrenchment: at 100 Entrenchment the Governor's Estate loses 25 percentage points of Satisfaction and the country loses 10 Legitimacy. Crown Governors are free to dismiss."
+ eu5gov_dismiss_governor_desc: "Remove a Governor from office. Non-Crown Governors cost Estate Satisfaction and Stability in proportion to Entrenchment: at 100 Entrenchment the Governor's Estate loses 100 percentage points of Satisfaction and the country loses 50 Stability. Crown Governors are free to dismiss."
  eu5gov_dismiss_governor_past: "A Governor was dismissed"
  eu5gov_dismiss_governor_act_past: "[SCOPE.sCharacter('recipient').GetName] was dismissed from the governorship."
 
@@ -92,7 +92,7 @@
  EU5GOV_ROLE_INTEGRATION: "Integration Governor"
  EU5GOV_ROLE_INTEGRATION_TT: "Assign the integration role. It is available when the Governor's location has a different dominant culture from its owner and grants #G +25%#! local assimilation speed. The currently active role cannot be selected again."
  EU5GOV_ROLE_COLONIAL: "Colonial Governor"
- EU5GOV_ROLE_COLONIAL_TT: "Assign the colonial role. It is available only in an overseas location and grants #G +0.25#! local migration attraction. The currently active role cannot be selected again."
+ EU5GOV_ROLE_COLONIAL_TT: "Assign the colonial role. It is available only in an overseas location and grants #G +0.25#! local migration attraction and #G +0.001#! local population growth. The currently active role cannot be selected again."
  EU5GOV_DISMISS: "Dismiss Governor"
- EU5GOV_DISMISS_TT: "Dismiss this Governor. For a non-Crown Governor, the cost scales linearly with Entrenchment: at 100, their Estate loses #R 25 percentage points#! of Satisfaction and the country loses #R 10 Legitimacy#!. Crown Governors can be dismissed for free."
+ EU5GOV_DISMISS_TT: "Dismiss this Governor. For a non-Crown Governor, the cost scales linearly with Entrenchment: at 100, their Estate loses #R 100 percentage points#! of Satisfaction and the country loses #R 50 Stability#!. Crown Governors can be dismissed for free."
  EU5GOV_ENTRENCHMENT_TT: "Entrenchment measures how firmly this Governor has established a personal administrative network. It rises yearly by #Y 2 + (ADM + DIP + MIL) / 100#!, up to 100. A Governor increases the power of their Estate by half their Entrenchment: 100 Entrenchment means #Y +50% Estate power#!. It also determines voluntary dismissal/replacement costs for non-Crown Governors."
