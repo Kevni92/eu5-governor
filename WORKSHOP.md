@@ -11,6 +11,10 @@ Character Governors merges EU5's Local Governor and Naval Governor concepts into
 - One unified Governor system instead of separate land/naval buildings.
 - No road-to-capital or disconnected-island placement split.
 - Governor's Residence: 50 base Proximity Source.
+- Every Governor's Residence appears in the **Governors** outliner, including vacant offices.
+- Vacant Residences are shown as **Empty Governor Slot** entries inspired by vanilla Cabinet slots.
+- Occupied rows show a compact Governor portrait, location, Governor role and Entrenchment.
+- The outliner header shows **serving Governors / total Governor's Residences**.
 - Appointed characters add Proximity based on ADM, with smaller DIP and MIL contributions.
 - Three Governor roles:
   - **Normal Governor** for ordinary provincial administration.
@@ -20,13 +24,20 @@ Character Governors merges EU5's Local Governor and Naval Governor concepts into
 - Colonial Governor is only available in overseas territory.
 - Governors track **Entrenchment** from 0 to 100.
 - Entrenchment grows yearly by `2 + (ADM + DIP + MIL) / 100`, so more capable Governors establish themselves faster.
-- Entrenchment is informational in version 0.2.0; political and dismissal consequences are planned for the next balance step.
-- Dedicated **Governors** outliner-style management block showing character, location, role and Entrenchment.
-- Left-click a Governor to open the character; right-click to change role or dismiss them.
+- Entrenchment is informational in version 0.2.x; political and dismissal consequences are planned for the next balance step.
+- Left-click an office row to open its location; double-click to pan there; use the portrait for the character; right-click an occupied row to change role or dismiss the Governor.
 - Governors are occupied by their office and cannot freely double as other busy roles.
 - Local + Naval Governor capacity is pooled, so existing advances and bonuses remain useful.
-- Governor death, dismissal, conquest and building changes are cleaned up automatically.
+- Governor death or dismissal returns the Residence to a visible vacant slot.
+- Building construction/destruction updates the office list, while the yearly integrity pass repairs save/ownership state.
 - The Governor UI is an additive scripted widget and does not replace the full vanilla `outliner.gui` file.
+
+### Basic workflow
+
+1. Build a **Governor's Residence**.
+2. Its vacant office appears in the **Governors** outliner.
+3. Use **Appoint Governor** and choose an eligible character and a vacant Residence.
+4. Right-click the occupied outliner row to select its Governor role or dismiss the Governor.
 
 ### Compatibility
 
