@@ -8,22 +8,24 @@ Character Governors replaces the split between **Local Governor** and **Naval Go
 - It can be built in towns, cities and megalopolises without a road-to-capital or maritime/land-connectivity requirement.
 - Local and Naval Governor capacity are pooled into one shared limit; Lieutenancies still consume that administrative capacity.
 - A residence provides **50 Proximity Source** on its own instead of vanilla's 80.
-- Every owned Governor's Residence appears as an office slot in the dedicated **Governors** outliner, including vacant offices.
-- Click the portrait of a vacant office to open the Governor character chooser directly for that Residence.
+- Every owned Governor's Residence appears as an office slot directly inside the normal EU5 outliner, including vacant offices.
+- Click the portrait of a vacant office to open the native Governor character chooser directly for that Residence.
 - Click the portrait of an occupied office to replace the Governor, matching the vanilla Cabinet slot workflow.
 - New appointments begin as a **Normal Governor** with 0 Entrenchment.
 - Occupied outliner rows show the Governor portrait, character name, governed location, current role and Entrenchment.
 - **Left-click** elsewhere on an office row to open its location, **double-click** to pan to it, and **right-click** an occupied row to switch role or dismiss the Governor.
 - The appointed character is marked busy, so the same person cannot simultaneously take the usual cabinet/military/other busy roles.
+- The character view displays an appointed office holder as **Governor** instead of **Courtier**.
 - Character contribution to Proximity Source is `ADM × 0.25 + DIP × 0.05 + MIL × 0.05`.
 - A 50/50/50 character contributes +17.5; a 100/100/100 character contributes +35.
 - Governors can be dismissed. Death automatically vacates the residence, but the vacant office remains visible in the outliner.
 - A yearly integrity pass refreshes bonuses, rebuilds the complete Governor-office roster and cleans assignments after ownership or building changes.
+- English and German localization are included.
 
 ## How to use it
 
 1. Build a **Governor's Residence** in an eligible owned location.
-2. The Residence immediately appears under **Governors** as an **Empty Governor Slot**, similar to an inactive Cabinet entry.
+2. The Residence appears under **Governors** in the normal right-side outliner as an **Empty Governor Slot** / **Unbesetzter Gouverneursposten**.
 3. Click the **empty portrait** in that row. EU5 opens the native character chooser already bound to that Governor's Residence.
 4. Select an eligible character. The empty slot becomes an occupied office and displays the Governor's portrait and data.
 5. Click an **occupied portrait** to replace that Governor with another eligible character.
@@ -64,9 +66,9 @@ Intended for overseas and New World possessions.
 
 These specialist values are deliberately conservative first-pass numbers and can be rebalanced after in-game testing.
 
-## Entrenchment
+## Entrenchment / Machtbasis
 
-Each serving Governor and the corresponding Governor's Residence track the same **Entrenchment** value from 0 to 100.
+Each serving Governor and the corresponding Governor's Residence track the same **Entrenchment** value from 0 to 100. The German localization calls this **Machtbasis**.
 
 Entrenchment advances once per yearly country pulse using:
 
@@ -78,11 +80,11 @@ Examples:
 - 50/50/50 Governor: +3.5 per year.
 - 100/100/100 Governor: +5.0 per year.
 
-Entrenchment is capped at 100. In version 0.2.x it is **informational only**: there are deliberately no dismissal penalties, rebellion effects, Estate effects or ability penalties yet. Those consequences are reserved for the next balance step.
+Entrenchment is capped at 100. In version 0.2.x it is **informational only**: there are deliberately no dismissal penalties, rebellion effects, Estate effects or ability penalties yet. Those consequences are reserved for a later balance step.
 
 ## Governor management UI
 
-The mod adds a dedicated **Governors** outliner-style block through EU5's scripted-widget system. It deliberately follows the visual language of the vanilla Cabinet outliner: compact paper rows, a small portrait slot, portrait-driven appointment/replacement and a persistent empty-office state.
+Version 0.2.3 integrates the **Governors** section directly into the vanilla outliner's own scroll content. The old free-standing scripted widget was removed, so the Governor block no longer floats independently on the map. It now follows the right-side outliner's position, width and scrolling behavior and uses the same outliner button/text primitives as vanilla entries.
 
 The UI is driven by two country variable maps:
 
@@ -91,7 +93,11 @@ The UI is driven by two country variable maps:
 
 The header displays **serving Governors / total Governor's Residences**. The all-office map is updated immediately when a Residence is built or destroyed and rebuilt by the yearly integrity pass for save migration and repair.
 
-Vacant rows show **Empty Governor Slot**, the Residence location and **Vacant**. Occupied rows show the portrait, Governor name, Residence location, role and Entrenchment. Right-clicking an occupied row opens direct actions for **Normal Governor**, **Integration Governor**, **Colonial Governor** and **Dismiss Governor**. Specialist roles are disabled when their territorial requirement is not met.
+Vacant rows show **Empty Governor Slot**, the Residence location and **Vacant**. Occupied rows show the portrait, Governor name, Residence location, role and Entrenchment. The portrait controls use dedicated `owncountry` generic actions with the clicked Residence pre-bound as `scope:target_1`; the action then opens EU5's native character selector. Right-clicking an occupied row opens direct actions for **Normal Governor**, **Integration Governor**, **Colonial Governor** and **Dismiss Governor**. Specialist roles are disabled when their territorial requirement is not met.
+
+### Character role display
+
+EU5's `CharacterRoleMask` is engine-backed and the same-version script/game files expose no supported effect for registering a new custom role in that mask. Therefore the mod does not fake a Governor by assigning an unrelated vanilla job. Instead, `eu5gov_governorship` remains the authoritative gameplay office state, while the character view displays **Governor / Gouverneur** for characters holding that state. Governor exclusivity is enforced independently through the appointment rules and `busy_modifier`.
 
 ## Why the vanilla building ID is retained
 
@@ -101,7 +107,12 @@ The unified residence deliberately keeps the internal ID `local_governor`. This 
 
 This mod replaces the database objects `local_governor` and `naval_governor`. Mods that also replace either building require a compatibility patch.
 
-The Governor management UI is supplied as its own scripted widget rather than replacing the full vanilla `outliner.gui`, which avoids a large whole-file GUI override. UI mods that place their own permanent widgets in the same top-right screen region may still require positioning adjustments.
+For seamless UI integration, version 0.2.3 also supplies same-version overrides of:
+
+- `in_game/gui/outliner.gui` — inserts the Governor section into the native outliner scroll container.
+- `in_game/gui/character_lateralview.gui` — displays Governor/Gouverneur as the current role while the character holds a governorship.
+
+UI mods that replace either of those files require a compatibility patch. These overrides are based on the EU5 1.3.x vanilla reference used by the mod and should be re-audited after game patches that change those GUI files.
 
 Existing `local_governor` buildings become Governor's Residences. Existing `naval_governor` buildings are removed by the legacy replacement and their capacity becomes available for a Governor's Residence.
 
@@ -113,6 +124,6 @@ Target metadata: **EU5 1.3.x**.
 
 ## Verification status
 
-The implementation is grounded in EU5 1.3 vanilla/community-tested patterns for building replacement, building `on_built`/`on_destroyed` hooks, character interactions, character/location selection, script-visible Cabinet restrictions, scope variables, variable maps exposed to GUI datamodels, Cabinet-style outliner widgets, native GUI `action_button` invocation, scripted GUI execution with saved scopes, permanent location modifiers, scaled modifier `size`, `busy_modifier`, character-death on-actions, yearly country pulses, scripted-widget registration, context menus, `dominant_culture` checks and `is_overseas_for_owner`.
+The implementation is grounded in EU5 1.3 vanilla/community-tested patterns for building replacement, building `on_built`/`on_destroyed` hooks, character interactions, generic actions with character selectors, script-visible Cabinet restrictions, scope variables, variable maps exposed to GUI datamodels, vanilla outliner structures, native GUI `action_button` invocation, scripted GUI execution with saved scopes, permanent location modifiers, scaled modifier `size`, `busy_modifier`, character-death on-actions, yearly country pulses, context menus, `dominant_culture` checks and `is_overseas_for_owner`.
 
-Because Paradox scripting and GUI are patch-sensitive, a release should still be smoke-tested against the exact installed patch with `script_docs`, `dump_data_types`, `error.log` and an in-game behavior test before publishing a Workshop update. The portrait-bound `target_1` character-interaction path is specifically worth validating in runtime because the native Cabinet candidate list itself is partly engine-backed.
+The two GUI overrides were generated from the same-version vanilla `outliner.gui` and `character_lateralview.gui`, with only the Governor integration/role-display additions applied. Because Paradox scripting and GUI are patch-sensitive, the release should still be smoke-tested against the exact installed patch with `script_docs`, `dump_data_types`, `error.log` and an in-game behavior test before publishing a Workshop update. In particular, verify the portrait-bound generic-action `target_1` path, native outliner layout at different UI scales, and German localization in the installed game.
