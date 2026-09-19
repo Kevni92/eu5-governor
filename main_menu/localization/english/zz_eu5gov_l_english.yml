@@ -37,7 +37,11 @@
 
  EU5GOV_OUTLINER_CATEGORY: "Governors"
  EU5GOV_OUTLINER_HINT: "Right-click to manage"
+ EU5GOV_OUTLINER_HEADER_TT: "Serving Governors. Click the header to collapse or expand the list."
  EU5GOV_OUTLINER_RIGHT_CLICK: "Manage Governor"
+ EU5GOV_OUTLINER_EXPAND_MARK: "+"
+ EU5GOV_OUTLINER_COLLAPSE_MARK: "−"
+ EU5GOV_ENTRENCHMENT_SHORT: "Entrenchment:"
  EU5GOV_CONTEXT_TITLE: "Governor Role"
  EU5GOV_ROLE_NORMAL: "Normal Governor"
  EU5GOV_ROLE_NORMAL_TT: "Assign the normal provincial administration role. This is the default role for governing core territories."
