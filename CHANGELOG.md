@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.2
+
+- Clicking a vacant Governor portrait in the Governors outliner now opens a native character chooser for that exact Governor's Residence.
+- Clicking an occupied Governor portrait opens the same chooser to replace the current office holder, matching the vanilla Cabinet replacement workflow.
+- Added a shared Governor candidate trigger so all appointment paths use the same eligibility rules.
+- Governor eligibility now mirrors the script-visible vanilla Cabinet legal restrictions for gender and Estate access, including `gender_equality`, male/female Cabinet allow/block modifiers and individually granted Cabinet rights.
+- Candidates blocked from Cabinet service are also blocked from governorship.
+- Governor-specific exclusivity remains stricter than Cabinet service: candidates must be free from Cabinet duty, military command, exploration and another governorship.
+- Replacing a Governor releases the outgoing character and starts the replacement as a Normal Governor with 0 Entrenchment.
+
 ## 0.2.1
 
 - Changed the Governor UI from an active-character roster to an office-slot roster keyed by Governor's Residence location.
@@ -9,7 +19,7 @@
 - The header now displays serving Governors / total Governor's Residences.
 - Building completion immediately registers a new vacant office; demolition removes the office and vacates a serving Governor.
 - The yearly integrity pass rebuilds the complete office map, providing save migration and recovery after ownership/state changes.
-- Left-clicking a row opens the Governor's Residence; double-clicking pans to it. The character portrait keeps standard character behavior.
+- Left-clicking a row opens the Governor's Residence; double-clicking pans to it. The portrait is the office-holder control.
 - Right-clicking an occupied row continues to change role or dismiss the Governor.
 
 ## 0.2.0
