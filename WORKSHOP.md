@@ -13,6 +13,8 @@ Character Governors merges EU5's Local Governor and Naval Governor concepts into
 - Governor's Residence: 50 base Proximity Source.
 - Every Governor's Residence appears in the **Governors** outliner, including vacant offices.
 - Vacant Residences are shown as **Empty Governor Slot** entries inspired by vanilla Cabinet slots.
+- Click an empty portrait to choose a Governor directly for that Residence; click an occupied portrait to replace the office holder.
+- Governor candidates follow the country's Cabinet legal restrictions for gender and Estate access, including individually granted Cabinet rights.
 - Occupied rows show a compact Governor portrait, location, Governor role and Entrenchment.
 - The outliner header shows **serving Governors / total Governor's Residences**.
 - Appointed characters add Proximity based on ADM, with smaller DIP and MIL contributions.
@@ -25,7 +27,7 @@ Character Governors merges EU5's Local Governor and Naval Governor concepts into
 - Governors track **Entrenchment** from 0 to 100.
 - Entrenchment grows yearly by `2 + (ADM + DIP + MIL) / 100`, so more capable Governors establish themselves faster.
 - Entrenchment is informational in version 0.2.x; political and dismissal consequences are planned for the next balance step.
-- Left-click an office row to open its location; double-click to pan there; use the portrait for the character; right-click an occupied row to change role or dismiss the Governor.
+- Left-click elsewhere on an office row to open its location; double-click to pan there; right-click an occupied row to change role or dismiss the Governor.
 - Governors are occupied by their office and cannot freely double as other busy roles.
 - Local + Naval Governor capacity is pooled, so existing advances and bonuses remain useful.
 - Governor death or dismissal returns the Residence to a visible vacant slot.
@@ -36,8 +38,9 @@ Character Governors merges EU5's Local Governor and Naval Governor concepts into
 
 1. Build a **Governor's Residence**.
 2. Its vacant office appears in the **Governors** outliner.
-3. Use **Appoint Governor** and choose an eligible character and a vacant Residence.
-4. Right-click the occupied outliner row to select its Governor role or dismiss the Governor.
+3. Click its **empty portrait** and choose an eligible character from the native selector.
+4. Click an occupied portrait whenever you want to replace the Governor.
+5. Right-click the occupied outliner row to select its Governor role or dismiss the Governor.
 
 ### Compatibility
 
