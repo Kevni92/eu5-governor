@@ -4,3 +4,17 @@
 	}
 	local_proximity_source = 1
 }
+
+eu5gov_integration_governor = {
+	game_data = {
+		category = location
+	}
+	local_pop_assimilation_speed_modifier = 0.25
+}
+
+eu5gov_colonial_governor = {
+	game_data = {
+		category = location
+	}
+	local_migration_attraction = 0.25
+}
