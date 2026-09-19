@@ -17,6 +17,7 @@
 		scope:governor = {
 			set_variable = { name = eu5gov_governor_role value = 1 }
 			var:eu5gov_governorship ?= {
+				set_variable = { name = eu5gov_governor_role value = 1 }
 				eu5gov_apply_governor_role_effect = yes
 			}
 		}
@@ -42,6 +43,7 @@ eu5gov_set_role_integration = {
 		scope:governor = {
 			set_variable = { name = eu5gov_governor_role value = 2 }
 			var:eu5gov_governorship ?= {
+				set_variable = { name = eu5gov_governor_role value = 2 }
 				eu5gov_apply_governor_role_effect = yes
 			}
 		}
@@ -67,6 +69,7 @@ eu5gov_set_role_colonial = {
 		scope:governor = {
 			set_variable = { name = eu5gov_governor_role value = 3 }
 			var:eu5gov_governorship ?= {
+				set_variable = { name = eu5gov_governor_role value = 3 }
 				eu5gov_apply_governor_role_effect = yes
 			}
 		}
