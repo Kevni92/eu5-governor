@@ -1453,8 +1453,9 @@ window = {
 												name = "outliner_outside_scrollarea_entries"
 											}
 
-											eu5gov_governor_outliner_section = {}
 										}
+
+										eu5gov_governor_outliner_section = {}
 
 										expand = {}
 									}
