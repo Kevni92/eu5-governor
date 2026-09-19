@@ -43,6 +43,7 @@ eu5gov_apply_governor_role_effect = {
 	if = {
 		limit = {
 			has_variable = eu5gov_governor
+			NOT = { dominant_culture = owner.culture }
 			var:eu5gov_governor ?= {
 				is_alive = yes
 				var:eu5gov_governor_role = 2
@@ -56,6 +57,7 @@ eu5gov_apply_governor_role_effect = {
 	else_if = {
 		limit = {
 			has_variable = eu5gov_governor
+			is_overseas_for_owner = yes
 			var:eu5gov_governor ?= {
 				is_alive = yes
 				var:eu5gov_governor_role = 3
