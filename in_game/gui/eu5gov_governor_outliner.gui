@@ -9,7 +9,6 @@
 		set_parent_size_to_minimum = yes
 		spacing = 1
 
-		# Category header: deliberately mirrors the vanilla outliner category proportions.
 		button = {
 			size = { 405 31 }
 			using = button_common_template
@@ -39,7 +38,6 @@
 					text = "EU5GOV_OUTLINER_CATEGORY"
 				}
 
-				# Active Governors / total Governor's Residences.
 				text_single = {
 					autoresize = yes
 					raw_text = "[GetDataModelSize(GetPlayer.MakeScope.GetMapKeys('eu5gov_governor_roster'))]/[GetDataModelSize(GetPlayer.MakeScope.GetMapKeys('eu5gov_governor_offices'))]"
@@ -53,8 +51,6 @@
 			}
 		}
 
-		# The data model is keyed by Governor's Residence location, not by character.
-		# This is what allows vacant offices to remain visible like empty Cabinet slots.
 		vbox = {
 			visible = "[Not(GetVariableSystem.Exists('eu5gov_governor_outliner_collapsed'))]"
 			layoutpolicy_horizontal = expanding
@@ -66,20 +62,42 @@
 					size = { 405 36 }
 					datacontext = "[Scope.GetLocation]"
 
-					# VACANT OFFICE — follows the vanilla empty Cabinet entry pattern.
+					# VACANT OFFICE. The visual portrait is transparent to input; the native
+					# action_button over it opens the character-interaction chooser with this
+					# Residence pre-bound as target_1.
 					hbox = {
 						visible = "[Not(Location.MakeScope.GetVariable('eu5gov_governor').IsSet)]"
 						using = outliner_entry_margin
 						spacing = 5
 
-						portrait_standard_head_button = {
-							datacontext = "[Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter]"
+						widget = {
 							size = { 28 28 }
-							blockoverride "character_tooltip" { tooltip_enabled = no }
-							blockoverride "character_contextmenu" {}
-							blockoverride "button_setup" {}
-							blockoverride "rightclick" {}
-							blockoverride "hover" {}
+
+							portrait_standard_head_button = {
+								datacontext = "[Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter]"
+								size = { 28 28 }
+								alwaystransparent = yes
+								blockoverride "character_tooltip" { tooltip_enabled = no }
+								blockoverride "character_contextmenu" {}
+								blockoverride "button_setup" {}
+								blockoverride "rightclick" {}
+								blockoverride "hover" {}
+							}
+
+							action_button = {
+								size = { 28 28 }
+								ignore_layout = yes
+								parentanchor = center
+								title = "EU5GOV_PORTRAIT_APPOINT_TT"
+								description = "EU5GOV_PORTRAIT_APPOINT_DESC"
+								actor = "[GetPlayer]"
+								parameter = {
+									parameter_name = "target_1"
+									parameter_value = "[Scope.GetLocation]"
+								}
+								left_action = { action_name = "eu5gov_appoint_governor_at_residence" }
+								tooltipwidget = { BasicFunctionalTooltip = {} }
+							}
 						}
 
 						vbox = {
@@ -108,15 +126,36 @@
 						}
 					}
 
-					# OCCUPIED OFFICE — compact portrait + office + role + Entrenchment.
+					# OCCUPIED OFFICE. Clicking the portrait mirrors Cabinet replacement UX:
+					# it opens the same filtered chooser and replaces this office holder.
 					hbox = {
 						visible = "[Location.MakeScope.GetVariable('eu5gov_governor').IsSet]"
 						using = outliner_entry_margin
 						spacing = 5
 
-						portrait_standard_head_button = {
-							datacontext = "[Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter]"
+						widget = {
 							size = { 28 28 }
+
+							portrait_standard_head_button = {
+								datacontext = "[Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter]"
+								size = { 28 28 }
+								alwaystransparent = yes
+							}
+
+							action_button = {
+								size = { 28 28 }
+								ignore_layout = yes
+								parentanchor = center
+								title = "EU5GOV_PORTRAIT_CHANGE_TT"
+								description = "EU5GOV_PORTRAIT_CHANGE_DESC"
+								actor = "[GetPlayer]"
+								parameter = {
+									parameter_name = "target_1"
+									parameter_value = "[Scope.GetLocation]"
+								}
+								left_action = { action_name = "eu5gov_change_governor_at_residence" }
+								tooltipwidget = { BasicFunctionalTooltip = {} }
+							}
 						}
 
 						vbox = {
@@ -163,8 +202,6 @@
 					}
 
 					blockoverride "button_setup" {
-						# Location is the stable row identity. Left click opens it; the portrait itself
-						# retains the standard character interaction behavior.
 						action_tooltip = {
 							click_type = left
 							click_mode = single
