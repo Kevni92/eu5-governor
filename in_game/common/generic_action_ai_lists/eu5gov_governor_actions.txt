@@ -1,0 +1,7 @@
+﻿eu5gov_governor_actions = {
+	potential = { always = yes }
+	actions = {
+		eu5gov_appoint_governor_from_outliner
+		eu5gov_change_governor_from_outliner
+	}
+}
