@@ -2,6 +2,6 @@
  eu5gov_appoint_governor_from_outliner: "Appoint Governor"
  eu5gov_appoint_governor_from_outliner_desc: "Choose an eligible character for this Governor's Residence."
  eu5gov_change_governor_from_outliner: "Change Governor"
- eu5gov_change_governor_from_outliner_desc: "Choose a replacement Governor for this Governor's Residence."
+ eu5gov_change_governor_from_outliner_desc: "Choose a replacement Governor. Replacing a non-Crown Governor pays the same Entrenchment-scaled political cost as dismissal."
  EU5GOV_CHARACTER_ROLE_GOVERNOR: "Governor"
  EU5GOV_CHARACTER_ROLE_GOVERNOR_TT: "This character currently holds a governorship."
