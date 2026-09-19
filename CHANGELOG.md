@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.3
+
+- Added complete German localization for Governor buildings, interactions, selectors, outliner entries, role menu, tooltips and character-role display.
+- Replaced the free-standing Governor scripted widget with a native `outliner.gui` integration inside the vanilla outliner scroll container.
+- Removed the obsolete floating widget that could appear at the upper-left corner of the screen.
+- Vacant and occupied Governor portraits now invoke dedicated generic actions, so clicking the portrait opens the native character chooser for that exact Governor's Residence.
+- The portrait chooser retains the shared Cabinet-law eligibility rules introduced in 0.2.2.
+- Serving Governors are now displayed as `Governor` / `Gouverneur` in the character view instead of `Courtier` / `Höfling`.
+- Added a targeted `character_lateralview.gui` override for the Governor role label; the underlying engine role mask remains non-extensible, while the mod office state is authoritative for Governor gameplay.
+- The seamless UI integration now intentionally overrides same-version vanilla `outliner.gui` and `character_lateralview.gui`; UI mods replacing those files require a compatibility patch.
+
 ## 0.2.2
 
 - Clicking a vacant Governor portrait in the Governors outliner now opens a native character chooser for that exact Governor's Residence.
@@ -34,7 +45,7 @@
 - Entrenchment is display-only in 0.2.0; dismissal/rebellion/estate consequences are intentionally deferred.
 - Added a dedicated Governor outliner-style scripted widget listing the Governor, governed location, role and Entrenchment.
 - Left-clicking a Governor opens the character; right-clicking opens direct actions to change role or dismiss the Governor.
-- The Governor UI is additive and does not replace the complete vanilla `outliner.gui` file.
+- The Governor UI was initially additive and did not replace the complete vanilla `outliner.gui` file; this approach was replaced by native outliner integration in 0.2.3.
 
 ## 0.1.0
 
