@@ -1,0 +1,33 @@
+name: Generate EU5 Governor GUI overrides
+
+on:
+  push:
+    paths:
+      - '.github/workflows/generate-eu5gov-gui-overrides.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate patched vanilla GUI files
+        run: python tools/generate_eu5gov_gui_overrides.py
+
+      - name: Commit generated GUI overrides
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add in_game/gui/outliner.gui in_game/gui/character_lateralview.gui
+          if git diff --cached --quiet; then
+            echo "Generated GUI overrides are already current."
+            exit 0
+          fi
+          git commit -m "Integrate governors into native EU5 UI"
+          git push
