@@ -25,12 +25,13 @@ eu5gov_governor_death = {
 	}
 }
 
-# Rebuild bonuses from live abilities, advance Entrenchment and clean stale assignments.
-# Existing 0.1 saves are migrated lazily: missing role/Entrenchment variables become Normal/0,
-# and the country-side Governor roster is rebuilt from the authoritative location assignment.
+# Rebuild the complete office roster, refresh live bonuses, advance Entrenchment
+# and clean stale assignments. Existing saves are migrated lazily from owned buildings.
 eu5gov_governor_yearly_refresh = {
 	effect = {
 		save_scope_as = eu5gov_refresh_country
+		eu5gov_rebuild_governor_office_roster_effect = yes
+
 		every_owned_location = {
 			limit = { has_variable = eu5gov_governor }
 			if = {
