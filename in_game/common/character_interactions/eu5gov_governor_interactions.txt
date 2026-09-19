@@ -65,6 +65,8 @@
 			scope:target = {
 				set_variable = { name = eu5gov_governor value = scope:recipient }
 				set_variable = { name = eu5gov_governor_country value = scope:actor }
+				set_variable = { name = eu5gov_governor_role value = 1 }
+				set_variable = { name = eu5gov_entrenchment value = 0 }
 				eu5gov_apply_governor_bonus_effect = yes
 			}
 
