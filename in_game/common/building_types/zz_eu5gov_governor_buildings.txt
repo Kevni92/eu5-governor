@@ -66,6 +66,39 @@ REPLACE:local_governor = {
 	modifier = {
 		local_proximity_source = 50
 	}
+
+	# Make a newly completed residence appear immediately as a vacant Governor slot.
+	on_built = {
+		location = { save_scope_as = eu5gov_built_office_location }
+		owner = {
+			remove_from_variable_map = {
+				name = eu5gov_governor_offices
+				key = scope:eu5gov_built_office_location
+			}
+			add_to_variable_map = {
+				name = eu5gov_governor_offices
+				key = scope:eu5gov_built_office_location
+				value = 1
+			}
+		}
+	}
+
+	# Demolishing the residence removes the slot and vacates any serving Governor.
+	on_destroyed = {
+		location = {
+			save_scope_as = eu5gov_destroyed_office_location
+			if = {
+				limit = { has_variable = eu5gov_governor }
+				eu5gov_clear_governor_location_effect = yes
+			}
+		}
+		owner = {
+			remove_from_variable_map = {
+				name = eu5gov_governor_offices
+				key = scope:eu5gov_destroyed_office_location
+			}
+		}
+	}
 }
 
 # Maritime and land governorship are one institution in this mod. Existing naval governor
