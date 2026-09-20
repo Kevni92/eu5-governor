@@ -1,9 +1,9 @@
 ﻿@eu5gov_alert_height = 90
 @eu5gov_alert_wide = 40
 
-# The vanilla top bar instantiates a type named `alert_manager`.  As demonstrated by
+# The vanilla top bar instantiates a type named `alert_manager`. As demonstrated by
 # the Community Mod Framework, that type can be wrapped without replacing the whole
-# vanilla alertmanager.gui file.  The inner alerts_layout remains the vanilla manager;
+# vanilla alertmanager.gui file. The inner alerts_layout remains the vanilla manager;
 # our warning is simply placed beside it.
 types "EU5GovAlertTypes" {
 
@@ -34,7 +34,13 @@ types "EU5GovAlertTypes" {
 		eu5gov_native_alert_manager = {}
 
 		widget = {
-			visible = "[GreaterThan_CFixedPoint(GetPlayer.MakeScope.ScriptValue('eu5gov_vacant_governor_office_count'), '(CFixedPoint)0')]"
+			# The office map contains every Governor's Residence; the roster map only
+			# contains occupied offices. Comparing their sizes is immediate and avoids
+			# scanning all owned locations every GUI update.
+			visible = "[GreaterThan_int32(
+				GetDataModelSize(GetPlayer.MakeScope.GetMapKeys('eu5gov_governor_offices')),
+				GetDataModelSize(GetPlayer.MakeScope.GetMapKeys('eu5gov_governor_roster'))
+			)]"
 			minimumsize = { @eu5gov_alert_wide @eu5gov_alert_height }
 			maximumsize = { @eu5gov_alert_wide @eu5gov_alert_height }
 
