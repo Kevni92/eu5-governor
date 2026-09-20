@@ -1,0 +1,6 @@
+﻿l_german:
+ eu5gov_appoint_next_vacant_governor: "Unbesetzter Gouverneursposten"
+ eu5gov_appoint_next_vacant_governor_desc: "Mindestens eine Gouverneursresidenz ist unbesetzt. Klickt auf die Warnung, um unmittelbar einen geeigneten Gouverneur für den wichtigsten freien Posten auszuwählen. Bei mehreren freien Ämtern wird zuerst die Gouverneursresidenz am höchstentwickelten Standort besetzt."
+ eu5gov_appoint_next_vacant_governor_act: "$eu5gov_appoint_next_vacant_governor$"
+ eu5gov_appoint_next_vacant_governor_past: "Ein freier Gouverneursposten wurde besetzt"
+ eu5gov_appoint_next_vacant_governor_act_past: "Ein freier Gouverneursposten wurde besetzt."
