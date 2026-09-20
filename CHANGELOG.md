@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.6
+
+- Fixed Governor role switching from the outliner context menu by removing the fragile character-scoped `ScriptedGui.IsValid` bridge.
+- Role and dismissal actions now receive the Governor's Residence directly as saved `office` scope and resolve the serving Governor from that authoritative office state.
+- Context-menu buttons determine their enabled state directly from the office role variable; the currently active role remains disabled.
+- The scripted GUI actions themselves remain executable and enforce Integration/Colonial territorial requirements inside their effects.
+
 ## 0.2.5
 
 - Reduced Governor's Residence base Proximity Source from 50 to 30.
@@ -36,7 +43,7 @@
 ## 0.2.2
 
 - Clicking a vacant Governor portrait in the Governors outliner now opens a native character chooser for that exact Governor's Residence.
-- Clicking an occupied Governor portrait opens the same chooser to replace the current office holder, matching the vanilla Cabinet replacement workflow.
+- Clicking an occupied Governor portrait opens the same chooser to replace the current office holder, matching the vanilla Cabinet slot workflow.
 - Added a shared Governor candidate trigger so all appointment paths use the same eligibility rules.
 - Governor eligibility now mirrors the script-visible vanilla Cabinet legal restrictions for gender and Estate access, including `gender_equality`, male/female Cabinet allow/block modifiers and individually granted Cabinet rights.
 - Candidates blocked from Cabinet service are also blocked from governorship.
