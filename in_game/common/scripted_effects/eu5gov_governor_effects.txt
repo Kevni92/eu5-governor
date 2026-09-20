@@ -123,17 +123,7 @@ eu5gov_apply_governor_dismissal_cost_effect = {
 	if = {
 		limit = {
 			has_variable = eu5gov_governorship
-			has_variable = eu5gov_entrenchment
 			NOT = { has_estate = estate_type:crown_estate }
-		}
-
-		set_variable = {
-			name = eu5gov_dismissal_cost_scale
-			value = var:eu5gov_entrenchment
-		}
-		if = {
-			limit = { var:eu5gov_dismissal_cost_scale < 10 }
-			set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 		}
 
 		save_scope_as = eu5gov_dismissed_governor
@@ -141,21 +131,14 @@ eu5gov_apply_governor_dismissal_cost_effect = {
 			owner ?= {
 				add_estate_satisfaction = {
 					type = scope:eu5gov_dismissed_governor.estate_type
-					value = {
-						value = scope:eu5gov_dismissed_governor.var:eu5gov_dismissal_cost_scale
-						multiply = -0.01
-					}
+					value = scope:eu5gov_dismissed_governor.eu5gov_dismissal_satisfaction_delta
 				}
-				add_stability = {
-					value = scope:eu5gov_dismissed_governor.var:eu5gov_dismissal_cost_scale
-					multiply = -0.50
-				}
+				add_stability = scope:eu5gov_dismissed_governor.eu5gov_dismissal_stability_delta
 			}
 		}
-
-		remove_variable = eu5gov_dismissal_cost_scale
 	}
 }
+
 
 # Current scope: country.
 # Each serving Governor increases the power of their Estate by half their

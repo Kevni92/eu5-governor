@@ -35,3 +35,27 @@ eu5gov_monthly_entrenchment_mil_gain = {
     value = mil
     divide = 1200
 }
+
+
+# Preview-safe political dismissal scale. Minimum 10, otherwise current Entrenchment.
+eu5gov_dismissal_cost_scale = {
+    value = 10
+    if = {
+        limit = {
+            has_variable = eu5gov_entrenchment
+            var:eu5gov_entrenchment > 10
+        }
+        subtract = 10
+        add = var:eu5gov_entrenchment
+    }
+}
+
+eu5gov_dismissal_satisfaction_delta = {
+    value = eu5gov_dismissal_cost_scale
+    multiply = -0.01
+}
+
+eu5gov_dismissal_stability_delta = {
+    value = eu5gov_dismissal_cost_scale
+    multiply = -0.50
+}
