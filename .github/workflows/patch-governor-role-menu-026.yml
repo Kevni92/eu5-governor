@@ -1,0 +1,61 @@
+name: Patch Governor Role Menu 0.2.6
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-governor-role-menu-026.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Patch governor role context menu
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p = Path('in_game/gui/outliner.gui')
+          t = p.read_text(encoding='utf-8-sig')
+
+          old_new = {
+              "enabled = \"[GetScriptedGui('eu5gov_set_role_normal').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]\"":
+              "enabled = \"[Not(EqualTo_CFixedPoint(Location.MakeScope.GetVariable('eu5gov_governor_role').GetValue, '(CFixedPoint)1'))]\"",
+              "on_action = \"[GetScriptedGui('eu5gov_set_role_normal').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]\"":
+              "on_action = \"[GetScriptedGui('eu5gov_set_role_normal').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('office', Location.MakeScope).End)]\"",
+              "enabled = \"[GetScriptedGui('eu5gov_set_role_integration').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]\"":
+              "enabled = \"[Not(EqualTo_CFixedPoint(Location.MakeScope.GetVariable('eu5gov_governor_role').GetValue, '(CFixedPoint)2'))]\"",
+              "on_action = \"[GetScriptedGui('eu5gov_set_role_integration').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]\"":
+              "on_action = \"[GetScriptedGui('eu5gov_set_role_integration').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('office', Location.MakeScope).End)]\"",
+              "enabled = \"[GetScriptedGui('eu5gov_set_role_colonial').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]\"":
+              "enabled = \"[Not(EqualTo_CFixedPoint(Location.MakeScope.GetVariable('eu5gov_governor_role').GetValue, '(CFixedPoint)3'))]\"",
+              "on_action = \"[GetScriptedGui('eu5gov_set_role_colonial').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]\"":
+              "on_action = \"[GetScriptedGui('eu5gov_set_role_colonial').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('office', Location.MakeScope).End)]\"",
+              "enabled = \"[GetScriptedGui('eu5gov_dismiss_governor_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]\"":
+              "enabled = \"[Location.MakeScope.GetVariable('eu5gov_governor').IsSet]\"",
+              "on_action = \"[GetScriptedGui('eu5gov_dismiss_governor_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]\"":
+              "on_action = \"[GetScriptedGui('eu5gov_dismiss_governor_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('office', Location.MakeScope).End)]\"",
+          }
+
+          for old, new in old_new.items():
+              count = t.count(old)
+              if count != 1:
+                  raise SystemExit(f'Expected exactly one match for {old[:80]!r}, found {count}')
+              t = t.replace(old, new, 1)
+
+          p.write_text('\ufeff' + t, encoding='utf-8')
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add in_game/gui/outliner.gui
+          git commit -m "Fix governor role menu execution"
+          git push
