@@ -530,10 +530,10 @@ types EU5GovOutlinerTypes
                                       blockoverride "entry_button" {
                                           button = {
                                               using = contextmenu_entry_button_template
-                                              enabled = "[GetScriptedGui('eu5gov_set_role_normal').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]"
+                                              enabled = "[Not(EqualTo_CFixedPoint(Location.MakeScope.GetVariable('eu5gov_governor_role').GetValue, '(CFixedPoint)1'))]"
                                               blockoverride "click_action" {
                                                   title = "EU5GOV_ROLE_NORMAL_TT"
-                                                  on_action = "[GetScriptedGui('eu5gov_set_role_normal').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]"
+                                                  on_action = "[GetScriptedGui('eu5gov_set_role_normal').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('office', Location.MakeScope).End)]"
                                               }
                                               blockoverride "entry_text" { text = "EU5GOV_ROLE_NORMAL" }
                                           }
@@ -543,10 +543,10 @@ types EU5GovOutlinerTypes
                                       blockoverride "entry_button" {
                                           button = {
                                               using = contextmenu_entry_button_template
-                                              enabled = "[GetScriptedGui('eu5gov_set_role_integration').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]"
+                                              enabled = "[Not(EqualTo_CFixedPoint(Location.MakeScope.GetVariable('eu5gov_governor_role').GetValue, '(CFixedPoint)2'))]"
                                               blockoverride "click_action" {
                                                   title = "EU5GOV_ROLE_INTEGRATION_TT"
-                                                  on_action = "[GetScriptedGui('eu5gov_set_role_integration').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]"
+                                                  on_action = "[GetScriptedGui('eu5gov_set_role_integration').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('office', Location.MakeScope).End)]"
                                               }
                                               blockoverride "entry_text" { text = "EU5GOV_ROLE_INTEGRATION" }
                                           }
@@ -556,10 +556,10 @@ types EU5GovOutlinerTypes
                                       blockoverride "entry_button" {
                                           button = {
                                               using = contextmenu_entry_button_template
-                                              enabled = "[GetScriptedGui('eu5gov_set_role_colonial').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]"
+                                              enabled = "[Not(EqualTo_CFixedPoint(Location.MakeScope.GetVariable('eu5gov_governor_role').GetValue, '(CFixedPoint)3'))]"
                                               blockoverride "click_action" {
                                                   title = "EU5GOV_ROLE_COLONIAL_TT"
-                                                  on_action = "[GetScriptedGui('eu5gov_set_role_colonial').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]"
+                                                  on_action = "[GetScriptedGui('eu5gov_set_role_colonial').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('office', Location.MakeScope).End)]"
                                               }
                                               blockoverride "entry_text" { text = "EU5GOV_ROLE_COLONIAL" }
                                           }
@@ -569,11 +569,11 @@ types EU5GovOutlinerTypes
                                       blockoverride "entry_button" {
                                           button = {
                                               using = contextmenu_entry_button_template
-                                              enabled = "[GetScriptedGui('eu5gov_dismiss_governor_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]"
+                                              enabled = "[Location.MakeScope.GetVariable('eu5gov_governor').IsSet]"
                                               blockoverride "button_texture" { using = button_regular_red_texture }
                                               blockoverride "click_action" {
                                                   title = "EU5GOV_DISMISS_TT"
-                                                  on_action = "[GetScriptedGui('eu5gov_dismiss_governor_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('governor', Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter.MakeScope).End)]"
+                                                  on_action = "[GetScriptedGui('eu5gov_dismiss_governor_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('office', Location.MakeScope).End)]"
                                               }
                                               blockoverride "entry_text" { text = "EU5GOV_DISMISS" }
                                           }
