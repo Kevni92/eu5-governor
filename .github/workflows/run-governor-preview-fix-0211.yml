@@ -1,0 +1,34 @@
+name: Run Governor Preview Fix 0.2.11
+
+on:
+  push:
+    paths:
+      - '.github/scripts/fix_governor_0211_preview.py'
+      - '.github/workflows/run-governor-preview-fix-0211.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply preview fix
+        run: python .github/scripts/fix_governor_0211_preview.py
+      - name: Commit fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Harden governor confirmation cost preview"
+            git push origin HEAD:main
+          fi
