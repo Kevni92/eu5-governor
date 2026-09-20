@@ -3,5 +3,9 @@
 	actions = {
 		eu5gov_appoint_governor_from_outliner
 		eu5gov_change_governor_from_outliner
+		eu5gov_set_role_normal_from_outliner
+		eu5gov_set_role_integration_from_outliner
+		eu5gov_set_role_colonial_from_outliner
+		eu5gov_dismiss_governor_from_outliner
 	}
 }

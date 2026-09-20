@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.8
+
+- Governor Administration modifier tooltip now explains why the static modifier shows +1 and how the effective value is calculated: Governor ADM × 0.50, with an explicit 55 ADM = +27.50 example.
+- Replaced the Entrenchment label in Governor outliner rows with a lock icon plus the numeric value; hovering it opens the Entrenchment Game Concept tooltip.
+- Added direct right-click dismissal to occupied Governor portraits through a dedicated Generic Action.
+- Replaced Governor role context-menu ScriptedGui calls with Generic Actions so successful role changes execute reliably and invalid specialist roles are actually disabled instead of silently doing nothing.
+- Changing Governor role now costs 20 Stability.
+- Integration Governor remains limited to culturally distinct seats and Colonial Governor remains limited to overseas seats; their disabled-state conditions are now surfaced by the action system.
+
 ## 0.2.7
 
 - Added a 10% minimum political dismissal floor for non-Crown Governors: at 0-10 Entrenchment dismissal/replacement costs -10 Estate Satisfaction and -5 Stability; from 10 to 100 it scales linearly to -100/-50.
