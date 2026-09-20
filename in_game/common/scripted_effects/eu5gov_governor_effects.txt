@@ -122,7 +122,7 @@ eu5gov_tick_governor_entrenchment_effect = {
 }
 
 # Current scope: serving governor character.
-# Voluntary dismissal/replacement is free for Crown characters. Otherwise the
+# Dismissal/replacement is free for Crown Estate characters. Otherwise the
 # effective dismissal scale is max(10, Entrenchment): at the floor the Estate
 # loses 10 satisfaction and the country 5 Stability; at 100 the cost is 100/50.
 eu5gov_apply_governor_dismissal_cost_effect = {

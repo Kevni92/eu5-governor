@@ -64,7 +64,7 @@
  eu5gov_change_governor_at_residence_concept: "Governor"
  eu5gov_change_governor_at_residence_act: "$eu5gov_change_governor_at_residence$"
  eu5gov_change_governor_at_residence_desc_specific: "Replace the current Governor of this Governor's Residence."
- eu5gov_change_governor_at_residence_desc: "Choose a new eligible Governor for the office clicked in the Governors outliner. Replacing the current office holder counts as a voluntary dismissal and therefore pays the outgoing Governor's Entrenchment-scaled political cost unless they belong to the Crown Estate."
+ eu5gov_change_governor_at_residence_desc: "Choose a new eligible Governor for the office clicked in the Governors outliner. Replacing the current office holder applies the same Entrenchment-scaled political cost as dismissal unless the outgoing Governor belongs to the Crown Estate."
  eu5gov_change_governor_at_residence_past: "A Governor was replaced"
  eu5gov_change_governor_at_residence_act_past: "[SCOPE.sCharacter('recipient').GetName] became the new Governor."
 
@@ -72,7 +72,7 @@
  eu5gov_dismiss_governor_concept: "Governor"
  eu5gov_dismiss_governor_act: "$eu5gov_dismiss_governor$"
  eu5gov_dismiss_governor_desc_specific: "Dismiss an appointed Governor and leave the residence vacant."
- eu5gov_dismiss_governor_desc: "Remove a Governor from office. Non-Crown Governors always cost at least #R -10 Estate Satisfaction#! and #R -5 Stability#!. Above 10 Entrenchment the cost scales linearly: 50 Entrenchment costs -50 Satisfaction and -25 Stability; 100 Entrenchment costs -100 Satisfaction and -50 Stability. Crown Governors are free to dismiss."
+ eu5gov_dismiss_governor_desc: "Remove a Governor from office. If they belong to an Estate other than the Crown Estate, dismissal costs at least #R -10 Estate Satisfaction#! and #R -5 Stability#!. Above 10 Entrenchment the cost scales linearly: 50 Entrenchment costs -50 Satisfaction and -25 Stability; 100 Entrenchment costs -100 Satisfaction and -50 Stability. Crown Estate Governors do not pay these costs."
  eu5gov_dismiss_governor_past: "A Governor was dismissed"
  eu5gov_dismiss_governor_act_past: "[SCOPE.sCharacter('recipient').GetName] was dismissed from the governorship."
 
