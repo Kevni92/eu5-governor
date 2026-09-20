@@ -1,0 +1,19 @@
+﻿eu5gov_governor = {
+	texture = "character_roles/regent"
+}
+
+eu5gov_provincial_governor = {
+	texture = "character_roles/regent"
+}
+
+eu5gov_integration_governor_role = {
+	texture = "character_roles/regent"
+}
+
+eu5gov_colonial_governor_role = {
+	texture = "flat_icons/overseas"
+}
+
+eu5gov_entrenchment = {
+	texture = "modifiers/character"
+}
