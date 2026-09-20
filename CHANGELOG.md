@@ -1,5 +1,15 @@
 ﻿# Changelog
 
+## 0.2.10
+
+- Fixed the occupied Governor portrait's vanilla right-click handler, which was opening an empty Character context menu after the context-menu contents had been suppressed.
+- Right-clicking an occupied Governor portrait now reaches the Governor dismissal action cleanly.
+- Added native EU5 confirmation dialogs to Governor replacement, voluntary dismissal and all three Governor role changes via `force_click_and_confirm_or_hold`.
+- Confirmation dialogs use the Generic Action effect preview so the action's actual political/stability effects are shown before committing.
+- Split the Entrenchment tooltip into Monthly Growth, Political Effects, and Dismissal/Replacement sections.
+- Added live component breakdowns for the base, ADM, DIP and MIL contributions to monthly Entrenchment growth.
+- Entrenchment tooltips and the Game Concept now link vanilla concepts for ADM, DIP, MIL, Estate, Estate Power, Estate Satisfaction and Stability.
+
 ## 0.2.9
 
 - Entrenchment now advances on the monthly country pulse instead of jumping once per year; the former annual balance is preserved by using `(2 + (ADM + DIP + MIL) / 100) / 12` each month.

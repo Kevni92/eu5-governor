@@ -93,6 +93,7 @@
 
 eu5gov_change_governor_from_outliner = {
 	type = owncountry
+	force_click_and_confirm_or_hold = yes
 	sound = UI_action_religion_generic
 	show_message = no
 	show_message_to_target = no
@@ -201,6 +202,7 @@ eu5gov_change_governor_from_outliner = {
 # is not met, instead of accepting a click and then silently doing nothing.
 eu5gov_set_role_normal_from_outliner = {
 	type = owncountry
+	force_click_and_confirm_or_hold = yes
 	sound = UI_action_religion_generic
 	show_message = no
 	show_message_to_target = no
@@ -232,6 +234,7 @@ eu5gov_set_role_normal_from_outliner = {
 
 eu5gov_set_role_integration_from_outliner = {
 	type = owncountry
+	force_click_and_confirm_or_hold = yes
 	sound = UI_action_religion_generic
 	show_message = no
 	show_message_to_target = no
@@ -270,6 +273,7 @@ eu5gov_set_role_integration_from_outliner = {
 
 eu5gov_set_role_colonial_from_outliner = {
 	type = owncountry
+	force_click_and_confirm_or_hold = yes
 	sound = UI_action_religion_generic
 	show_message = no
 	show_message_to_target = no
@@ -308,6 +312,7 @@ eu5gov_set_role_colonial_from_outliner = {
 
 eu5gov_dismiss_governor_from_outliner = {
 	type = owncountry
+	force_click_and_confirm_or_hold = yes
 	sound = UI_action_religion_generic
 	show_message = no
 	show_message_to_target = no

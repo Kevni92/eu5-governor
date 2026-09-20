@@ -101,6 +101,8 @@
  EU5GOV_PORTRAIT_APPOINT_DESC: "Choose an eligible character for this Governor's Residence. Eligibility mirrors the country's Cabinet legal restrictions, including gender and Estate access."
  EU5GOV_PORTRAIT_CHANGE_TT: "Change Governor"
  EU5GOV_PORTRAIT_CHANGE_DESC: "Left-click: choose a replacement. Right-click: dismiss the Governor directly. Replacing a non-Crown Governor pays the same Entrenchment-scaled political cost as dismissal."
+ eu5gov_change_governor_from_outliner: "Change Governor"
+ eu5gov_change_governor_from_outliner_desc: "Choose a new eligible Governor. A confirmation dialog shows the outgoing office holder's political costs before replacement. For non-Crown Governors these depend on their [eu5gov_entrenchment|e]; Crown Estate Governors are free to replace."
  EU5GOV_ENTRENCHMENT_SHORT: "Entrenchment:"
  eu5gov_set_role_normal_from_outliner: "Provincial Governor"
  eu5gov_set_role_normal_from_outliner_desc: "Change to [eu5gov_provincial_governor|e]. Cost: #R 20 Stability#!."
@@ -109,7 +111,7 @@
  eu5gov_set_role_colonial_from_outliner: "Colonial Governor"
  eu5gov_set_role_colonial_from_outliner_desc: "Change to [eu5gov_colonial_governor_role|e]. Cost: #R 20 Stability#!."
  eu5gov_dismiss_governor_from_outliner: "Dismiss Governor"
- eu5gov_dismiss_governor_from_outliner_desc: "Dismiss the serving Governor. Political cost depends on their [eu5gov_entrenchment|e]."
+ eu5gov_dismiss_governor_from_outliner_desc: "Dismiss the serving Governor. A confirmation dialog shows the actual effects on [estate_satisfaction|e] and [stability|e] before dismissal. The cost depends on their [eu5gov_entrenchment|e]."
  EU5GOV_ROLE_INTEGRATION_REQUIREMENT: "The Governor seat must have a different dominant culture from its owner."
  EU5GOV_ROLE_COLONIAL_REQUIREMENT: "The Governor seat must be overseas for its owner."
 
@@ -124,6 +126,9 @@
  EU5GOV_DISMISS_TT: "Dismiss this [eu5gov_governor|e]. Non-Crown Governors cost at least #R -10 Estate Satisfaction#! and #R -5 Stability#!. From 10 [eu5gov_entrenchment|e] upward the price scales linearly to #R -100 Satisfaction#! and #R -50 Stability#! at 100. Crown Governors are free."
  EU5GOV_ENTRENCHMENT_TT: "[eu5gov_entrenchment|E] rises every month by #Y (2 + (ADM + DIP + MIL) / 100) / 12#!, up to 100. This preserves the former yearly rate while making growth visible monthly. A Governor increases the power of their Estate by half their Entrenchment and Entrenchment determines voluntary dismissal/replacement costs for non-Crown Governors."
  EU5GOV_ENTRENCHMENT_TT_DYNAMIC: "Current monthly growth: #G +[Character.MakeScope.ScriptValue('eu5gov_monthly_entrenchment_gain')|2]#!\n\nCalculation: (#Y 2#! base + (@adm![Character.GetAbility('adm')] + @dip![Character.GetAbility('dip')] + @mil![Character.GetAbility('mil')]) / 100) / 12.\n\nEntrenchment is capped at 100. Each point contributes #Y +0.5% Estate power#! for the Governor's Estate. Voluntary dismissal or replacement of a non-Crown Governor costs at least -10 Estate Satisfaction / -5 Stability and otherwise scales with Entrenchment up to -100 / -50 at 100. Crown Governors are exempt."
+ EU5GOV_ENTRENCHMENT_TT_GROWTH: "#T Monthly Growth#!\nCurrent: #G +[Character.MakeScope.ScriptValue('eu5gov_monthly_entrenchment_gain')|2]#!\n$BULLET$Time in office: #G +[Character.MakeScope.ScriptValue('eu5gov_monthly_entrenchment_base_gain')|2]#!\n$BULLET$@adm![adm|e] ([Character.GetAbility('adm')]): #G +[Character.MakeScope.ScriptValue('eu5gov_monthly_entrenchment_adm_gain')|2]#!\n$BULLET$@dip![dip|e] ([Character.GetAbility('dip')]): #G +[Character.MakeScope.ScriptValue('eu5gov_monthly_entrenchment_dip_gain')|2]#!\n$BULLET$@mil![mil|e] ([Character.GetAbility('mil')]): #G +[Character.MakeScope.ScriptValue('eu5gov_monthly_entrenchment_mil_gain')|2]#!"
+ EU5GOV_ENTRENCHMENT_TT_EFFECTS: "#T Political Effects#!\n$BULLET$The Governor's [estate|e] gains #Y +0.5% [estate_power|e]#! for each point of [eu5gov_entrenchment|e].\n$BULLET$At 100 Entrenchment this is #Y +50% Estate Power#!.\n$BULLET$Entrenchment is capped at #Y 100#!."
+ EU5GOV_ENTRENCHMENT_TT_DISMISSAL: "#T Dismissal and Replacement#!\n$BULLET$For non-Crown Governors, the cost scale is at least #Y 10#! and otherwise their current [eu5gov_entrenchment|e].\n$BULLET$[estate_satisfaction|e]: #R −max(10, Entrenchment)#! percentage points.\n$BULLET$[stability|e]: #R −0.5 × max(10, Entrenchment)#!.\n$BULLET$Crown Estate Governors can be dismissed or replaced without these political costs."
 
 
  game_concept_eu5gov_governor: "Governor"
@@ -135,4 +140,4 @@
  game_concept_eu5gov_colonial_governor_role: "Colonial Governor"
  game_concept_eu5gov_colonial_governor_role_desc: "The [eu5gov_colonial_governor_role|E] is intended for overseas Governor seats. It grants #G +0.25 local migration attraction#! and #G +0.001 local population growth#! there in addition to the normal Governor Proximity contribution."
  game_concept_eu5gov_entrenchment: "Entrenchment"
- game_concept_eu5gov_entrenchment_desc: "[eu5gov_entrenchment|E] measures a Governor's political and administrative entrenchment from 0 to 100. It grows monthly by #Y (2 + (ADM + DIP + MIL) / 100) / 12#!. This is the previous annual growth formula spread evenly across twelve months. Each Governor increases their Estate's power by half their Entrenchment. Voluntarily dismissing or replacing a non-Crown Governor uses a minimum cost scale of 10 and otherwise their Entrenchment: the Estate loses that many percentage points of Satisfaction and the country loses half as much Stability. Crown Governors are exempt."
+ game_concept_eu5gov_entrenchment_desc: "[eu5gov_entrenchment|E] measures how firmly a [eu5gov_governor|e] is politically and administratively established in office.\n\n#T Growth#!\nIt rises monthly by #Y (2 + ([adm|e] + [dip|e] + [mil|e]) / 100) / 12#! and is capped at 100.\n\n#T Effects#!\n$BULLET$Each point increases the [estate_power|e] of the Governor's [estate|e] by #Y 0.5%#!.\n$BULLET$Voluntarily dismissing or replacing a non-Crown Governor reduces [estate_satisfaction|e] by at least 10 percentage points or by their Entrenchment if higher.\n$BULLET$The country also loses half as much [stability|e].\n$BULLET$Crown Estate Governors are exempt from these dismissal costs."

@@ -520,6 +520,8 @@ types EU5GovOutlinerTypes
                                     size = { 28 28 }
                                     alwaystransparent = yes
                                     blockoverride "character_contextmenu" {}
+                                    blockoverride "rightclick" {}
+                                    blockoverride "portrait_click" {}
                                 }
                                 action_button = {
                                     size = { 28 28 }
@@ -588,7 +590,17 @@ types EU5GovOutlinerTypes
                                             blockoverride "tooltip_content" {
                                                 TooltipTextBlock = {
                                                     blockoverride "text" {
-                                                        text = "EU5GOV_ENTRENCHMENT_TT_DYNAMIC"
+                                                        text = "EU5GOV_ENTRENCHMENT_TT_GROWTH"
+                                                    }
+                                                }
+                                                TooltipTextBlock = {
+                                                    blockoverride "text" {
+                                                        text = "EU5GOV_ENTRENCHMENT_TT_EFFECTS"
+                                                    }
+                                                }
+                                                TooltipTextBlock = {
+                                                    blockoverride "text" {
+                                                        text = "EU5GOV_ENTRENCHMENT_TT_DISMISSAL"
                                                     }
                                                 }
                                             }

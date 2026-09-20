@@ -14,3 +14,24 @@
     }
     divide = 12
 }
+
+
+eu5gov_monthly_entrenchment_base_gain = {
+    value = 2
+    divide = 12
+}
+
+eu5gov_monthly_entrenchment_adm_gain = {
+    value = adm
+    divide = 1200
+}
+
+eu5gov_monthly_entrenchment_dip_gain = {
+    value = dip
+    divide = 1200
+}
+
+eu5gov_monthly_entrenchment_mil_gain = {
+    value = mil
+    divide = 1200
+}

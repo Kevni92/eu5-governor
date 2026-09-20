@@ -1,4 +1,4 @@
-# Character Governors for Europa Universalis V
+﻿# Character Governors for Europa Universalis V
 
 Character Governors replaces the split between **Local Governor** and **Naval Governor** buildings with one character-driven provincial administration system.
 
@@ -23,7 +23,7 @@ Character Governors replaces the split between **Local Governor** and **Naval Go
 - A serving Governor increases the power of their Estate by **half their Entrenchment/Machtbasis**. At 100 Machtbasis that is **+50% Estate power**.
 - Voluntarily dismissing or replacing a non-Crown Governor has political costs that scale with Machtbasis. At 100: **-25 percentage points Estate Satisfaction** and **-10 Legitimacy**. Crown Governors are free to dismiss or replace.
 - Governors can be dismissed. Death automatically vacates the residence without a dismissal penalty, but the vacant office remains visible in the outliner.
-- A yearly integrity pass refreshes bonuses, Machtbasis, Estate-power contributions, the complete Governor-office roster and stale assignments.
+- A monthly pulse advances Entrenchment and refreshes Estate-power contributions; a yearly integrity pass repairs bonuses, the complete Governor-office roster and stale assignments.
 - English and German localization are included.
 
 ## How to use it
@@ -74,15 +74,15 @@ These specialist values are deliberately conservative first-pass numbers and can
 
 Each serving Governor and the corresponding Governor's Residence track the same **Entrenchment** value from 0 to 100. The German localization calls this **Machtbasis**.
 
-Entrenchment advances once per yearly country pulse using:
+Entrenchment advances every monthly country pulse using:
 
-`2 + (ADM + DIP + MIL) / 100`
+`(2 + (ADM + DIP + MIL) / 100) / 12`
 
 Examples:
 
-- 30/30/30 Governor: +2.9 per year.
-- 50/50/50 Governor: +3.5 per year.
-- 100/100/100 Governor: +5.0 per year.
+- 30/30/30 Governor: +0.24 per month (about +2.9 per year).
+- 50/50/50 Governor: +0.29 per month (about +3.5 per year).
+- 100/100/100 Governor: +0.42 per month (about +5.0 per year).
 
 Entrenchment is capped at 100 and now has two direct political consequences.
 
