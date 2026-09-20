@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.7
+
+- Added a 10% minimum political dismissal floor for non-Crown Governors: at 0-10 Entrenchment dismissal/replacement costs -10 Estate Satisfaction and -5 Stability; from 10 to 100 it scales linearly to -100/-50.
+- Added the required `STATIC_MODIFIER_NAME_*`/`STATIC_MODIFIER_DESC_*` localization for Governor administration and role modifiers.
+- Governor outliner now follows the native `Outliner.IsExpanded` state and disappears with the collapsed vanilla outliner instead of remaining full width.
+- Restyled the Governors header with the vanilla gold category frame, count box and round expand/collapse arrow.
+- Reduced Governor office rows to a 95%-width, 30px vanilla-like footprint.
+- Replaced free-form row tooltips with standard functional action tooltips.
+- Role context-menu tooltips now use a short title plus a detailed description containing the actual gameplay effects.
+- Added Game Concepts for Governor, Provincial Governor, Integration Governor, Colonial Governor and Entrenchment in English and German.
+
 ## 0.2.6
 
 - Fixed Governor role switching from the outliner context menu by removing the fragile character-scoped `ScriptedGui.IsValid` bridge.
