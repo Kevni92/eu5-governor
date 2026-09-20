@@ -3,7 +3,7 @@
 ## 0.2.11
 
 - Reworked Governor dismissal/replacement wording to avoid ambiguous “voluntary” and “non-Crown Governor” phrasing.
-- Added preview-safe dismissal cost Script Values with the 10-point minimum, so confirmation windows can show the real minimum cost instead of zero.
+- Added a persistent preview-safe dismissal-cost scale with a 10-point minimum, so confirmation windows can show the real minimum cost instead of zero.
 - Dismissal and replacement confirmation previews now expose Estate Satisfaction and Stability effects directly.
 - Governor-role confirmations now contain an explicit role-change effect line plus the fixed -20 Stability cost instead of an empty effect panel.
 

@@ -102,6 +102,12 @@ eu5gov_tick_governor_entrenchment_effect = {
     }
     clamp_variable = { name = eu5gov_entrenchment min = 0 max = 100 }
 
+    set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
+    if = {
+        limit = { var:eu5gov_entrenchment > 10 }
+        set_variable = { name = eu5gov_dismissal_cost_scale value = var:eu5gov_entrenchment }
+    }
+
     save_scope_as = eu5gov_entrenchment_governor
     var:eu5gov_governorship ?= {
         set_variable = {
@@ -129,11 +135,29 @@ eu5gov_apply_governor_dismissal_cost_effect = {
 		save_scope_as = eu5gov_dismissed_governor
 		var:eu5gov_governorship ?= {
 			owner ?= {
-				add_estate_satisfaction = {
-					type = scope:eu5gov_dismissed_governor.estate_type
-					value = scope:eu5gov_dismissed_governor.eu5gov_dismissal_satisfaction_delta
+				if = {
+					limit = { scope:eu5gov_dismissed_governor = { has_variable = eu5gov_dismissal_cost_scale } }
+					add_estate_satisfaction = {
+						type = scope:eu5gov_dismissed_governor.estate_type
+						value = {
+							value = scope:eu5gov_dismissed_governor.var:eu5gov_dismissal_cost_scale
+							multiply = -0.01
+						}
+					}
+					add_stability = {
+						value = scope:eu5gov_dismissed_governor.var:eu5gov_dismissal_cost_scale
+						multiply = -0.50
+					}
 				}
-				add_stability = scope:eu5gov_dismissed_governor.eu5gov_dismissal_stability_delta
+				else = {
+					# Backward-compatible floor for a Governor from a 0.2.10-or-older save
+					# before the first monthly integrity tick has created the persistent scale.
+					add_estate_satisfaction = {
+						type = scope:eu5gov_dismissed_governor.estate_type
+						value = -0.10
+					}
+					add_stability = -5
+				}
 			}
 		}
 	}
@@ -324,6 +348,7 @@ eu5gov_clear_governor_location_effect = {
 			remove_variable = eu5gov_governorship
 			remove_variable = eu5gov_governor_role
 			remove_variable = eu5gov_entrenchment
+			remove_variable = eu5gov_dismissal_cost_scale
 		}
 	}
 
@@ -344,4 +369,5 @@ eu5gov_clear_governor_location_effect = {
 	remove_variable = eu5gov_governor_country
 	remove_variable = eu5gov_governor_role
 	remove_variable = eu5gov_entrenchment
+	remove_variable = eu5gov_dismissal_cost_scale
 }

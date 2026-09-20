@@ -49,12 +49,14 @@
 				set_variable = { name = eu5gov_governor_country value = scope:actor }
 				set_variable = { name = eu5gov_governor_role value = 1 }
 				set_variable = { name = eu5gov_entrenchment value = 0 }
+				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 				eu5gov_apply_governor_bonus_effect = yes
 			}
 			scope:recipient = {
 				set_variable = { name = eu5gov_governorship value = scope:target }
 				set_variable = { name = eu5gov_governor_role value = 1 }
 				set_variable = { name = eu5gov_entrenchment value = 0 }
+				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 				add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
 			}
 			scope:actor = {
@@ -115,12 +117,14 @@ eu5gov_appoint_governor_at_residence = {
 				set_variable = { name = eu5gov_governor_country value = scope:actor }
 				set_variable = { name = eu5gov_governor_role value = 1 }
 				set_variable = { name = eu5gov_entrenchment value = 0 }
+				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 				eu5gov_apply_governor_bonus_effect = yes
 			}
 			scope:recipient = {
 				set_variable = { name = eu5gov_governorship value = scope:target_1 }
 				set_variable = { name = eu5gov_governor_role value = 1 }
 				set_variable = { name = eu5gov_entrenchment value = 0 }
+				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 				add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
 			}
 			scope:actor = {
@@ -182,12 +186,14 @@ eu5gov_change_governor_at_residence = {
 				set_variable = { name = eu5gov_governor_country value = scope:actor }
 				set_variable = { name = eu5gov_governor_role value = 1 }
 				set_variable = { name = eu5gov_entrenchment value = 0 }
+				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 				eu5gov_apply_governor_bonus_effect = yes
 			}
 			scope:recipient = {
 				set_variable = { name = eu5gov_governorship value = scope:target_1 }
 				set_variable = { name = eu5gov_governor_role value = 1 }
 				set_variable = { name = eu5gov_entrenchment value = 0 }
+				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 				add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
 			}
 			scope:actor = {

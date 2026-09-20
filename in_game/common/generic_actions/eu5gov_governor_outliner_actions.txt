@@ -46,6 +46,7 @@
 				set_variable = { name = eu5gov_governor_country value = scope:actor }
 				set_variable = { name = eu5gov_governor_role value = 1 }
 				set_variable = { name = eu5gov_entrenchment value = 0 }
+				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 				eu5gov_apply_governor_bonus_effect = yes
 			}
 
@@ -53,6 +54,7 @@
 				set_variable = { name = eu5gov_governorship value = scope:target_1 }
 				set_variable = { name = eu5gov_governor_role value = 1 }
 				set_variable = { name = eu5gov_entrenchment value = 0 }
+				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 				add_character_modifier = {
 					modifier = busy_modifier
 					years = -1
@@ -147,11 +149,18 @@ effect = {
 							save_scope_as = eu5gov_replaced_governor
 							var:eu5gov_governorship ?= {
 								owner ?= {
-									add_estate_satisfaction = {
-										type = scope:eu5gov_replaced_governor.estate_type
-										value = scope:eu5gov_replaced_governor.eu5gov_dismissal_satisfaction_delta
+									if = {
+										limit = { scope:eu5gov_replaced_governor = { has_variable = eu5gov_dismissal_cost_scale } }
+										add_estate_satisfaction = {
+											type = scope:eu5gov_replaced_governor.estate_type
+											value = { value = scope:eu5gov_replaced_governor.var:eu5gov_dismissal_cost_scale multiply = -0.01 }
+										}
+										add_stability = { value = scope:eu5gov_replaced_governor.var:eu5gov_dismissal_cost_scale multiply = -0.50 }
 									}
-									add_stability = scope:eu5gov_replaced_governor.eu5gov_dismissal_stability_delta
+									else = {
+										add_estate_satisfaction = { type = scope:eu5gov_replaced_governor.estate_type value = -0.10 }
+										add_stability = -5
+									}
 								}
 							}
 						}
@@ -166,12 +175,14 @@ effect = {
 					set_variable = { name = eu5gov_governor_country value = scope:actor }
 					set_variable = { name = eu5gov_governor_role value = 1 }
 					set_variable = { name = eu5gov_entrenchment value = 0 }
+				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 					eu5gov_apply_governor_bonus_effect = yes
 				}
 				scope:target = {
 					set_variable = { name = eu5gov_governorship value = scope:target_1 }
 					set_variable = { name = eu5gov_governor_role value = 1 }
 					set_variable = { name = eu5gov_entrenchment value = 0 }
+				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
 					add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
 				}
 				scope:actor = {
@@ -350,11 +361,18 @@ effect = {
 						save_scope_as = eu5gov_action_dismissed_governor
 						var:eu5gov_governorship ?= {
 							owner ?= {
-								add_estate_satisfaction = {
-									type = scope:eu5gov_action_dismissed_governor.estate_type
-									value = scope:eu5gov_action_dismissed_governor.eu5gov_dismissal_satisfaction_delta
+								if = {
+									limit = { scope:eu5gov_action_dismissed_governor = { has_variable = eu5gov_dismissal_cost_scale } }
+									add_estate_satisfaction = {
+										type = scope:eu5gov_action_dismissed_governor.estate_type
+										value = { value = scope:eu5gov_action_dismissed_governor.var:eu5gov_dismissal_cost_scale multiply = -0.01 }
+									}
+									add_stability = { value = scope:eu5gov_action_dismissed_governor.var:eu5gov_dismissal_cost_scale multiply = -0.50 }
 								}
-								add_stability = scope:eu5gov_action_dismissed_governor.eu5gov_dismissal_stability_delta
+								else = {
+									add_estate_satisfaction = { type = scope:eu5gov_action_dismissed_governor.estate_type value = -0.10 }
+									add_stability = -5
+								}
 							}
 						}
 					}
