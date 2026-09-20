@@ -110,8 +110,8 @@ eu5gov_tick_governor_entrenchment_effect = {
 
 # Current scope: serving governor character.
 # Voluntary dismissal/replacement is free for Crown characters. Otherwise the
-# Governor's Estate loses up to 100 percentage points of satisfaction and the
-# country loses up to 50 Stability, linearly scaled by Entrenchment.
+# effective dismissal scale is max(10, Entrenchment): at the floor the Estate
+# loses 10 satisfaction and the country 5 Stability; at 100 the cost is 100/50.
 eu5gov_apply_governor_dismissal_cost_effect = {
 	if = {
 		limit = {
@@ -119,22 +119,34 @@ eu5gov_apply_governor_dismissal_cost_effect = {
 			has_variable = eu5gov_entrenchment
 			NOT = { has_estate = estate_type:crown_estate }
 		}
+
+		set_variable = {
+			name = eu5gov_dismissal_cost_scale
+			value = var:eu5gov_entrenchment
+		}
+		if = {
+			limit = { var:eu5gov_dismissal_cost_scale < 10 }
+			set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
+		}
+
 		save_scope_as = eu5gov_dismissed_governor
 		var:eu5gov_governorship ?= {
 			owner ?= {
 				add_estate_satisfaction = {
 					type = scope:eu5gov_dismissed_governor.estate_type
 					value = {
-						value = scope:eu5gov_dismissed_governor.var:eu5gov_entrenchment
+						value = scope:eu5gov_dismissed_governor.var:eu5gov_dismissal_cost_scale
 						multiply = -0.01
 					}
 				}
 				add_stability = {
-					value = scope:eu5gov_dismissed_governor.var:eu5gov_entrenchment
+					value = scope:eu5gov_dismissed_governor.var:eu5gov_dismissal_cost_scale
 					multiply = -0.50
 				}
 			}
 		}
+
+		remove_variable = eu5gov_dismissal_cost_scale
 	}
 }
 
