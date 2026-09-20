@@ -570,8 +570,30 @@ types EU5GovOutlinerTypes
                                 hbox = {
                                     align = right
                                     spacing = 3
-                                    tooltip = "[eu5gov_entrenchment|e]"
-                                    tagtooltip_enabled = yes
+                                    tooltipwidget = {
+                                        ContextualTooltipType = {
+                                            datacontext = "[Location.MakeScope.GetVariable('eu5gov_governor').GetCharacter]"
+                                            blockoverride "concept_link" {
+                                                text = "[eu5gov_entrenchment|e]"
+                                            }
+                                            blockoverride "title_text" {
+                                                text = "game_concept_eu5gov_entrenchment"
+                                            }
+                                            blockoverride "title_icon" {
+                                                icon = {
+                                                    using = tooltip_title_icon_size
+                                                    texture = "gfx/interface/icons/flat_icons/lock.dds"
+                                                }
+                                            }
+                                            blockoverride "tooltip_content" {
+                                                TooltipTextBlock = {
+                                                    blockoverride "text" {
+                                                        text = "EU5GOV_ENTRENCHMENT_TT_DYNAMIC"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
 
                                     icon = {
                                         size = { 14 14 }
@@ -581,7 +603,7 @@ types EU5GovOutlinerTypes
                                         align = right
                                         autoresize = yes
                                         fontsize = 12
-                                        raw_text = "[Location.MakeScope.GetVariable('eu5gov_entrenchment').GetValue|0]/100"
+                                        raw_text = "[Location.MakeScope.GetVariable('eu5gov_entrenchment').GetValue|2]"
                                     }
                                 }
                             }

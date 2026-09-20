@@ -63,49 +63,56 @@ eu5gov_apply_governor_role_effect = {
 }
 
 # Current scope: serving governor character. Time alone entrenches an office holder;
-# high total ADM+DIP+MIL accelerates the yearly gain. The same value is mirrored
-# onto the governed location so the office and character both carry the tenure state.
+# high total ADM+DIP+MIL accelerates the monthly gain. The former yearly rate is
+# divided by 12 so the long-run balance is unchanged while progress is visible monthly.
+# The same value is mirrored onto the governed location.
 eu5gov_tick_governor_entrenchment_effect = {
-	if = {
-		limit = { NOT = { has_variable = eu5gov_entrenchment } }
-		set_variable = { name = eu5gov_entrenchment value = 0 }
-	}
+    if = {
+        limit = { NOT = { has_variable = eu5gov_entrenchment } }
+        set_variable = { name = eu5gov_entrenchment value = 0 }
+    }
 
-	change_variable = { name = eu5gov_entrenchment add = 2 }
-	change_variable = {
-		name = eu5gov_entrenchment
-		add = {
-			value = adm
-			divide = 100
-		}
-	}
-	change_variable = {
-		name = eu5gov_entrenchment
-		add = {
-			value = dip
-			divide = 100
-		}
-	}
-	change_variable = {
-		name = eu5gov_entrenchment
-		add = {
-			value = mil
-			divide = 100
-		}
-	}
-	clamp_variable = { name = eu5gov_entrenchment min = 0 max = 100 }
+    change_variable = {
+        name = eu5gov_entrenchment
+        add = {
+            value = 2
+            divide = 12
+        }
+    }
+    change_variable = {
+        name = eu5gov_entrenchment
+        add = {
+            value = adm
+            divide = 1200
+        }
+    }
+    change_variable = {
+        name = eu5gov_entrenchment
+        add = {
+            value = dip
+            divide = 1200
+        }
+    }
+    change_variable = {
+        name = eu5gov_entrenchment
+        add = {
+            value = mil
+            divide = 1200
+        }
+    }
+    clamp_variable = { name = eu5gov_entrenchment min = 0 max = 100 }
 
-	save_scope_as = eu5gov_entrenchment_governor
-	var:eu5gov_governorship ?= {
-		set_variable = {
-			name = eu5gov_entrenchment
-			value = scope:eu5gov_entrenchment_governor.var:eu5gov_entrenchment
-		}
-		set_variable = {
-			name = eu5gov_governor_role
-			value = scope:eu5gov_entrenchment_governor.var:eu5gov_governor_role
-		}
-	}
+    save_scope_as = eu5gov_entrenchment_governor
+    var:eu5gov_governorship ?= {
+        set_variable = {
+            name = eu5gov_entrenchment
+            value = scope:eu5gov_entrenchment_governor.var:eu5gov_entrenchment
+        }
+        set_variable = {
+            name = eu5gov_governor_role
+            value = scope:eu5gov_entrenchment_governor.var:eu5gov_governor_role
+        }
+    }
 }
 
 # Current scope: serving governor character.

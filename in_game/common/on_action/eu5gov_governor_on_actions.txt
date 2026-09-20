@@ -5,6 +5,12 @@ on_character_death = {
 	}
 }
 
+monthly_country_pulse = {
+	on_actions = {
+		eu5gov_governor_monthly_entrenchment
+	}
+}
+
 yearly_country_pulse = {
 	on_actions = {
 		eu5gov_governor_yearly_refresh
@@ -28,7 +34,32 @@ eu5gov_governor_death = {
 	}
 }
 
-# Rebuild the complete office roster, refresh live bonuses, advance Machtbasis,
+
+# root = country. Advance serving Governors once per monthly country pulse using
+# (2 + (ADM + DIP + MIL) / 100) / 12, preserving the previous annual balance.
+eu5gov_governor_monthly_entrenchment = {
+	effect = {
+		save_scope_as = eu5gov_monthly_country
+		every_owned_location = {
+			limit = {
+				has_building = building_type:local_governor
+				has_variable = eu5gov_governor
+				var:eu5gov_governor ?= { is_alive = yes }
+				var:eu5gov_governor_country ?= { this = scope:eu5gov_monthly_country }
+			}
+			var:eu5gov_governor ?= {
+				if = {
+					limit = { NOT = { has_variable = eu5gov_entrenchment } }
+					set_variable = { name = eu5gov_entrenchment value = 0 }
+				}
+				eu5gov_tick_governor_entrenchment_effect = yes
+			}
+		}
+		eu5gov_refresh_governor_estate_power_effect = yes
+	}
+}
+
+# Rebuild the complete office roster, refresh live bonuses, repair Entrenchment state,
 # recalculate Estate power and clean stale assignments. Existing saves are migrated
 # lazily from owned buildings.
 eu5gov_governor_yearly_refresh = {
@@ -54,7 +85,6 @@ eu5gov_governor_yearly_refresh = {
 						limit = { NOT = { has_variable = eu5gov_entrenchment } }
 						set_variable = { name = eu5gov_entrenchment value = 0 }
 					}
-					eu5gov_tick_governor_entrenchment_effect = yes
 				}
 
 				eu5gov_register_governor_in_roster_effect = yes

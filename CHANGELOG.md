@@ -1,4 +1,11 @@
-# Changelog
+﻿# Changelog
+
+## 0.2.9
+
+- Entrenchment now advances on the monthly country pulse instead of jumping once per year; the former annual balance is preserved by using `(2 + (ADM + DIP + MIL) / 100) / 12` each month.
+- Added a shared `eu5gov_monthly_entrenchment_gain` script value so gameplay and GUI use the same formula.
+- The Entrenchment lock tooltip now shows the Governor's live monthly gain and the current ADM/DIP/MIL values that produce it.
+- Entrenchment in the Governor outliner is now displayed as a plain value with two decimals (for example `12.34`) instead of `12/100`.
 
 ## 0.2.8
 

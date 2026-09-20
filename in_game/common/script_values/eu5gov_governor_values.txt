@@ -1,0 +1,16 @@
+﻿eu5gov_monthly_entrenchment_gain = {
+    value = 2
+    add = {
+        value = adm
+        divide = 100
+    }
+    add = {
+        value = dip
+        divide = 100
+    }
+    add = {
+        value = mil
+        divide = 100
+    }
+    divide = 12
+}
