@@ -1,0 +1,63 @@
+﻿@eu5gov_alert_height = 90
+@eu5gov_alert_wide = 40
+
+# The vanilla top bar instantiates a type named `alert_manager`.  As demonstrated by
+# the Community Mod Framework, that type can be wrapped without replacing the whole
+# vanilla alertmanager.gui file.  The inner alerts_layout remains the vanilla manager;
+# our warning is simply placed beside it.
+types "EU5GovAlertTypes" {
+
+	type eu5gov_native_alert_manager = alerts_layout {
+		layoutpolicy_horizontal = expanding
+		name = "alert_manager"
+		visible = "[Not(IsLobbyOpen)]"
+		ignoreinvisible = yes
+		allow_outside = yes
+		spacing = -2
+		scissor = yes
+		distance = 10
+		speed = 150
+		righttoleft = no
+		bottomtotop = no
+		datacontext = "[InGameTopbar.AccessAlertManager]"
+	}
+
+	# Loaded after vanilla alertmanager.gui, so the top bar resolves this wrapper for
+	# `alert_manager = {}`. Native alerts retain their own engine-backed layout.
+	type alert_manager = hbox {
+		name = "eu5gov_alert_manager"
+		visible = "[Not(IsLobbyOpen)]"
+		minimumsize = { -1 @eu5gov_alert_height }
+		maximumsize = { -1 @eu5gov_alert_height }
+		layoutpolicy_horizontal = expanding
+
+		eu5gov_native_alert_manager = {}
+
+		widget = {
+			visible = "[GreaterThan_CFixedPoint(GetPlayer.MakeScope.ScriptValue('eu5gov_vacant_governor_office_count'), '(CFixedPoint)0')]"
+			minimumsize = { @eu5gov_alert_wide @eu5gov_alert_height }
+			maximumsize = { @eu5gov_alert_wide @eu5gov_alert_height }
+
+			action_button_default = {
+				parentanchor = top|hcenter
+				size = { @eu5gov_alert_wide 70 }
+				actor = "[GetPlayer]"
+				left_action = { action_name = "eu5gov_appoint_next_vacant_governor" }
+
+				using = alert_banner_setup
+				using = alert_banner_anim
+				using = yellow_alert
+				using = snd_UI_alert_openAndCycle
+
+				blockoverride "alert_banner_priority" {}
+				blockoverride "alert_appear_default_soundeffect" {}
+				blockoverride "alert_is_new_padding" {}
+				blockoverride "icon_texture" {
+					texture = "gfx/interface/icons/buildings/local_governor.dds"
+				}
+
+				tooltipwidget = { BasicFunctionalTooltip = {} }
+			}
+		}
+	}
+}
