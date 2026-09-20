@@ -27,6 +27,7 @@ types "EU5GovAlertTypes" {
 	type alert_manager = hbox {
 		name = "eu5gov_alert_manager"
 		visible = "[Not(IsLobbyOpen)]"
+		ignoreinvisible = yes
 		minimumsize = { -1 @eu5gov_alert_height }
 		maximumsize = { -1 @eu5gov_alert_height }
 		layoutpolicy_horizontal = expanding
