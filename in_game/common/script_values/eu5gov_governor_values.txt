@@ -35,3 +35,15 @@ eu5gov_monthly_entrenchment_mil_gain = {
     value = mil
     divide = 1200
 }
+
+# Current scope: country. Used by the warning alert and its tooltip.
+eu5gov_vacant_governor_office_count = {
+    value = 0
+    every_owned_location = {
+        limit = {
+            has_building = building_type:local_governor
+            NOT = { has_variable = eu5gov_governor }
+        }
+        add = 1
+    }
+}
