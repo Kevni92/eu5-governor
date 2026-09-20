@@ -1,5 +1,14 @@
 ﻿# Changelog
 
+## 0.2.12
+
+- Added a yellow warning alert whenever at least one Governor's Residence is vacant.
+- The alert uses the Governor's Residence building icon and is integrated beside the native alert manager rather than as a free-floating notification.
+- Clicking the warning immediately opens the normal eligible-character chooser; after selection, the highest-development vacant Governor's Residence is filled.
+- The warning remains visible while additional Governor offices are vacant.
+- Added a dedicated alert appointment Generic Action and localized German/English alert text.
+- Researched EU5 player automation: generic actions can participate in built-in automation categories, but the category enum is fixed and has no Governors category. A separate Governor automation toggle is therefore the recommended implementation path.
+
 ## 0.2.11
 
 - Reworked Governor dismissal/replacement wording to avoid ambiguous “voluntary” and “non-Crown Governor” phrasing.
@@ -118,15 +127,3 @@
 - Entrenchment is display-only in 0.2.0; dismissal/rebellion/estate consequences are intentionally deferred.
 - Added a dedicated Governor outliner-style scripted widget listing the Governor, governed location, role and Entrenchment.
 - Left-clicking a Governor opens the character; right-clicking opens direct actions to change role or dismiss the Governor.
-- The Governor UI was initially additive and did not replace the complete vanilla `outliner.gui` file; this approach was replaced by native outliner integration in 0.2.3.
-
-## 0.1.0
-
-- Unified Local and Naval Governor capacity.
-- Reworked `local_governor` into Governor's Residence with 50 base Proximity Source.
-- Removed road-to-capital and land-vs-maritime placement split.
-- Retired the separate `naval_governor` building while preserving its capacity contribution.
-- Added character appointment and dismissal interactions.
-- Added ADM/DIP/MIL-scaled governor contribution to local Proximity Source.
-- Added death cleanup and yearly integrity/ability refresh.
-- Added EU5 Workshop metadata and English localization.
