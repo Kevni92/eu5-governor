@@ -35,13 +35,9 @@ types "EU5GovAlertTypes" {
 		eu5gov_native_alert_manager = {}
 
 		widget = {
-			# The office map contains every Governor's Residence; the roster map only
-			# contains occupied offices. Comparing their sizes is immediate and avoids
-			# scanning all owned locations every GUI update.
-			visible = "[GreaterThan_int32(
-				GetDataModelSize(GetPlayer.MakeScope.GetMapKeys('eu5gov_governor_offices')),
-				GetDataModelSize(GetPlayer.MakeScope.GetMapKeys('eu5gov_governor_roster'))
-			)]"
+			# Script maintains an explicit typed location variable, so the warning exists
+			# iff at least one real vacant Governor's Residence is available.
+			visible = "[GetPlayer.MakeScope.GetVariable('eu5gov_next_vacant_office').IsSet]"
 			minimumsize = { @eu5gov_alert_wide @eu5gov_alert_height }
 			maximumsize = { @eu5gov_alert_wide @eu5gov_alert_height }
 
@@ -49,7 +45,13 @@ types "EU5GovAlertTypes" {
 				parentanchor = top|hcenter
 				size = { @eu5gov_alert_wide 70 }
 				actor = "[GetPlayer]"
-				left_action = { action_name = "eu5gov_appoint_next_vacant_governor" }
+				parameter = {
+					parameter_name = "target_1"
+					parameter_value = "[GetPlayer.MakeScope.GetVariable('eu5gov_next_vacant_office').GetLocation]"
+				}
+				left_action = { action_name = "eu5gov_appoint_governor_from_outliner" }
+				title = "EU5GOV_VACANT_GOVERNOR_ALERT_TITLE"
+				description = "EU5GOV_VACANT_GOVERNOR_ALERT_TT"
 
 				using = alert_banner_setup
 				using = alert_banner_anim
