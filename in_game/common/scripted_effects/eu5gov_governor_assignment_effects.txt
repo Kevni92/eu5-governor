@@ -1,0 +1,146 @@
+﻿# Shared Governor appointment, vacancy tracking and player automation.
+#
+# eu5gov_assign_governor_to_office_effect
+# Current scope: country.
+# Required saved scopes:
+#   scope:eu5gov_assignment_office   = Governor's Residence location
+#   scope:eu5gov_assignment_governor = eligible character
+# The actor scope must point at the same country. Generic/character actions already
+# provide it; the automatic path explicitly saves the country as scope:actor.
+eu5gov_assign_governor_to_office_effect = {
+	save_scope_as = eu5gov_assignment_country
+
+	if = {
+		limit = {
+			exists = scope:eu5gov_assignment_office
+			exists = scope:eu5gov_assignment_governor
+			scope:eu5gov_assignment_office = {
+				owner ?= scope:eu5gov_assignment_country
+				has_building = building_type:local_governor
+				NOT = { has_variable = eu5gov_governor }
+			}
+			scope:eu5gov_assignment_governor = {
+				eu5gov_can_serve_as_governor = yes
+			}
+		}
+
+		scope:eu5gov_assignment_office = {
+			set_variable = { name = eu5gov_governor value = scope:eu5gov_assignment_governor }
+			set_variable = { name = eu5gov_governor_country value = scope:eu5gov_assignment_country }
+			set_variable = { name = eu5gov_governor_role value = 1 }
+			set_variable = { name = eu5gov_entrenchment value = 0 }
+			set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
+			eu5gov_apply_governor_bonus_effect = yes
+		}
+
+		scope:eu5gov_assignment_governor = {
+			set_variable = { name = eu5gov_governorship value = scope:eu5gov_assignment_office }
+			set_variable = { name = eu5gov_governor_role value = 1 }
+			set_variable = { name = eu5gov_entrenchment value = 0 }
+			set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
+			add_character_modifier = {
+				modifier = busy_modifier
+				years = -1
+				mode = add_and_extend
+			}
+		}
+
+		remove_from_variable_map = {
+			name = eu5gov_governor_roster
+			key = scope:eu5gov_assignment_governor
+		}
+		add_to_variable_map = {
+			name = eu5gov_governor_roster
+			key = scope:eu5gov_assignment_governor
+			value = scope:eu5gov_assignment_office
+		}
+		remove_from_variable_map = {
+			name = eu5gov_governor_offices
+			key = scope:eu5gov_assignment_office
+		}
+		add_to_variable_map = {
+			name = eu5gov_governor_offices
+			key = scope:eu5gov_assignment_office
+			value = 1
+		}
+
+		scope:eu5gov_assignment_office = {
+			eu5gov_apply_governor_role_effect = yes
+		}
+
+		eu5gov_refresh_governor_estate_power_effect = yes
+		eu5gov_refresh_next_vacant_office_effect = yes
+	}
+}
+
+# Current scope: country. Store exactly one deterministic vacant Residence on the
+# country so GUI actions never need to select a location themselves.
+eu5gov_refresh_next_vacant_office_effect = {
+	save_scope_as = eu5gov_vacancy_country
+	remove_variable = eu5gov_next_vacant_office
+
+	ordered_owned_location = {
+		limit = {
+			has_building = building_type:local_governor
+			NOT = { has_variable = eu5gov_governor }
+		}
+		order_by = development
+		max = 1
+		save_scope_as = eu5gov_vacancy_office
+		scope:eu5gov_vacancy_country = {
+			set_variable = {
+				name = eu5gov_next_vacant_office
+				value = scope:eu5gov_vacancy_office
+			}
+		}
+	}
+}
+
+# Current scope: country. Fill each currently vacant Residence once, selecting the
+# best still-eligible character by the same ADM-heavy score used by manual AI logic.
+# Saving the country as scope:actor keeps eu5gov_can_serve_as_governor usable without
+# duplicating or weakening its Cabinet/estate/gender eligibility rules.
+eu5gov_auto_fill_governor_offices_effect = {
+	save_scope_as = actor
+	save_scope_as = eu5gov_auto_country
+
+	every_owned_location = {
+		limit = {
+			has_building = building_type:local_governor
+			NOT = { has_variable = eu5gov_governor }
+		}
+		save_scope_as = eu5gov_assignment_office
+
+		scope:eu5gov_auto_country = {
+			ordered_character = {
+				limit = {
+					eu5gov_can_serve_as_governor = yes
+				}
+				order_by = {
+					value = adm
+					add = { value = dip divide = 5 }
+					add = { value = mil divide = 5 }
+				}
+				max = 1
+				save_scope_as = eu5gov_assignment_governor
+				scope:eu5gov_auto_country = {
+					eu5gov_assign_governor_to_office_effect = yes
+				}
+			}
+		}
+	}
+
+	eu5gov_refresh_next_vacant_office_effect = yes
+}
+
+# Current scope: country. Event-driven helper used after lifecycle changes. When
+# automation is enabled it fills what it can; otherwise it only maintains the alert target.
+eu5gov_update_governor_vacancies_effect = {
+	if = {
+		limit = { has_variable = eu5gov_auto_appoint_governors }
+		eu5gov_auto_fill_governor_offices_effect = yes
+	}
+	else = {
+		eu5gov_refresh_next_vacant_office_effect = yes
+	}
+}
