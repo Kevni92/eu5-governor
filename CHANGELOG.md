@@ -1,5 +1,17 @@
 ﻿# Changelog
 
+## 0.2.13
+
+- Added optional player **Automatic Governor Appointments** through a Governor-owned outliner checkbox instead of inventing an unsupported native automation category.
+- Added shared `eu5gov_assign_governor_to_office_effect` so manual interaction, outliner appointment and automatic appointment use the same Governor initialization path.
+- Added deterministic `eu5gov_next_vacant_office` maintenance for direct vacancy-alert targeting.
+- Automatic filling processes vacant Governor's Residences deterministically and selects the best eligible character using the existing ADM-heavy Governor score.
+- Reused `eu5gov_can_serve_as_governor` for automation eligibility; no duplicate candidate rules are maintained.
+- Vacancy/automation refresh now runs after construction, demolition, death, dismissal, monthly country pulse and yearly repair.
+- The top-bar vacancy warning now routes directly through `eu5gov_appoint_governor_from_outliner` with the stored vacant Residence as `target_1`.
+- Documented that the native automation list has no proven script/database registration path for a new Governors system, so the mod-owned outliner toggle is the compatibility-safe implementation.
+- Updated README and metadata for the completed alert/automation feature set.
+
 ## 0.2.12
 
 - Added a yellow warning alert whenever at least one Governor's Residence is vacant.
