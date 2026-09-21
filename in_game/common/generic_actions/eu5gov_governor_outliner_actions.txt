@@ -40,52 +40,9 @@
 				exists = scope:target
 				exists = scope:target_1
 			}
-
-			scope:target_1 = {
-				set_variable = { name = eu5gov_governor value = scope:target }
-				set_variable = { name = eu5gov_governor_country value = scope:actor }
-				set_variable = { name = eu5gov_governor_role value = 1 }
-				set_variable = { name = eu5gov_entrenchment value = 0 }
-				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
-				eu5gov_apply_governor_bonus_effect = yes
-			}
-
-			scope:target = {
-				set_variable = { name = eu5gov_governorship value = scope:target_1 }
-				set_variable = { name = eu5gov_governor_role value = 1 }
-				set_variable = { name = eu5gov_entrenchment value = 0 }
-				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
-				add_character_modifier = {
-					modifier = busy_modifier
-					years = -1
-					mode = add_and_extend
-				}
-			}
-
-			scope:actor = {
-				remove_from_variable_map = {
-					name = eu5gov_governor_roster
-					key = scope:target
-				}
-				add_to_variable_map = {
-					name = eu5gov_governor_roster
-					key = scope:target
-					value = scope:target_1
-				}
-				remove_from_variable_map = {
-					name = eu5gov_governor_offices
-					key = scope:target_1
-				}
-				add_to_variable_map = {
-					name = eu5gov_governor_offices
-					key = scope:target_1
-					value = 1
-				}
-			}
-
-			scope:target_1 = {
-				eu5gov_apply_governor_role_effect = yes
-			}
+			scope:target = { save_scope_as = eu5gov_assignment_governor }
+			scope:target_1 = { save_scope_as = eu5gov_assignment_office }
+			scope:actor = { eu5gov_assign_governor_to_office_effect = yes }
 		}
 	}
 
@@ -130,7 +87,7 @@ eu5gov_change_governor_from_outliner = {
 		visible = { eu5gov_can_serve_as_governor = yes }
 	}
 
-effect = {
+	effect = {
 		if = {
 			limit = {
 				exists = scope:target
@@ -169,30 +126,12 @@ effect = {
 			}
 
 			hidden_effect = {
-				scope:target_1 = { eu5gov_clear_governor_location_effect = yes }
 				scope:target_1 = {
-					set_variable = { name = eu5gov_governor value = scope:target }
-					set_variable = { name = eu5gov_governor_country value = scope:actor }
-					set_variable = { name = eu5gov_governor_role value = 1 }
-					set_variable = { name = eu5gov_entrenchment value = 0 }
-				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
-					eu5gov_apply_governor_bonus_effect = yes
+					eu5gov_clear_governor_location_effect = yes
+					save_scope_as = eu5gov_assignment_office
 				}
-				scope:target = {
-					set_variable = { name = eu5gov_governorship value = scope:target_1 }
-					set_variable = { name = eu5gov_governor_role value = 1 }
-					set_variable = { name = eu5gov_entrenchment value = 0 }
-				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
-					add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
-				}
-				scope:actor = {
-					remove_from_variable_map = { name = eu5gov_governor_roster key = scope:target }
-					add_to_variable_map = { name = eu5gov_governor_roster key = scope:target value = scope:target_1 }
-					remove_from_variable_map = { name = eu5gov_governor_offices key = scope:target_1 }
-					add_to_variable_map = { name = eu5gov_governor_offices key = scope:target_1 value = 1 }
-				}
-				scope:target_1 = { eu5gov_apply_governor_role_effect = yes }
-				scope:actor = { eu5gov_refresh_governor_estate_power_effect = yes }
+				scope:target = { save_scope_as = eu5gov_assignment_governor }
+				scope:actor = { eu5gov_assign_governor_to_office_effect = yes }
 			}
 		}
 	}
@@ -224,7 +163,7 @@ eu5gov_set_role_normal_from_outliner = {
 		}
 	}
 	allow = { always = yes }
-effect = {
+	effect = {
 		custom_tooltip = {
 			text = EU5GOV_ROLE_CHANGE_CONFIRM_NORMAL
 			scope:actor = { add_stability = -20 }
@@ -268,7 +207,7 @@ eu5gov_set_role_integration_from_outliner = {
 			}
 		}
 	}
-effect = {
+	effect = {
 		custom_tooltip = {
 			text = EU5GOV_ROLE_CHANGE_CONFIRM_INTEGRATION
 			scope:actor = { add_stability = -20 }
@@ -312,7 +251,7 @@ eu5gov_set_role_colonial_from_outliner = {
 			}
 		}
 	}
-effect = {
+	effect = {
 		custom_tooltip = {
 			text = EU5GOV_ROLE_CHANGE_CONFIRM_COLONIAL
 			scope:actor = { add_stability = -20 }
@@ -348,9 +287,10 @@ eu5gov_dismiss_governor_from_outliner = {
 		}
 	}
 	allow = { always = yes }
-effect = {
+	effect = {
 		scope:target_1 = {
 			var:eu5gov_governor ?= {
+				save_scope_as = eu5gov_auto_excluded_governor
 				if = {
 					limit = { has_estate = estate_type:crown_estate }
 					custom_tooltip = EU5GOV_DISMISS_CONFIRM_CROWN_FREE
@@ -381,7 +321,10 @@ effect = {
 		}
 		hidden_effect = {
 			scope:target_1 = { eu5gov_clear_governor_location_effect = yes }
-			scope:actor = { eu5gov_refresh_governor_estate_power_effect = yes }
+			scope:actor = {
+				eu5gov_refresh_governor_estate_power_effect = yes
+				eu5gov_update_governor_vacancies_effect = yes
+			}
 		}
 	}
 	ai_will_do = { add = -100 }
