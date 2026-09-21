@@ -44,28 +44,9 @@
 	effect = {
 		if = {
 			limit = { exists = scope:recipient exists = scope:target }
-			scope:target = {
-				set_variable = { name = eu5gov_governor value = scope:recipient }
-				set_variable = { name = eu5gov_governor_country value = scope:actor }
-				set_variable = { name = eu5gov_governor_role value = 1 }
-				set_variable = { name = eu5gov_entrenchment value = 0 }
-				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
-				eu5gov_apply_governor_bonus_effect = yes
-			}
-			scope:recipient = {
-				set_variable = { name = eu5gov_governorship value = scope:target }
-				set_variable = { name = eu5gov_governor_role value = 1 }
-				set_variable = { name = eu5gov_entrenchment value = 0 }
-				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
-				add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
-			}
-			scope:actor = {
-				remove_from_variable_map = { name = eu5gov_governor_roster key = scope:recipient }
-				add_to_variable_map = { name = eu5gov_governor_roster key = scope:recipient value = scope:target }
-				remove_from_variable_map = { name = eu5gov_governor_offices key = scope:target }
-				add_to_variable_map = { name = eu5gov_governor_offices key = scope:target value = 1 }
-			}
-			scope:target = { eu5gov_apply_governor_role_effect = yes }
+			scope:recipient = { save_scope_as = eu5gov_assignment_governor }
+			scope:target = { save_scope_as = eu5gov_assignment_office }
+			scope:actor = { eu5gov_assign_governor_to_office_effect = yes }
 		}
 	}
 
@@ -112,28 +93,9 @@ eu5gov_appoint_governor_at_residence = {
 	effect = {
 		if = {
 			limit = { exists = scope:recipient exists = scope:target_1 }
-			scope:target_1 = {
-				set_variable = { name = eu5gov_governor value = scope:recipient }
-				set_variable = { name = eu5gov_governor_country value = scope:actor }
-				set_variable = { name = eu5gov_governor_role value = 1 }
-				set_variable = { name = eu5gov_entrenchment value = 0 }
-				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
-				eu5gov_apply_governor_bonus_effect = yes
-			}
-			scope:recipient = {
-				set_variable = { name = eu5gov_governorship value = scope:target_1 }
-				set_variable = { name = eu5gov_governor_role value = 1 }
-				set_variable = { name = eu5gov_entrenchment value = 0 }
-				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
-				add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
-			}
-			scope:actor = {
-				remove_from_variable_map = { name = eu5gov_governor_roster key = scope:recipient }
-				add_to_variable_map = { name = eu5gov_governor_roster key = scope:recipient value = scope:target_1 }
-				remove_from_variable_map = { name = eu5gov_governor_offices key = scope:target_1 }
-				add_to_variable_map = { name = eu5gov_governor_offices key = scope:target_1 value = 1 }
-			}
-			scope:target_1 = { eu5gov_apply_governor_role_effect = yes }
+			scope:recipient = { save_scope_as = eu5gov_assignment_governor }
+			scope:target_1 = { save_scope_as = eu5gov_assignment_office }
+			scope:actor = { eu5gov_assign_governor_to_office_effect = yes }
 		}
 	}
 	ai_will_do = { add = -100 }
@@ -180,30 +142,10 @@ eu5gov_change_governor_at_residence = {
 					eu5gov_apply_governor_dismissal_cost_effect = yes
 				}
 				eu5gov_clear_governor_location_effect = yes
+				save_scope_as = eu5gov_assignment_office
 			}
-			scope:target_1 = {
-				set_variable = { name = eu5gov_governor value = scope:recipient }
-				set_variable = { name = eu5gov_governor_country value = scope:actor }
-				set_variable = { name = eu5gov_governor_role value = 1 }
-				set_variable = { name = eu5gov_entrenchment value = 0 }
-				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
-				eu5gov_apply_governor_bonus_effect = yes
-			}
-			scope:recipient = {
-				set_variable = { name = eu5gov_governorship value = scope:target_1 }
-				set_variable = { name = eu5gov_governor_role value = 1 }
-				set_variable = { name = eu5gov_entrenchment value = 0 }
-				set_variable = { name = eu5gov_dismissal_cost_scale value = 10 }
-				add_character_modifier = { modifier = busy_modifier years = -1 mode = add_and_extend }
-			}
-			scope:actor = {
-				remove_from_variable_map = { name = eu5gov_governor_roster key = scope:recipient }
-				add_to_variable_map = { name = eu5gov_governor_roster key = scope:recipient value = scope:target_1 }
-				remove_from_variable_map = { name = eu5gov_governor_offices key = scope:target_1 }
-				add_to_variable_map = { name = eu5gov_governor_offices key = scope:target_1 value = 1 }
-			}
-			scope:target_1 = { eu5gov_apply_governor_role_effect = yes }
-			scope:actor = { eu5gov_refresh_governor_estate_power_effect = yes }
+			scope:recipient = { save_scope_as = eu5gov_assignment_governor }
+			scope:actor = { eu5gov_assign_governor_to_office_effect = yes }
 		}
 	}
 	ai_will_do = { add = -100 }
@@ -238,10 +180,14 @@ eu5gov_dismiss_governor = {
 		if = {
 			limit = { exists = scope:recipient }
 			scope:recipient = {
+				save_scope_as = eu5gov_auto_excluded_governor
 				eu5gov_apply_governor_dismissal_cost_effect = yes
 				var:eu5gov_governorship ?= { eu5gov_clear_governor_location_effect = yes }
 			}
-			scope:actor = { eu5gov_refresh_governor_estate_power_effect = yes }
+			scope:actor = {
+				eu5gov_refresh_governor_estate_power_effect = yes
+				eu5gov_update_governor_vacancies_effect = yes
+			}
 		}
 	}
 	ai_will_do = { add = -100 }
