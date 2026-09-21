@@ -1,6 +1,3 @@
 ﻿l_english:
- eu5gov_appoint_next_vacant_governor: "Vacant Governor Office"
- eu5gov_appoint_next_vacant_governor_desc: "At least one Governor's Residence is vacant. Click this warning to immediately choose an eligible Governor for the most important vacant office. If several offices are vacant, the Residence in the highest-development location is filled first."
- eu5gov_appoint_next_vacant_governor_act: "$eu5gov_appoint_next_vacant_governor$"
- eu5gov_appoint_next_vacant_governor_past: "A vacant Governor office was filled"
- eu5gov_appoint_next_vacant_governor_act_past: "A vacant Governor office was filled."
+ EU5GOV_VACANT_GOVERNOR_ALERT_TITLE: "Vacant Governorship"
+ EU5GOV_VACANT_GOVERNOR_ALERT_TT: "A Governor's Residence is currently without a Governor. Click to appoint an eligible Governor to the next vacant Residence."
