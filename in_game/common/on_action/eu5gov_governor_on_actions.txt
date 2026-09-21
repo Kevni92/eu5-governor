@@ -31,6 +31,7 @@ eu5gov_governor_death = {
 		# Death is not a voluntary dismissal, but its Estate power contribution
 		# must disappear immediately.
 		eu5gov_refresh_governor_estate_power_effect = yes
+		eu5gov_update_governor_vacancies_effect = yes
 	}
 }
 
@@ -56,6 +57,7 @@ eu5gov_governor_monthly_entrenchment = {
 			}
 		}
 		eu5gov_refresh_governor_estate_power_effect = yes
+		eu5gov_update_governor_vacancies_effect = yes
 	}
 }
 
@@ -97,5 +99,6 @@ eu5gov_governor_yearly_refresh = {
 		}
 
 		eu5gov_refresh_governor_estate_power_effect = yes
+		eu5gov_update_governor_vacancies_effect = yes
 	}
 }
