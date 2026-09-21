@@ -1,0 +1,17 @@
+﻿# Player-facing automation toggle used by the Governor outliner UI.
+eu5gov_toggle_auto_appoint_governors = {
+	scope = country
+	is_shown = { always = yes }
+	is_valid = { always = yes }
+	effect = {
+		if = {
+			limit = { has_variable = eu5gov_auto_appoint_governors }
+			remove_variable = eu5gov_auto_appoint_governors
+			eu5gov_refresh_next_vacant_office_effect = yes
+		}
+		else = {
+			set_variable = { name = eu5gov_auto_appoint_governors value = 1 }
+			eu5gov_auto_fill_governor_offices_effect = yes
+		}
+	}
+}
