@@ -96,25 +96,30 @@ eu5gov_refresh_next_vacant_office_effect = {
 	}
 }
 
-# Current scope: country. Fill each currently vacant Residence once, selecting the
-# best still-eligible character by the same ADM-heavy score used by manual AI logic.
-# Saving the country as scope:actor keeps eu5gov_can_serve_as_governor usable without
-# duplicating or weakening its Cabinet/estate/gender eligibility rules.
+# Current scope: country. Fill vacant Residences in deterministic development order,
+# selecting the best still-eligible character by the same ADM-heavy score used by
+# manual AI logic. An optional eu5gov_auto_excluded_governor saved scope prevents a
+# just-dismissed Governor from being immediately reappointed by the same action.
 eu5gov_auto_fill_governor_offices_effect = {
 	save_scope_as = actor
 	save_scope_as = eu5gov_auto_country
 
-	every_owned_location = {
+	ordered_owned_location = {
 		limit = {
 			has_building = building_type:local_governor
 			NOT = { has_variable = eu5gov_governor }
 		}
+		order_by = development
 		save_scope_as = eu5gov_assignment_office
 
 		scope:eu5gov_auto_country = {
 			ordered_character = {
 				limit = {
 					eu5gov_can_serve_as_governor = yes
+					trigger_if = {
+						limit = { exists = scope:eu5gov_auto_excluded_governor }
+						NOT = { this = scope:eu5gov_auto_excluded_governor }
+					}
 				}
 				order_by = {
 					value = adm
